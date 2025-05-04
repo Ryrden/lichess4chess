@@ -3,6 +3,10 @@
   "description": "Lichess Analysis for Chess.com Games",
   "version": "0.1.0",
   "license": "MIT",
+  "author": {
+    "name": "ryrden",
+    "email": "ryanssteles@gmail.com"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ryrden/lichess4chess.git"
