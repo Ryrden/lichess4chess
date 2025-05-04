@@ -1,26 +1,80 @@
 import { useState, useEffect } from "react";
 import Browser from "webextension-polyfill";
+import { GameState, GameStateType, GAME_STATE } from "../content/types";
 
 export default function Popup() {
-  const [message, setMessage] = useState("aa");
+  const [gameState, setGameState] = useState<GameState>(GAME_STATE[GameStateType.NOT_CHESS_SITE]);
   const [version, setVersion] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const manifestData = Browser.runtime.getManifest();
-    setVersion(manifestData.version);
+    const getExtensionInfo = async () => {
+      const manifestData = Browser.runtime.getManifest();
+      setVersion(manifestData.version);
+    };
+    
+    getExtensionInfo();
+
+    const handleMessage = (message: any) => {
+      if (message.action === "updateGameState" && message.state) {
+        setGameState(message.state);
+        setIsLoading(false);
+      }
+    };
+    
+    Browser.runtime.onMessage.addListener(handleMessage);
+
+    const getCurrentState = async () => {
+      try {
+        setIsLoading(true);
+        await new Promise(resolve => setTimeout(resolve, 500)); // Simulate loading delay
+        const tabs = await Browser.tabs.query({ active: true, currentWindow: true });
+        const activeTab = tabs[0];
+        
+        if (activeTab && activeTab.id) {
+          const response = await Browser.tabs.sendMessage(activeTab.id, {
+            action: "getGameState"
+          }).catch(error => {
+            console.log("Não conseguiu obter o estado do jogo", error);
+            return null;
+          });
+          
+          if (response && response.state) {
+            setGameState(response.state);
+          }
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.log("Erro ao obter o estado do jogo", error);
+        setIsLoading(false);
+      }
+    };
+
+    getCurrentState();
+
+    return () => {
+      Browser.runtime.onMessage.removeListener(handleMessage);
+    };
   }, []);
 
   const handleClick = async () => {
-    console.log("Button clicked!");
-    Browser.runtime.sendMessage({ action: "doSomething" });
     const tabs = await Browser.tabs.query({ active: true, currentWindow: true });
-    console.log("Tabs:", tabs);
-    Browser.tabs.connect(tabs[0].id!, { name: "popup" });
     const activeTab = tabs[0];
-    if (activeTab) {
-      await Browser.tabs.sendMessage(activeTab.id!, {
-        action: "doSomething"
+    if (activeTab && activeTab.id) {
+      await Browser.tabs.sendMessage(activeTab.id, {
+        action: "openLichessAnalysis"
       });
+    }
+  };
+
+  const getButtonColorClass = () => {
+    switch (gameState.buttonState.color) {
+      case "green":
+        return "bg-green-600 cursor-pointer hover:bg-green-500 text-white hover:scale-105";
+      case "yellow":
+        return "bg-yellow-500 cursor-not-allowed text-gray-800";
+      default:
+        return "bg-gray-400 cursor-not-allowed text-gray-200";
     }
   };
 
@@ -39,15 +93,15 @@ export default function Popup() {
       </header>
 
       <main className="flex-grow flex flex-col items-center justify-center p-6">
-        {message && <p className="mb-6 text-gray-600 text-center">{message}</p>}
+        {isLoading ? (
+          <p className="mb-6 text-gray-600 text-center">Detectando estado da partida...</p>
+        ) : (
+          <p className="mb-6 text-gray-600 text-center">{gameState.message}</p>
+        )}
         <button
           onClick={handleClick}
-          disabled={false}
-          className={`font-bold py-3 px-6 rounded-lg shadow-lg transition-colors transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 ${
-            false
-            ? "bg-gray-400 cursor-not-allowed text-gray-200"
-            : "bg-green-600 cursor-pointer hover:bg-green-500 text-white hover:scale-105"
-          }`}
+          disabled={isLoading || !gameState.buttonState.enabled}
+          className={`font-bold py-3 px-6 rounded-lg shadow-lg transition-colors transform focus:outline-none focus:ring-2 focus:ring-green-400 ${getButtonColorClass()}`}
         >
           Analisar no Lichess
         </button>
