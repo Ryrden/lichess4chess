@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Browser from "webextension-polyfill";
 
 export default function Popup() {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("aa");
   const [version, setVersion] = useState("");
 
   useEffect(() => {
@@ -39,13 +39,15 @@ export default function Popup() {
       </header>
 
       <main className="flex-grow flex flex-col items-center justify-center p-6">
-        {message && <p className="mb-4 text-yellow-600">{message}</p>}
-        <p className="mb-6 text-gray-600 text-center">
-          Clique no botão abaixo para analisar a partida atual no Lichess
-        </p>
+        {message && <p className="mb-6 text-gray-600 text-center">{message}</p>}
         <button
           onClick={handleClick}
-          className="bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-colors transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400"
+          disabled={false}
+          className={`font-bold py-3 px-6 rounded-lg shadow-lg transition-colors transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 ${
+            false
+            ? "bg-gray-400 cursor-not-allowed text-gray-200"
+            : "bg-green-600 cursor-pointer hover:bg-green-500 text-white hover:scale-105"
+          }`}
         >
           Analisar no Lichess
         </button>
