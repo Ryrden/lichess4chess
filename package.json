@@ -1,11 +1,11 @@
 {
-  "name": "vite-web-extension",
-  "version": "1.4.0",
-  "description": "A simple chrome & firefox extension template with Vite, React, TypeScript and Tailwind CSS.",
+  "name": "lichess4chess",
+  "description": "Lichess Analysis for Chess.com Games",
+  "version": "0.1.0",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JohnBra/vite-web-extension.git"
+    "url": "https://github.com/ryrden/lichess4chess.git"
   },
   "scripts": {
     "build": "vite build --config vite.config.chrome.ts",
