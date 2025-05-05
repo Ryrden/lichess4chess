@@ -25,14 +25,14 @@
     "48": "icon-48.png",
     "128": "icon-128.png"
   },
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab"],
   "background": {
     "service_worker": "src/pages/background/index.ts",
     "type": "module"
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
+      "matches": ["https://www.chess.com/*", "https://lichess.org/*"],
       "js": ["src/pages/content/index.tsx"],
       "css": ["contentStyle.css"]
     }

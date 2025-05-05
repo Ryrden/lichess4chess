@@ -13,7 +13,7 @@
         "dev-icon-128.png",
         "dev-icon-32.png"
       ],
-      "matches": []
+      "matches": ["*://*.chess.com/*"]
     }
   ]
 }
