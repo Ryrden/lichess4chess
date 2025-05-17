@@ -1,0 +1,92 @@
+{
+  "extName": {
+    "message": "Lichess4Chess",
+    "description": "Extension name"
+  },
+  "extSubtitle": {
+    "message": "Analise suas partidas do Chess.com sem dificuldade",
+    "description": "Extension subtitle"
+  },
+  "extDescription": {
+    "message": "Análise Lichess para Partidas do Chess.com",
+    "description": "Extension description"
+  },
+  "notChessSite": {
+    "message": "Acesse Chess.com para analisar suas partidas",
+    "description": "Message shown when not on Chess.com"
+  },
+  "noGameDetected": {
+    "message": "Inicie e conclua uma partida para poder analisá-la",
+    "description": "Message shown when no chess game is detected"
+  },
+  "gameDetected": {
+    "message": "Partida concluída! Clique para analisar no Lichess",
+    "description": "Message shown when a chess game is detected"
+  },
+  "gameInProgress": {
+    "message": "Aguarde o término da partida para análise",
+    "description": "Message shown when a game is in progress"
+  },
+  "analyzeOnLichess": {
+    "message": "Analisar no Lichess",
+    "description": "Button text for analyzing on Lichess"
+  },
+  "loading": {
+    "message": "Carregando...",
+    "description": "Loading message"
+  },
+  "version": {
+    "message": "Versão: $VERSION$",
+    "description": "Extension version",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "0.1.0"
+      }
+    }
+  },
+  "optionsTitle": {
+    "message": "Opções do Lichess4Chess",
+    "description": "Title of the options page"
+  },
+  "languageSettings": {
+    "message": "Idioma",
+    "description": "Language settings section title"
+  },
+  "languageSettingsDesc": {
+    "message": "Selecione seu idioma preferido. A extensão será reiniciada para aplicar as mudanças.",
+    "description": "Description of language settings"
+  },
+  "language_en": {
+    "message": "Inglês",
+    "description": "English language name"
+  },
+  "language_pt_BR": {
+    "message": "Português (Brasil)",
+    "description": "Brazilian Portuguese language name"
+  },
+  "detectingGameState": {
+    "message": "Detectando estado da partida...",
+    "description": "Message shown when detecting game state"
+  },
+  "shareButtonNotFound": {
+    "message": "Botão de compartilhamento não encontrado",
+    "description": "Error message when share button is not found"
+  },
+  "pgnTabNotFound": {
+    "message": "Aba PGN não encontrada",
+    "description": "Error message when PGN tab is not found"
+  },
+  "pgnTextAreaNotFound": {
+    "message": "Área de texto PGN não encontrada",
+    "description": "Error message when PGN textarea is not found"
+  },
+  "failedToGetGameState": {
+    "message": "Failed to get game state",
+    "description": "Error message when failed to get game state"
+  },
+  "errorGettingGameState": {
+    "message": "Error getting game state",
+    "description": "Error message when there's an error getting game state"
+  }
+}

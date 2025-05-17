@@ -11,7 +11,7 @@ import pkg from "./package.json";
 
 const isDev = process.env.__DEV__ === "true";
 // set this flag to true, if you want localization support
-const localize = false;
+const localize = true;
 
 export const baseManifest = {
   ...manifest,

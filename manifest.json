@@ -10,6 +10,7 @@
   "options_ui": {
     "page": "src/pages/options/index.html"
   },
+  "default_locale": "en",
   "action": {
     "default_popup": "src/pages/popup/index.html",
     "default_icon": {

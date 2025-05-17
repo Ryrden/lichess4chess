@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Browser from "webextension-polyfill";
 import { GameState, GameStateType, GAME_STATE } from "../content/types";
+import { getMessage } from "@src/utils/i18n";
 
 export default function Popup() {
   const [gameState, setGameState] = useState<GameState>(GAME_STATE[GameStateType.NOT_CHESS_SITE]);
@@ -31,11 +32,10 @@ export default function Popup() {
         const tabs = await Browser.tabs.query({ active: true, currentWindow: true });
         const activeTab = tabs[0];
         
-        if (activeTab && activeTab.id) {
-          const response = await Browser.tabs.sendMessage(activeTab.id, {
+        if (activeTab && activeTab.id) {          const response = await Browser.tabs.sendMessage(activeTab.id, {
             action: "getGameState"
           }).catch(error => {
-            console.log("Não conseguiu obter o estado do jogo", error);
+            console.log("Failed to get game state", error);
             return null;
           });
           
@@ -43,9 +43,8 @@ export default function Popup() {
             setGameState(response.state);
           }
         }
-        setIsLoading(false);
-      } catch (error) {
-        console.log("Erro ao obter o estado do jogo", error);
+        setIsLoading(false);      } catch (error) {
+        console.log("Error getting game state", error);
         setIsLoading(false);
       }
     };
@@ -88,13 +87,11 @@ export default function Popup() {
             className="h-16 w-16 mb-2"
           />
           <h1 className="text-xl font-bold text-green-600">Lichess4Chess</h1>
-          <p className="text-sm text-gray-600 mt-1">Analise suas partidas do Chess.com com facilidade</p>
+          <p className="text-sm text-gray-600 mt-1">{getMessage("extSubtitle")}</p>
         </div>
-      </header>
-
-      <main className="flex-grow flex flex-col items-center justify-center p-6">
+      </header>      <main className="flex-grow flex flex-col items-center justify-center p-6">
         {isLoading ? (
-          <p className="mb-6 text-gray-600 text-center">Detectando estado da partida...</p>
+          <p className="mb-6 text-gray-600 text-center">{getMessage("detectingGameState")}</p>
         ) : (
           <p className="mb-6 text-gray-600 text-center">{gameState.message}</p>
         )}
@@ -103,7 +100,7 @@ export default function Popup() {
           disabled={isLoading || !gameState.buttonState.enabled}
           className={`font-bold py-3 px-6 rounded-lg shadow-lg transition-colors transform focus:outline-none focus:ring-2 focus:ring-green-400 ${getButtonColorClass()}`}
         >
-          Analisar no Lichess
+          {getMessage("analyzeOnLichess")}
         </button>
       </main>
 
