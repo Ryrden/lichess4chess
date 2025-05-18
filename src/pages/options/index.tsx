@@ -5,7 +5,6 @@ import '@pages/options/index.css';
 import { loadLanguageMessages, getCurrentLanguage } from '@src/utils/i18n';
 
 async function init() {
-  // Make sure we load the language messages before rendering
   const lang = await getCurrentLanguage();
   await loadLanguageMessages(lang);
   

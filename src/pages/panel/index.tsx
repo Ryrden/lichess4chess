@@ -3,8 +3,12 @@ import { createRoot } from 'react-dom/client';
 import Panel from '@pages/panel/Panel';
 import '@pages/panel/index.css';
 import '@assets/styles/tailwind.css';
+import { loadLanguageMessages, getCurrentLanguage } from '@src/utils/i18n';
 
-function init() {
+async function init() {
+  const lang = await getCurrentLanguage();
+  await loadLanguageMessages(lang);
+  
   const rootContainer = document.querySelector("#__root");
   if (!rootContainer) throw new Error("Can't find Panel root element");
   const root = createRoot(rootContainer);

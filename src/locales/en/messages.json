@@ -43,8 +43,7 @@
     "description": "Extension version",
     "placeholders": {
       "version": {
-        "content": "$1",
-        "example": "0.1.0"
+        "content": "$1"
       }
     }
   },  "optionsTitle": {

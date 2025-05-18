@@ -1,38 +1,30 @@
 import { useState, useEffect } from "react";
 import Browser from "webextension-polyfill";
 import { GameState, GameStateType, GAME_STATE } from "../content/types";
-import { getMessage, getCurrentLanguage, LanguageCode } from "@src/utils/i18n";
+import { getMessage, getCurrentLanguage } from "@src/utils/i18n";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
 
 export default function Popup() {
   const [gameState, setGameState] = useState<GameState>(GAME_STATE[GameStateType.NOT_CHESS_SITE]);
   const [version, setVersion] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [currentLanguage, setCurrentLanguage] = useState<LanguageCode>("en");
 
   useEffect(() => {
     const getExtensionInfo = async () => {
       const manifestData = Browser.runtime.getManifest();
       setVersion(manifestData.version);
-      
-      // Get current language
-      const lang = await getCurrentLanguage();
-      setCurrentLanguage(lang);
     };
     
     getExtensionInfo();
 
-    // Listen for language changes
-    const handleMessageOrLanguageChange = (message: any) => {
+    const handleMessage = (message: any) => {
       if (message.action === "updateGameState" && message.state) {
         setGameState(message.state);
         setIsLoading(false);
-      } else if (message.action === "languageChanged" && message.language) {
-        setCurrentLanguage(message.language as LanguageCode);
       }
     };
     
-    Browser.runtime.onMessage.addListener(handleMessageOrLanguageChange);
+    Browser.runtime.onMessage.addListener(handleMessage);
 
     const getCurrentState = async () => {
       try {

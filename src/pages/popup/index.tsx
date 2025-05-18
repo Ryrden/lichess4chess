@@ -5,8 +5,11 @@ import '@assets/styles/tailwind.css';
 import Popup from '@pages/popup/Popup';
 import { loadLanguageMessages, getCurrentLanguage } from '@src/utils/i18n';
 
+/**
+ * Initialize the popup
+ * Ensures language messages are loaded before rendering anything
+ */
 async function init() {
-  // Make sure we load the language messages before rendering
   const lang = await getCurrentLanguage();
   await loadLanguageMessages(lang);
   
