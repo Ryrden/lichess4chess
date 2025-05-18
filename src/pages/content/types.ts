@@ -1,3 +1,5 @@
+import { getMessage } from "@src/utils/i18n";
+
 export enum GameStateType {
   NOT_CHESS_SITE = 'NOT_CHESS_SITE',
   NO_GAME_DETECTED = 'NO_GAME_DETECTED',
@@ -17,7 +19,7 @@ export interface GameState {
 export const GAME_STATE: Record<GameStateType, GameState> = {
   [GameStateType.NOT_CHESS_SITE]: {
     type: GameStateType.NOT_CHESS_SITE,
-    message: "Acesse Chess.com para analisar suas partidas",
+    message: "notChessSite",
     buttonState: {
       enabled: false,
       color: 'gray'
@@ -25,7 +27,7 @@ export const GAME_STATE: Record<GameStateType, GameState> = {
   },
   [GameStateType.NO_GAME_DETECTED]: {
     type: GameStateType.NO_GAME_DETECTED,
-    message: "Inicie e conclua uma partida para poder analisá-la",
+    message: "noGameDetected",
     buttonState: {
       enabled: false,
       color: 'gray'
@@ -33,15 +35,15 @@ export const GAME_STATE: Record<GameStateType, GameState> = {
   },
   [GameStateType.GAME_IN_PROGRESS]: {
     type: GameStateType.GAME_IN_PROGRESS,
-    message: "Aguarde o término da partida para análise",
+    message: "gameInProgress",
     buttonState: {
       enabled: false,
       color: 'yellow'
     }
   },
-  [GameStateType.GAME_FINISHED]: {
+  [GameStateType.GAME_FINISHED]: {  
     type: GameStateType.GAME_FINISHED,
-    message: "Partida concluída! Clique para analisar no Lichess",
+    message: "gameDetected",
     buttonState: {
       enabled: true,
       color: 'green'

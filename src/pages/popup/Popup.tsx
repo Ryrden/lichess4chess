@@ -1,29 +1,38 @@
 import { useState, useEffect } from "react";
 import Browser from "webextension-polyfill";
 import { GameState, GameStateType, GAME_STATE } from "../content/types";
-import { getMessage } from "@src/utils/i18n";
+import { getMessage, getCurrentLanguage, LanguageCode } from "@src/utils/i18n";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
 
 export default function Popup() {
   const [gameState, setGameState] = useState<GameState>(GAME_STATE[GameStateType.NOT_CHESS_SITE]);
   const [version, setVersion] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [currentLanguage, setCurrentLanguage] = useState<LanguageCode>("en");
 
   useEffect(() => {
     const getExtensionInfo = async () => {
       const manifestData = Browser.runtime.getManifest();
       setVersion(manifestData.version);
+      
+      // Get current language
+      const lang = await getCurrentLanguage();
+      setCurrentLanguage(lang);
     };
     
     getExtensionInfo();
 
-    const handleMessage = (message: any) => {
+    // Listen for language changes
+    const handleMessageOrLanguageChange = (message: any) => {
       if (message.action === "updateGameState" && message.state) {
         setGameState(message.state);
         setIsLoading(false);
+      } else if (message.action === "languageChanged" && message.language) {
+        setCurrentLanguage(message.language as LanguageCode);
       }
     };
     
-    Browser.runtime.onMessage.addListener(handleMessage);
+    Browser.runtime.onMessage.addListener(handleMessageOrLanguageChange);
 
     const getCurrentState = async () => {
       try {
@@ -52,7 +61,7 @@ export default function Popup() {
     getCurrentState();
 
     return () => {
-      Browser.runtime.onMessage.removeListener(handleMessage);
+      Browser.runtime.onMessage.removeListener(handleMessageOrLanguageChange);
     };
   }, []);
 
@@ -78,9 +87,11 @@ export default function Popup() {
   };
 
   return (
-    <div className="flex flex-col bg-white text-gray-800">
-      <header className="p-4 border-b border-gray-200">
-        <div className="flex flex-col items-center justify-center mb-2">
+    <div className="flex flex-col bg-white text-gray-800">      <header className="p-4 border-b border-gray-200">
+        <div className="flex justify-end mb-2">
+          <LanguageSwitcher compact={true} />
+        </div>
+        <div className="flex flex-col items-center justify-center">
           <img
             src={Browser.runtime.getURL('original.png')}
             alt="Lichess4Chess Logo"
@@ -89,11 +100,11 @@ export default function Popup() {
           <h1 className="text-xl font-bold text-green-600">Lichess4Chess</h1>
           <p className="text-sm text-gray-600 mt-1">{getMessage("extSubtitle")}</p>
         </div>
-      </header>      <main className="flex-grow flex flex-col items-center justify-center p-6">
+      </header><main className="flex-grow flex flex-col items-center justify-center p-6">
         {isLoading ? (
           <p className="mb-6 text-gray-600 text-center">{getMessage("detectingGameState")}</p>
         ) : (
-          <p className="mb-6 text-gray-600 text-center">{gameState.message}</p>
+          <p className="mb-6 text-gray-600 text-center">{getMessage(gameState.message)}</p>
         )}
         <button
           onClick={handleClick}

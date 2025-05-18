@@ -11,6 +11,10 @@
     "message": "Lichess Analysis for Chess.com Games",
     "description": "Extension description"
   },
+  "detectingGameState": {
+    "message": "Detecting game state...",
+    "description": "Message shown when detecting game state"
+  },
   "notChessSite": {
     "message": "Visit Chess.com to analyze your games",
     "description": "Message shown when not on Chess.com"
