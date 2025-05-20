@@ -1,10 +1,68 @@
 {
   "extName": {
-    "message": "name in src/locales/en/messages.json",
+    "message": "Lichess4Chess",
     "description": "Extension name"
   },
+  "extSubtitle": {
+    "message": "Analyze your games from Chess.com with no difficulty",
+    "description": "Extension subtitle"
+  },
   "extDescription": {
-    "message": "description in src/locales/en/messages.json",
+    "message": "Lichess Analysis for Chess.com Games",
     "description": "Extension description"
+  },
+  "detectingGameState": {
+    "message": "Detecting game state...",
+    "description": "Message shown when detecting game state"
+  },
+  "notChessSite": {
+    "message": "Visit Chess.com to analyze your games",
+    "description": "Message shown when not on Chess.com"
+  },
+  "noGameDetected": {
+    "message": "Start and finish a game to analyze it",
+    "description": "Message shown when no chess game is detected"
+  },
+  "gameDetected": {
+    "message": "Game finished! Click to analyze on Lichess",
+    "description": "Message shown when a chess game is detected"
+  },
+  "gameInProgress": {
+    "message": "Wait for the game to finish before analysis",
+    "description": "Message shown when a game is in progress"
+  },
+  "analyzeOnLichess": {
+    "message": "Analyze on Lichess",
+    "description": "Button text for analyzing on Lichess"
+  },
+  "loading": {
+    "message": "Loading...",
+    "description": "Loading message"
+  },  "version": {
+    "message": "Version: $VERSION$",
+    "description": "Extension version",
+    "placeholders": {
+      "version": {
+        "content": "$1"
+      }
+    }
+  },  "optionsTitle": {
+    "message": "Lichess4Chess Options",
+    "description": "Title of the options page"
+  },
+  "languageSettings": {
+    "message": "Language",
+    "description": "Language settings section title"
+  },  "languageSettingsDesc": {
+    "message": "Select your preferred language. The extension will restart to apply changes.",
+    "description": "Description of language settings"
+  },
+  "language_en": {
+    "message": "English",
+    "description": "English language name"
+  },
+  "language_pt_BR": {
+    "message": "Portuguese (Brazil)",
+    "description": "Brazilian Portuguese language name"
   }
 }

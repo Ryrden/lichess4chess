@@ -1,4 +1,3 @@
-import Browser from "webextension-polyfill";
 import { GAME_STATE, GameState } from "./types";
 
 export const isChessSite = (): boolean => {
@@ -37,28 +36,25 @@ export const detectGameState = (): GameState => {
   return GAME_STATE.NO_GAME_DETECTED;
 };
 
-export const getCurrentGamePgn = async (): Promise<string | null> => {
-  const shareButton = document.querySelector(".share");
+export const getCurrentGamePgn = async (): Promise<string | null> => {  const shareButton = document.querySelector(".share");
   if (!shareButton) {
-    throw new Error("Botão de compartilhamento não encontrado");
+    throw new Error("Share button not found");
   }
 
   (shareButton as HTMLElement).click();
 
   await new Promise((resolve) => setTimeout(resolve, 1500));
-
   const pgnTab = document.querySelector("#tab-pgn");
   if (!pgnTab) {
-    throw new Error("Aba PGN não encontrada");
+    throw new Error("PGN tab not found");
   }
 
   (pgnTab as HTMLElement).click();
 
   await new Promise((resolve) => setTimeout(resolve, 500));
-
   const pgnElement = document.querySelector(".share-menu-tab-pgn-textarea");
   if (!pgnElement) {
-    throw new Error("Área de texto PGN não encontrada");
+    throw new Error("PGN textarea not found");
   }
 
   const pgn = (pgnElement as HTMLTextAreaElement).value;
