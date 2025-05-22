@@ -87,5 +87,9 @@
   "errorGettingGameState": {
     "message": "Error getting game state",
     "description": "Error message when there's an error getting game state"
+  },
+  "rateExtension": {
+    "message": "Está gostando da extensão? Avalie-a na Chrome Web Store!",
+    "description": "Tooltip for the rating button"
   }
 }
