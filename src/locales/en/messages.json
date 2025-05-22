@@ -64,5 +64,9 @@
   "language_pt_BR": {
     "message": "Portuguese (Brazil)",
     "description": "Brazilian Portuguese language name"
+  },
+  "rateExtension": {
+    "message": "Are you enjoying the extension? Rate it on the Chrome Web Store!",
+    "description": "Tooltip for the rating button"
   }
 }
