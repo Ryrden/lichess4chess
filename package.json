@@ -1,7 +1,7 @@
 {
   "name": "lichess4chess",
   "description": "Lichess Analysis for Chess.com Games",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "author": {
     "name": "ryrden",
