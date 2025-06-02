@@ -61,22 +61,19 @@ export default function LanguageSwitcher({ compact = false }: LanguageSwitcherPr
           className="flex items-center focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}
           title={LANGUAGES[currentLanguage]}
-        >
-          <svg className="w-6 h-6 rounded-full overflow-hidden border border-gray-200">
+        >          <svg className="w-6 h-6 rounded-full overflow-hidden border border-gray-200 dark:border-gray-600">
             <use href={`/ui.svg#${getFlagId(currentLanguage)}`} />
           </svg>
         </button>
-        
-        {isOpen && (
-          <div className="absolute top-full right-0 mt-1 bg-white shadow-lg rounded-md py-1 z-10">
+          {isOpen && (
+          <div className="absolute top-full right-0 mt-1 bg-white dark:bg-gray-700 shadow-lg rounded-md py-1 z-10">
             {Object.entries(LANGUAGES).map(([code, name]) => (
               <button
                 key={code}
-                className={`flex items-center px-3 py-2 hover:bg-gray-100 w-full ${currentLanguage === code ? 'bg-gray-50' : ''}`}
+                className={`flex items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 w-full ${currentLanguage === code ? 'bg-gray-50 dark:bg-gray-800' : ''}`}
                 onClick={() => handleLanguageChange(code as LanguageCode)}
                 title={name}
-              >
-                <svg className="w-5 h-5 rounded-full overflow-hidden border border-gray-200">
+              >                <svg className="w-5 h-5 rounded-full overflow-hidden border border-gray-200 dark:border-gray-600">
                   <use href={`#${getFlagId(code as LanguageCode)}`} />
                 </svg>
               </button>
@@ -87,33 +84,29 @@ export default function LanguageSwitcher({ compact = false }: LanguageSwitcherPr
     );
   }
   return (
-    <div className="language-switcher relative">
-      <button
-        className="flex items-center text-gray-600 hover:text-gray-800 focus:outline-none"
+    <div className="language-switcher relative">      <button
+        className="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}
         title={LANGUAGES[currentLanguage]}
-      >
-        <svg className="w-5 h-5 rounded-full overflow-hidden border border-gray-200 mr-2">
+      >        <svg className="w-5 h-5 rounded-full overflow-hidden border border-gray-200 dark:border-gray-600 mr-2">
           <use href={`#${getFlagId(currentLanguage)}`} />
         </svg>
-        <span className="text-sm">{LANGUAGES[currentLanguage]}</span>
+        <span className="text-sm dark:text-gray-300">{LANGUAGES[currentLanguage]}</span>
         <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
         </svg>
       </button>
-      
-      {isOpen && (
-        <div className="absolute top-full right-0 mt-1 bg-white shadow-lg rounded-md py-1 z-10">
+        {isOpen && (
+        <div className="absolute top-full right-0 mt-1 bg-white dark:bg-gray-700 shadow-lg rounded-md py-1 z-10">
           {Object.entries(LANGUAGES).map(([code, name]) => (
             <button
               key={code}
-              className={`flex items-center px-3 py-2 text-sm hover:bg-gray-100 w-full text-left ${currentLanguage === code ? 'bg-gray-50' : ''}`}
+              className={`flex items-center px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 w-full text-left dark:text-gray-200 ${currentLanguage === code ? 'bg-gray-50 dark:bg-gray-800' : ''}`}
               onClick={() => handleLanguageChange(code as LanguageCode)}
-            >
-              <svg className="w-5 h-5 rounded-full overflow-hidden border border-gray-200 mr-2">
+            >              <svg className="w-5 h-5 rounded-full overflow-hidden border border-gray-200 dark:border-gray-600 mr-2">
                 <use href={`#${getFlagId(code as LanguageCode)}`} />
               </svg>
-              <span>{name}</span>
+              <span className="dark:text-gray-200">{name}</span>
             </button>
           ))}
         </div>
