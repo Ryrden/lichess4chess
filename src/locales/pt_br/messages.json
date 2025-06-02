@@ -59,10 +59,77 @@
   "language_en": {
     "message": "Inglês",
     "description": "English language name"
-  },
-  "language_pt_BR": {
+  },  "language_pt_BR": {
     "message": "Português (Brasil)",
     "description": "Brazilian Portuguese language name"
+  },
+  "appearanceSettings": {
+    "message": "Aparência",
+    "description": "Appearance settings section title"
+  },
+  "themeSetting": {
+    "message": "Tema",
+    "description": "Theme setting label"
+  },
+  "themeLight": {
+    "message": "Claro",
+    "description": "Light theme option"
+  },
+  "themeDark": {
+    "message": "Escuro",
+    "description": "Dark theme option"
+  },
+  "themeSystem": {
+    "message": "Padrão do sistema",
+    "description": "System theme option"
+  },
+  "notificationSettings": {
+    "message": "Notificações",
+    "description": "Notification settings section title"
+  },
+  "enableNotifications": {
+    "message": "Ativar notificações",
+    "description": "Toggle for enabling notifications"
+  },
+  "notificationsDesc": {
+    "message": "Receber notificações quando sua partida estiver pronta para análise",
+    "description": "Description for notification settings"
+  },
+  "analysisSettings": {
+    "message": "Análise",
+    "description": "Analysis settings section title"
+  },
+  "autoOpenLichess": {
+    "message": "Abrir análise do Lichess automaticamente",
+    "description": "Toggle for auto-opening Lichess analysis"
+  },
+  "autoOpenDesc": {
+    "message": "Abrir a análise do Lichess automaticamente quando uma partida for concluída",
+    "description": "Description for auto-open setting"
+  },
+  "aboutSection": {
+    "message": "Sobre",
+    "description": "About section title"
+  },
+  "versionInfo": {
+    "message": "Versão",
+    "description": "Version information label"
+  },
+  "saveSettings": {
+    "message": "Salvar Configurações",
+    "description": "Save settings button text"
+  },
+  "resetSettings": {
+    "message": "Redefinir para Padrão",
+    "description": "Reset settings button text"
+  },
+  "settingsSaved": {
+    "message": "Configurações salvas com sucesso!",
+    "description": "Message shown when settings are saved"
+  },
+  "settingsReset": {
+    "message": "Configurações redefinidas para valores padrão",
+    "description": "Message shown when settings are reset"
   },
   "detectingGameState": {
     "message": "Detectando estado da partida...",
@@ -91,5 +158,9 @@
   "rateExtension": {
     "message": "Está gostando da extensão? Avalie-a na Chrome Web Store!",
     "description": "Tooltip for the rating button"
+  },
+  "aboutDesc": {
+    "message": "Esta extensão foi criada para te auxiliar após partidas de xadrez no Chess.com. Ela não possui como objetivo fornecer funcionalidades que podem levar a trapaças e a extensão é open source, permitindo que você possa contribuir no GitHub, se você tiver alguma sugestão de funcionalidade, sinta-se livre para abrir uma issue no repositório do github.",
+    "description": "Description of the about section"
   }
 }

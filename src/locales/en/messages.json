@@ -60,13 +60,84 @@
   "language_en": {
     "message": "English",
     "description": "English language name"
-  },
-  "language_pt_BR": {
+  },  "language_pt_BR": {
     "message": "Portuguese (Brazil)",
     "description": "Brazilian Portuguese language name"
+  },
+  "appearanceSettings": {
+    "message": "Appearance",
+    "description": "Appearance settings section title"
+  },
+  "themeSetting": {
+    "message": "Theme",
+    "description": "Theme setting label"
+  },
+  "themeLight": {
+    "message": "Light",
+    "description": "Light theme option"
+  },
+  "themeDark": {
+    "message": "Dark",
+    "description": "Dark theme option"
+  },
+  "themeSystem": {
+    "message": "System default",
+    "description": "System theme option"
+  },
+  "notificationSettings": {
+    "message": "Notifications",
+    "description": "Notification settings section title"
+  },
+  "enableNotifications": {
+    "message": "Enable notifications",
+    "description": "Toggle for enabling notifications"
+  },
+  "notificationsDesc": {
+    "message": "Receive notifications when your game is ready for analysis",
+    "description": "Description for notification settings"
+  },
+  "analysisSettings": {
+    "message": "Analysis",
+    "description": "Analysis settings section title"
+  },
+  "autoOpenLichess": {
+    "message": "Auto-open Lichess analysis",
+    "description": "Toggle for auto-opening Lichess analysis"
+  },
+  "autoOpenDesc": {
+    "message": "Automatically open Lichess analysis when a game is completed",
+    "description": "Description for auto-open setting"
+  },
+  "aboutSection": {
+    "message": "About",
+    "description": "About section title"
+  },
+  "versionInfo": {
+    "message": "Version",
+    "description": "Version information label"
+  },
+  "saveSettings": {
+    "message": "Save Settings",
+    "description": "Save settings button text"
+  },
+  "resetSettings": {
+    "message": "Reset to Default",
+    "description": "Reset settings button text"
+  },
+  "settingsSaved": {
+    "message": "Settings saved successfully!",
+    "description": "Message shown when settings are saved"
+  },
+  "settingsReset": {
+    "message": "Settings reset to default values",
+    "description": "Message shown when settings are reset"
   },
   "rateExtension": {
     "message": "Are you enjoying the extension? Rate it on the Chrome Web Store!",
     "description": "Tooltip for the rating button"
+  },
+  "aboutDesc": {
+    "message": "This extension was created to assist you after chess games on Chess.com. It does not aim to provide features that could lead to cheating, and the extension is open source, allowing you to contribute on GitHub. If you have any feature suggestions, feel free to open an issue on the GitHub repository.",
+    "description": "Description of the about section"
   }
 }
