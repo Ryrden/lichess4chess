@@ -11,6 +11,8 @@ export default function Popup() {
   );
   const [version, setVersion] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [onAction, setOnAction] = useState(false);
+
   useEffect(() => {
     const getExtensionInfo = async () => {
       const manifestData = Browser.runtime.getManifest();
@@ -70,24 +72,30 @@ export default function Popup() {
   }, []);
 
   const handleClick = async () => {
-    const tabs = await Browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
+    setOnAction(true);
+    if (gameState.type === GameStateType.NOT_CHESS_SITE) {
+      window.open("https://www.chess.com", "_blank");
+      setOnAction(false);
+      return;
+    }
+    const tabs = await Browser.tabs.query({ active: true, currentWindow: true });
     const activeTab = tabs[0];
     if (activeTab && activeTab.id) {
       await Browser.tabs.sendMessage(activeTab.id, {
         action: "openLichessAnalysis",
       });
     }
+    setOnAction(false);
   };
 
   const getButtonColorClass = () => {
     switch (gameState.buttonState.color) {
       case "green":
-        return "bg-green-600 cursor-pointer hover:bg-green-500 text-white hover:scale-105";
+        return "bg-green-600 cursor-pointer hover:bg-green-500 text-white focus:outline-none focus:ring-2 focus:ring-green-400";
+      case "white":
+        return "bg-white cursor-pointer text-green-600 border border-gray-300 hover:border-gray-400";
       case "yellow":
-        return "bg-yellow-500 cursor-not-allowed text-gray-800";
+        return "bg-yellow-500 cursor-pointer text-gray-800 border border-gray-300 hover:border-gray-400";
       default:
         return "bg-gray-400 cursor-not-allowed text-gray-200";
     }
@@ -145,12 +153,17 @@ export default function Popup() {
         )}
         <button
           onClick={handleClick}
-          disabled={isLoading || !gameState.buttonState.enabled}
-          className={`font-bold py-3 px-6 rounded-lg shadow-lg transition-colors transform focus:outline-none focus:ring-2 focus:ring-green-400 ${getButtonColorClass()}`}
+          disabled={onAction}
+          className={`font-bold py-3 px-6 rounded-lg shadow-lg transition-colors transform 
+            ${onAction ? 'bg-gray-400 cursor-progress text-gray-200' : getButtonColorClass()}`}
         >
-          {getMessage("analyzeOnLichess")}
-        </button>      </main>{" "}
-      <footer className="p-4 border-t border-gray-200 dark:border-gray-700 text-center">
+          {gameState.type === GameStateType.NOT_CHESS_SITE ?
+            getMessage("goToChesscom") :
+            getMessage("analyzeOnLichess")}
+        </button>
+      </main>
+
+      <footer className="p-4 border-t border-gray-200 text-center">
         <div className="flex flex-col items-center gap-2">
           <div className="flex space-x-4 items-center">            <a
               href="https://github.com/ryrden/lichess4chess"

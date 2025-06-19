@@ -11,8 +11,7 @@ export interface GameState {
   type: GameStateType;
   message: string;
   buttonState: {
-    enabled: boolean;
-    color: 'green' | 'yellow' | 'gray';
+    color: 'green' | 'white' | 'yellow' | 'gray';
   };
 }
 
@@ -21,15 +20,13 @@ export const GAME_STATE: Record<GameStateType, GameState> = {
     type: GameStateType.NOT_CHESS_SITE,
     message: "notChessSite",
     buttonState: {
-      enabled: false,
-      color: 'gray'
+      color: 'white'
     }
   },
   [GameStateType.NO_GAME_DETECTED]: {
     type: GameStateType.NO_GAME_DETECTED,
     message: "noGameDetected",
     buttonState: {
-      enabled: false,
       color: 'gray'
     }
   },
@@ -37,7 +34,6 @@ export const GAME_STATE: Record<GameStateType, GameState> = {
     type: GameStateType.GAME_IN_PROGRESS,
     message: "gameInProgress",
     buttonState: {
-      enabled: false,
       color: 'yellow'
     }
   },
@@ -45,7 +41,6 @@ export const GAME_STATE: Record<GameStateType, GameState> = {
     type: GameStateType.GAME_FINISHED,
     message: "gameDetected",
     buttonState: {
-      enabled: true,
       color: 'green'
     }
   }

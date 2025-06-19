@@ -31,6 +31,10 @@
     "message": "Analisar no Lichess",
     "description": "Button text for analyzing on Lichess"
   },
+  "goToChesscom": {
+    "message": "Ir para Chess.com",
+    "description": "Button text for going to Chess.com"
+  },
   "loading": {
     "message": "Carregando...",
     "description": "Loading message"
