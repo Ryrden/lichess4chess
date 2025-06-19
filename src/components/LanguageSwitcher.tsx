@@ -97,16 +97,16 @@ export default function LanguageSwitcher({ compact = false }: LanguageSwitcherPr
         </svg>
       </button>
         {isOpen && (
-        <div className="absolute top-full right-0 mt-1 bg-white dark:bg-gray-700 shadow-lg rounded-md py-1 z-10">
+        <div className="absolute top-full mt-1 bg-white dark:bg-gray-700 shadow-lg rounded-md py-1 z-10">
           {Object.entries(LANGUAGES).map(([code, name]) => (
             <button
               key={code}
-              className={`flex items-center px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 w-full text-left dark:text-gray-200 ${currentLanguage === code ? 'bg-gray-50 dark:bg-gray-800' : ''}`}
+              className={`flex items-center px-3 py-2 text-sm w-full text-left dark:text-gray-200 dark:hover:bg-gray-600  ${currentLanguage === code ? 'bg-gray-50 dark:bg-gray-800' : ''}`}
               onClick={() => handleLanguageChange(code as LanguageCode)}
             >              <svg className="w-5 h-5 rounded-full overflow-hidden border border-gray-200 dark:border-gray-600 mr-2">
-                <use href={`#${getFlagId(code as LanguageCode)}`} />
+              <use href={`#${getFlagId(code as LanguageCode)}`} />
               </svg>
-              <span className="dark:text-gray-200">{name}</span>
+              <span className={`dark:text-gray-200 ${currentLanguage === code ? 'text-black' : ''}`}>{name}</span>
             </button>
           ))}
         </div>

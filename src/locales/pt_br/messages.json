@@ -170,5 +170,9 @@
   "featuresToBeAddedDesc": {
     "message": "Estou trabalhando em novos recursos para melhorar ainda mais a extensão, como abrir o Lichess automaticamente após o final da partida ou adicionar um botão de revisão na tela.",
     "description": "Description for the features to be added section"
+  },
+  "suggestFeature": {
+    "message": "Tem uma sugestão de feature? Abra uma issue no github :) ficarei feliz de implementa-la",
+    "description": "Message for suggesting a feature"
   }
 }

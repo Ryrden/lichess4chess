@@ -147,5 +147,9 @@
   "featuresToBeAddedDesc": {
     "message": "I am working on new features to further improve the extension, such as automatically opening Lichess after the game ends or adding a review button on the screen.",
     "description": "Description for the features to be added section"
+  },
+  "suggestFeature": {
+    "message": "Do you have a feature suggestion? Open an issue on GitHub :) I would be happy to implement it",
+    "description": "Message for suggesting a feature"
   }
 }
