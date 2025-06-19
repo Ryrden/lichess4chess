@@ -97,7 +97,7 @@ export default function Popup() {
       {" "}
       <header className="p-4 border-b border-gray-200 dark:border-gray-700"><div className="flex justify-between mb-2">          <button
             onClick={() => Browser.tabs.create({ url: Browser.runtime.getURL('src/pages/options/index.html') })}
-            className="text-gray-500 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-500 transition-colors"
+            className="text-gray-500 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-500 transition-colors cursor-pointer"
             title={getMessage("optionsTitle") || "Options"}
           >
             <svg

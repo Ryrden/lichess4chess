@@ -139,5 +139,13 @@
   "aboutDesc": {
     "message": "This extension was created to assist you after chess games on Chess.com. It does not aim to provide features that could lead to cheating, and the extension is open source, allowing you to contribute on GitHub. If you have any feature suggestions, feel free to open an issue on the GitHub repository.",
     "description": "Description of the about section"
+  },
+  "featuresToBeAdded": {
+    "message": "Features to be added",
+    "description": "Title for the features to be added section"
+  },
+  "featuresToBeAddedDesc": {
+    "message": "I am working on new features to further improve the extension, such as automatically opening Lichess after the game ends or adding a review button on the screen.",
+    "description": "Description for the features to be added section"
   }
 }

@@ -162,5 +162,13 @@
   "aboutDesc": {
     "message": "Esta extensão foi criada para te auxiliar após partidas de xadrez no Chess.com. Ela não possui como objetivo fornecer funcionalidades que podem levar a trapaças e a extensão é open source, permitindo que você possa contribuir no GitHub, se você tiver alguma sugestão de funcionalidade, sinta-se livre para abrir uma issue no repositório do github.",
     "description": "Description of the about section"
+  },
+  "featuresToBeAdded": {
+    "message": "Recursos a serem adicionados",
+    "description": "Title for the features to be added section"
+  },
+  "featuresToBeAddedDesc": {
+    "message": "Estou trabalhando em novos recursos para melhorar ainda mais a extensão, como abrir o Lichess automaticamente após o final da partida ou adicionar um botão de revisão na tela.",
+    "description": "Description for the features to be added section"
   }
 }

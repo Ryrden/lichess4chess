@@ -12,21 +12,17 @@ export default function Options() {
 
   useEffect(() => {
     const fetchSettings = async () => {
-      // Get settings
       const currentSettings = await getSettings();
       setSettings(currentSettings);
       
-      // Apply theme
       applyTheme(currentSettings.theme);
       
-      // Get extension version
       const manifestData = Browser.runtime.getManifest();
       setExtensionVersion(manifestData.version || '');
     };
 
     fetchSettings();
     
-    // Listen for system theme changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleThemeChange = () => {
       if (settings.theme === 'system') {
@@ -40,7 +36,6 @@ export default function Options() {
     };
   }, []);
   
-  // Apply theme when it changes
   useEffect(() => {
     applyTheme(settings.theme);
   }, [settings.theme]);
@@ -127,8 +122,15 @@ export default function Options() {
           </div>
         </section>
         
-        {/* Analysis Settings */}
+        {/* Features to be added */}
         <section className="mb-8 pb-6 border-b border-gray-200">
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("featuresToBeAdded")}</h3>
+          {/* Aqui vou adicionar um texto apenas dizendo q estou trabalhando em features para tornar o uso da extensão melhor ainda, por exemplo permitir abrir o lichess automagicamente apos o final da partida ou um botao de revisao na tela ao inves de apenas an extensao. */}
+          <p className="text-gray-600">{getMessage("featuresToBeAddedDesc")}</p>
+        </section>
+
+        {/* Analysis Settings */}
+        {/* <section className="mb-8 pb-6 border-b border-gray-200">
           <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("analysisSettings")}</h3>
           <div className="flex items-center mb-4">
             <label className="flex items-center cursor-pointer">
@@ -145,7 +147,7 @@ export default function Options() {
             </label>
           </div>
           <p className="text-gray-600">{getMessage("autoOpenDesc")}</p>
-        </section>
+        </section> */}
         
         {/* About Section */}
         <section className="mb-8">

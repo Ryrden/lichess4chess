@@ -58,7 +58,7 @@ export default function LanguageSwitcher({ compact = false }: LanguageSwitcherPr
     return (
       <div className="language-switcher relative">
         <button
-          className="flex items-center focus:outline-none"
+          className="flex items-center focus:outline-none cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
           title={LANGUAGES[currentLanguage]}
         >          <svg className="w-6 h-6 rounded-full overflow-hidden border border-gray-200 dark:border-gray-600">
@@ -70,7 +70,7 @@ export default function LanguageSwitcher({ compact = false }: LanguageSwitcherPr
             {Object.entries(LANGUAGES).map(([code, name]) => (
               <button
                 key={code}
-                className={`flex items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 w-full ${currentLanguage === code ? 'bg-gray-50 dark:bg-gray-800' : ''}`}
+                className={`cursor-pointer flex items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 w-full ${currentLanguage === code ? 'bg-gray-50 dark:bg-gray-800' : ''}`}
                 onClick={() => handleLanguageChange(code as LanguageCode)}
                 title={name}
               >                <svg className="w-5 h-5 rounded-full overflow-hidden border border-gray-200 dark:border-gray-600">

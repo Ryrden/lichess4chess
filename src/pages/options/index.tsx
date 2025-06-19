@@ -14,11 +14,9 @@ async function init() {
     const root = createRoot(rootContainer);
     root.render(<Options />);
     
-    // Set the document title dynamically
     document.title = Browser.i18n.getMessage("optionsTitle") || "Lichess4Chess Options";
   } catch (error) {
     console.error("Failed to initialize options page:", error);
-    // Display a user-friendly error message
     const rootContainer = document.querySelector("#__root");
     if (rootContainer) {
       rootContainer.innerHTML = `
