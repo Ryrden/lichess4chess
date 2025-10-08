@@ -35,6 +35,10 @@
     "message": "Analyze on Lichess",
     "description": "Button text for analyzing on Lichess"
   },
+  "goToLichessReview": {
+    "message": "Go to Lichess Review",
+    "description": "Button text for going to Lichess review from game page"
+  },
   "goToChesscom": {
     "message": "Go to Chess.com",
     "description": "Button text for going to Chess.com"
