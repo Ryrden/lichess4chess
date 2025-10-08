@@ -16,7 +16,7 @@ export const isGameFinished = (): boolean => {
   return (
     !!document.querySelector(".game-over-modal-content") ||
     !!document.querySelector(".game-over-modal") ||
-    !!document.querySelector(".share")
+    !!document.querySelector('button[aria-label="Share"]')
   );
 };
 
@@ -36,7 +36,7 @@ export const detectGameState = (): GameState => {
   return GAME_STATE.NO_GAME_DETECTED;
 };
 
-export const getCurrentGamePgn = async (): Promise<string | null> => {  const shareButton = document.querySelector(".share");
+export const getCurrentGamePgn = async (): Promise<string | null> => {  const shareButton = document.querySelector('button[aria-label="Share"]');
   if (!shareButton) {
     throw new Error("Share button not found");
   }
