@@ -37,7 +37,8 @@ export const detectGameState = (): GameState => {
   return GAME_STATE.NO_GAME_DETECTED;
 };
 
-export const getCurrentGamePgn = async (): Promise<string | null> => {  const shareButton = document.querySelector("[aria-label='Share']");
+export const getCurrentGamePgn = async (): Promise<string | null> => { 
+  const shareButton = document.querySelector("[aria-label='Share']");
   if (!shareButton) {
     throw new Error("Share button not found");
   }
