@@ -1,5 +1,5 @@
 import Browser from 'webextension-polyfill';
-import { getCurrentState, initStateObserver, openLichessAnalysis } from './gameStateManager';
+import { getCurrentState, initStateObserver, openLichessAnalysis, getLichessAnalysisUrl } from './gameStateManager';
 
 const initialize = (): void => {
   initStateObserver();
@@ -11,6 +11,9 @@ const initialize = (): void => {
       
       case 'openLichessAnalysis':
         return openLichessAnalysis();
+      
+      case 'getLichessAnalysisUrl':
+        return getLichessAnalysisUrl().then(url => ({ url })).catch(err => ({ error: String(err) }));
       
       default:
         return false;

@@ -15,10 +15,12 @@ const updateState = (newState: GameState): void => {
       injectLichessButton();
     }
 
-    Browser.runtime.sendMessage({
-      action: 'updateGameState',
-      state: currentState
-    }).catch(err => console.log('Error sending state update:', err));
+    Browser.runtime
+      .sendMessage({
+        action: 'updateGameState',
+        state: currentState,
+      })
+      .catch((err: unknown) => console.log('Error sending state update:', err));
   }
 };
 
@@ -32,18 +34,18 @@ export const initStateObserver = (): void => {
   if (observer) {
     observer.disconnect();
   }
-  
+
   checkAndUpdateState();
-  
+
   observer = new MutationObserver(() => {
     checkAndUpdateState();
   });
-  
-  observer.observe(document.body, { 
-    childList: true, 
+
+  observer.observe(document.body, {
+    childList: true,
     subtree: true,
     attributes: true,
-    attributeFilter: ['class']
+    attributeFilter: ['class'],
   });
 };
 
@@ -66,11 +68,23 @@ export const openLichessAnalysis = async () => {
   }
 };
 
+// Returns the Lichess analysis URL for the current game without opening a new tab
+export const getLichessAnalysisUrl = async (): Promise<string> => {
+  const pgn = await getCurrentGamePgn();
+  const response = await axios.post("https://lichess.org/api/import", {
+    pgn: pgn,
+  });
+  if (response.status === 200 && response.data?.url) {
+    return response.data.url as string;
+  }
+  console.error("Error getting Lichess analysis URL:", response.statusText);
+  throw new Error("Failed to get Lichess analysis URL");
+};
+
 const injectLichessButton = (): void => {
   if (document.querySelector('.lichess4chess-review-button')) {
     return;
   }
-
   const reviewButton = document.querySelector('.game-over-review-button-game-over-review-button');
   if (!reviewButton) {
     setTimeout(injectLichessButton, 1000);

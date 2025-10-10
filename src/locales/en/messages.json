@@ -159,5 +159,17 @@
   "suggestFeature": {
     "message": "Do you have a feature suggestion? Open an issue on GitHub :) I would be happy to implement it",
     "description": "Message for suggesting a feature"
+  },
+  "copyAnalysisUrl": {
+    "message": "Copy analysis URL",
+    "description": "Button to copy the Lichess analysis URL"
+  },
+  "copiedToClipboard": {
+    "message": "Copied to clipboard",
+    "description": "Feedback when URL is copied"
+  },
+  "failedToCopy": {
+    "message": "Failed to copy URL",
+    "description": "Feedback when copy fails"
   }
 }
