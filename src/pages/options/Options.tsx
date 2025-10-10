@@ -69,6 +69,12 @@ export default function Options() {
     }
   };
 
+  const resetGoToLichessToggle = async () => {
+    setSettings({ ...settings, showGoToLichess: true });
+    await saveSettings({ ...settings, showGoToLichess: true });
+    alert('Go to Lichess button reset to default');
+  };
+
   return (
     <div className="container max-w-3xl mx-auto p-6">
       <header className="mb-8 text-center">
@@ -135,6 +141,14 @@ export default function Options() {
               <div className={`absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 ease-in-out ${settings.showGoToLichess ? 'transform translate-x-6' : ''}`}></div>
               <span className="ml-3 text-gray-700 font-medium">Show "Go to Lichess" button</span>
             </label>
+
+            {/* Reset Button */}
+            <button
+              className="ml-4 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-gray-700"
+              onClick={resetGoToLichessToggle}
+            >
+              Reset
+            </button>
           </div>
 
           <p className="text-gray-600">{getMessage("featuresToBeAddedDesc")}</p>
