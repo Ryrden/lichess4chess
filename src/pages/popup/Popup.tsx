@@ -12,6 +12,8 @@ export default function Popup() {
   const [version, setVersion] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [onAction, setOnAction] = useState(false);
+  const [isCopying, setIsCopying] = useState(false);
+  const [copyFeedback, setCopyFeedback] = useState<null | 'ok' | 'err'>(null);
 
   useEffect(() => {
     const getExtensionInfo = async () => {
@@ -88,6 +90,29 @@ export default function Popup() {
     setOnAction(false);
   };
 
+  const handleCopyUrl = async () => {
+    if (isCopying) return;
+    setIsCopying(true);
+    setCopyFeedback(null);
+    try {
+      const tabs = await Browser.tabs.query({ active: true, currentWindow: true });
+      const activeTab = tabs[0];
+      if (!activeTab?.id) throw new Error('No active tab');
+      const response = await Browser.tabs.sendMessage(activeTab.id, { action: 'getLichessAnalysisUrl' });
+      if (response?.url) {
+        await navigator.clipboard.writeText(response.url as string);
+        setCopyFeedback('ok');
+      } else {
+        setCopyFeedback('err');
+      }
+    } catch (e) {
+      setCopyFeedback('err');
+    } finally {
+      setIsCopying(false);
+      setTimeout(() => setCopyFeedback(null), 2000);
+    }
+  };
+
   const getButtonColorClass = () => {
     switch (gameState.buttonState.color) {
       case "green":
@@ -161,6 +186,23 @@ export default function Popup() {
             getMessage("goToChesscom") :
             getMessage("analyzeOnLichess")}
         </button>
+        {gameState.type === GameStateType.GAME_FINISHED && (
+          <div className="mt-3 flex flex-col items-center">
+            <button
+              onClick={handleCopyUrl}
+              disabled={isCopying}
+              className={`text-sm px-4 py-2 rounded border transition-colors ${isCopying ? 'cursor-progress text-gray-400 border-gray-300' : 'text-gray-700 dark:text-gray-300 border-gray-300 hover:border-gray-400'}`}
+            >
+              {isCopying ? getMessage('loading') : getMessage('copyAnalysisUrl')}
+            </button>
+            {copyFeedback === 'ok' && (
+              <span className="mt-2 text-xs text-green-600">{getMessage('copiedToClipboard')}</span>
+            )}
+            {copyFeedback === 'err' && (
+              <span className="mt-2 text-xs text-red-600">{getMessage('failedToCopy')}</span>
+            )}
+          </div>
+        )}
       </main>
 
       <footer className="p-4 border-t border-gray-200 text-center">
