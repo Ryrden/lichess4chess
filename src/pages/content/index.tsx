@@ -1,10 +1,15 @@
 import Browser from 'webextension-polyfill';
 import { getCurrentState, initStateObserver, openLichessAnalysis } from './gameStateManager';
+import { loadLanguageMessages, getCurrentLanguage } from '@src/utils/i18n';
 
-const initialize = (): void => {
+const initialize = async (): Promise<void> => {
+  // Initialize i18n system
+  const lang = await getCurrentLanguage();
+  await loadLanguageMessages(lang);
+  
   initStateObserver();
   
-  Browser.runtime.onMessage.addListener((message, sender) => {
+  Browser.runtime.onMessage.addListener((message: any, sender: any) => {
     switch (message.action) {
       case 'getGameState':
         return Promise.resolve({ state: getCurrentState() });
