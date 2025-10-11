@@ -2,7 +2,7 @@ import Browser from "webextension-polyfill";
 
 export const LANGUAGES = {
   en: "English",
-  pt_BR: "Português (Brasil)"
+  pt_br: "Português (Brasil)"  
 };
 
 export type LanguageCode = keyof typeof LANGUAGES;
@@ -15,7 +15,7 @@ let currentLanguageCode: LanguageCode | null = null;
  */
 export async function getCurrentLanguage(): Promise<LanguageCode> {
   try {
-    const result = await Browser.storage.local.get("language");
+    const result = await Browser.storage.local.get("language") as { language?: LanguageCode };
     return result.language || (Browser.i18n.getUILanguage().split('-')[0] as LanguageCode) || "en";
   } catch (error) {
     console.error("Error getting language:", error);
@@ -29,7 +29,7 @@ export async function getCurrentLanguage(): Promise<LanguageCode> {
 export async function loadLanguageMessages(lang: LanguageCode): Promise<void> {
   try {
     if (!messagesCache[lang]) {
-      const response = await fetch(Browser.runtime.getURL(`_locales/${lang}/messages.json`));
+      const response = await fetch(Browser.runtime.getURL(`_locales/${lang.toLowerCase()}/messages.json`));
       const messages = await response.json();
       messagesCache[lang] = messages;
     }
