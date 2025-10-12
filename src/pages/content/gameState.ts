@@ -43,7 +43,39 @@ export const getCurrentGamePgn = async (): Promise<string | null> => {
     throw new Error("Share button not found");
   }
 
+  // Hide modal with CSS injection
+  const style = document.createElement('style');
+  style.textContent = `
+    #share-modal, .cc-modal-component, .cc-modal-backdrop,
+    .cc-modal-body, .cc-modal-header-component,
+    .share-menu-modal-header, .share-menu-share-link-component,
+    .cc-tab-group-component, .share-menu-content,
+    .cc-modal, .modal, [role='dialog'], 
+    [class*="modal"], [class*="share"] {
+      display: none !important;
+    }
+  `;
+  document.head.appendChild(style);
+
   (shareButton as HTMLElement).click();
+
+  const hideModal = () => {
+    const selectors = [
+      '#share-modal', '.cc-modal-component', '.cc-modal-backdrop',
+      '.cc-modal-body', '.cc-modal-header-component',
+      '.share-menu-modal-header', '.share-menu-share-link-component',
+      '.cc-tab-group-component', '.share-menu-content',
+      '.cc-modal', '.modal', '[role="dialog"]', '[class*="modal"]', '[class*="share"]'
+    ];
+    selectors.forEach(selector => {
+      document.querySelectorAll(selector).forEach(el => {
+        (el as HTMLElement).style.display = 'none';
+      });
+    });
+  };
+
+  
+  setTimeout(hideModal, 0);
 
   await new Promise((resolve) => setTimeout(resolve, 1500));
   const pgnTab = document.querySelector("#tab-pgn");
@@ -61,10 +93,8 @@ export const getCurrentGamePgn = async (): Promise<string | null> => {
 
   const pgn = (pgnElement as HTMLTextAreaElement).value;
 
-  const closeButton = document.querySelector(".cc-modal-header-close");
-  if (closeButton) {
-    (closeButton as HTMLElement).click();
-  }
+  // Clean up
+  document.head.removeChild(style);
 
   return pgn;
 };
