@@ -37,75 +37,41 @@ export const detectGameState = (): GameState => {
   return GAME_STATE.NO_GAME_DETECTED;
 };
 
-export const getCurrentGamePgn = async (): Promise<string | null> => { 
-  console.log("Starting PGN extraction via Chess.com API...");
-  
+export const getCurrentGamePgnAPI = async (): Promise<string | null> => {
   try {
-    // Extract username from current page URL
     const url = window.location.href;
-    console.log("Current URL:", url);
+    const gameIdMatch = url.match(/chess\.com\/(?:game\/live|live\/game)\/(\d+)/);
+    const gameId = gameIdMatch ? gameIdMatch[1] : null;
     
-    // Extract username from chess.com URL patterns
-    let username = null;
-    const urlPatterns = [
-      /chess\.com\/member\/([^\/\?]+)/,
-      /chess\.com\/home\/user\/([^\/\?]+)/,
-      /chess\.com\/live\/game\/(\d+)/,
-      /chess\.com\/game\/live\/(\d+)/
-    ];
+    const usernameElements = document.querySelectorAll('[data-test-element="user-tagline-username"]');
     
-    console.log("Trying to extract username from URL patterns...");
-    for (let i = 0; i < urlPatterns.length; i++) {
-      const pattern = urlPatterns[i];
-      console.log(`Pattern ${i + 1}:`, pattern);
-      const match = url.match(pattern);
-      console.log(`Pattern ${i + 1} match result:`, match);
-      if (match) {
-        username = match[1];
-        console.log("Extracted username from URL:", username);
-        break;
-      }
+    if (usernameElements.length < 2) {
+      throw new Error("Could not find both player usernames on the page");
     }
     
-    if (!username) {
-      console.log("No username found in URL, trying page elements...");
-      
-      // Try to get username from page elements as fallback
-      // First try the specific element with username attribute
-      console.log("Checking for notifications-request element with username attribute...");
-      const notificationsElement = document.querySelector('#notifications-request[username]');
-      if (notificationsElement) {
-        const usernameFromAttr = notificationsElement.getAttribute('username');
-        console.log("Found username in notifications-request element:", usernameFromAttr);
-        if (usernameFromAttr && usernameFromAttr.length > 0) {
-          username = usernameFromAttr;
-          console.log("Successfully extracted username from notifications-request element:", username);
-        }
-      }
-      
+    const username1 = usernameElements[0].textContent?.trim();
+    const username2 = usernameElements[1].textContent?.trim();
+    
+    if (!username1 || !username2) {
+      throw new Error("Could not extract usernames from elements");
     }
     
-    console.log("Final username result:", username);
-    
-    if (!username) {
-      console.log("No username found anywhere, throwing error...");
-      throw new Error("Could not extract username from URL or page");
+
+    let currentUsername = null;
+    const notificationsElement = document.querySelector('#notifications-request[username]');
+    if (notificationsElement) {
+      currentUsername = notificationsElement.getAttribute('username');
     }
     
-    // Get current year and month
+    let opponentUsername = username1;
+    if (currentUsername && username1.toLowerCase() === currentUsername.toLowerCase()) {
+      opponentUsername = username2;
+    }
+    
     const now = new Date();
     const currentYear = now.getFullYear();
     const currentMonth = String(now.getMonth() + 1).padStart(2, '0');
-    
-    console.log("Current year:", currentYear);
-    console.log("Current month:", currentMonth);
-    
-    // Construct API endpoint
-    const apiEndpoint = `https://api.chess.com/pub/player/${username}/games/${currentYear}/${currentMonth}`;
-    console.log("API endpoint:", apiEndpoint);
-    
-    // Fetch data from API
-    console.log("Fetching data from Chess.com API...");
+    const apiEndpoint = `https://api.chess.com/pub/player/${opponentUsername}/games/${currentYear}/${currentMonth}`;
     const response = await fetch(apiEndpoint);
     
     if (!response.ok) {
@@ -113,32 +79,76 @@ export const getCurrentGamePgn = async (): Promise<string | null> => {
     }
     
     const data = await response.json();
-    console.log("API response received");
-    console.log("Games count:", data.games?.length || 0);
     
     if (!data.games || data.games.length === 0) {
       throw new Error("No games found in API response");
     }
     
-    // Get the last (most recent) game from the array
-    const lastGame = data.games[data.games.length - 1];
-    console.log("Last game:", lastGame);
-    
-    if (!lastGame.pgn) {
-      throw new Error("No PGN found in the last game");
+    let targetGame = null;
+    if (gameId) {
+      targetGame = data.games.find((game: any) => game.url && game.url.includes(gameId));
     }
     
-    const pgn = lastGame.pgn;
-    console.log("PGN found:", pgn.substring(0, 100) + '...');
-    console.log("PGN length:", pgn.length);
-    console.log("PGN extraction successful!");
+    if (!targetGame) {
+      targetGame = data.games[data.games.length - 1];
+    }
     
-    return pgn;
+    if (!targetGame.pgn) {
+      throw new Error("No PGN found in the target game");
+    }
     
+    return targetGame.pgn;
   } catch (error) {
-    console.error("Error fetching PGN from API:", error);
     const errorMessage = error instanceof Error ? error.message : String(error);
     throw new Error(`Failed to get PGN from API: ${errorMessage}`);
+  }
+};
+
+export const getCurrentGamePgnManual = async (): Promise<string | null> => { 
+  const shareButton = document.querySelector("[aria-label='Share']");
+  if (!shareButton) {
+    throw new Error("Share button not found");
+  }
+
+  (shareButton as HTMLElement).click();
+
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+  const pgnTab = document.querySelector("#tab-pgn");
+  if (!pgnTab) {
+    throw new Error("PGN tab not found");
+  }
+
+  (pgnTab as HTMLElement).click();
+
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  const pgnElement = document.querySelector(".share-menu-tab-pgn-textarea");
+  if (!pgnElement) {
+    throw new Error("PGN textarea not found");
+  }
+
+  const pgn = (pgnElement as HTMLTextAreaElement).value;
+
+  const closeButton = document.querySelector(".cc-modal-header-close");
+  if (closeButton) {
+    (closeButton as HTMLElement).click();
+  }
+
+  return pgn;
+};
+
+export const getCurrentGamePgn = async (): Promise<string | null> => {
+  try {
+    const pgn = await getCurrentGamePgnAPI();
+    return pgn;
+  } catch (apiError) {
+    try {
+      const pgn = await getCurrentGamePgnManual();
+      return pgn;
+    } catch (manualError) {
+      const apiErrorMsg = apiError instanceof Error ? apiError.message : String(apiError);
+      const manualErrorMsg = manualError instanceof Error ? manualError.message : String(manualError);
+      throw new Error(`Failed to get PGN. API error: ${apiErrorMsg}. Manual error: ${manualErrorMsg}`);
+    }
   }
 };
 
