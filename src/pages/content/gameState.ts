@@ -46,14 +46,14 @@ export const getCurrentGamePgnAPI = async (): Promise<string | null> => {
     const usernameElements = document.querySelectorAll('[data-test-element="user-tagline-username"]');
     
     if (usernameElements.length < 2) {
-      throw new Error("Could not find both player usernames on the page");
+      return null;
     }
     
     const username1 = usernameElements[0].textContent?.trim();
     const username2 = usernameElements[1].textContent?.trim();
     
     if (!username1 || !username2) {
-      throw new Error("Could not extract usernames from elements");
+      return null;
     }
     
 
@@ -75,13 +75,13 @@ export const getCurrentGamePgnAPI = async (): Promise<string | null> => {
     const response = await fetch(apiEndpoint);
     
     if (!response.ok) {
-      throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+      return null;
     }
     
     const data = await response.json();
     
     if (!data.games || data.games.length === 0) {
-      throw new Error("No games found in API response");
+      return null;
     }
     
     let targetGame = null;
@@ -94,13 +94,12 @@ export const getCurrentGamePgnAPI = async (): Promise<string | null> => {
     }
     
     if (!targetGame.pgn) {
-      throw new Error("No PGN found in the target game");
+      return null;
     }
     
     return targetGame.pgn;
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to get PGN from API: ${errorMessage}`);
+    return null;
   }
 };
 
@@ -132,23 +131,25 @@ export const getCurrentGamePgnManual = async (): Promise<string | null> => {
   if (closeButton) {
     (closeButton as HTMLElement).click();
   }
-
   return pgn;
 };
 
-export const getCurrentGamePgn = async (): Promise<string | null> => {
+async function tryOrNull<T>(fn: () => Promise<T>): Promise<T | null> {
   try {
-    const pgn = await getCurrentGamePgnAPI();
-    return pgn;
-  } catch (apiError) {
-    try {
-      const pgn = await getCurrentGamePgnManual();
-      return pgn;
-    } catch (manualError) {
-      const apiErrorMsg = apiError instanceof Error ? apiError.message : String(apiError);
-      const manualErrorMsg = manualError instanceof Error ? manualError.message : String(manualError);
-      throw new Error(`Failed to get PGN. API error: ${apiErrorMsg}. Manual error: ${manualErrorMsg}`);
-    }
+    return await fn();
+  } catch (err) {
+    console.warn(`[fallback] ${fn.name} failed:`, err);
+    return null;
   }
+}
+
+export const getCurrentGamePgn = async (): Promise<string | null> => {
+  const apiResult = await tryOrNull(getCurrentGamePgnAPI);
+  if (apiResult) return apiResult;
+
+  const manualResult = await tryOrNull(getCurrentGamePgnManual);
+  if (manualResult) return manualResult;
+
+  return null;
 };
 
