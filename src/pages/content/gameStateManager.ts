@@ -59,8 +59,12 @@ export const openLichessAnalysis = async () => {
   });
   if (response.status === 200) {
     const url = response.data.url;
+    if (!url) {
+      throw new Error("No analysis URL returned from Lichess");
+    }
+
     window.open(url, "_blank");
-  }else{
+  } else{
     console.error("Error opening Lichess analysis:", response.statusText);
     throw new Error("Failed to open Lichess analysis");
   }
