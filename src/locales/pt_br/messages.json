@@ -64,6 +64,14 @@
     "message": "Selecione seu idioma preferido. A extensão será reiniciada para aplicar as mudanças.",
     "description": "Description of language settings"
   },
+  "lichessSettings": {
+    "message": "",
+    "description": "Lichess settings section title"
+  },
+  "lichessSettingsDesc": {
+    "message": "Configure como a extensão interage com a análise do Lichess.",
+    "description": "Description of Lichess settings"
+  },
   "language_en": {
     "message": "Inglês",
     "description": "English language name"

@@ -2,6 +2,7 @@ import Browser from 'webextension-polyfill';
 import { GAME_STATE, GameState } from './types';
 import { detectGameState, getCurrentGamePgn } from './gameState';
 import { getMessage } from '@src/utils/i18n';
+import { getSettings } from '@src/utils/settings';
 import axios from 'axios';
 
 let currentState: GameState = GAME_STATE.NOT_CHESS_SITE;
@@ -52,6 +53,7 @@ export const getCurrentState = (): GameState => {
   return { ...currentState };
 };
 
+
 export const openLichessAnalysis = async () => {
   const pgn = await getCurrentGamePgn();
   const response = await axios.post("https://lichess.org/api/import", {
@@ -70,7 +72,7 @@ export const openLichessAnalysis = async () => {
   }
 };
 
-const injectLichessButton = (): void => {
+const injectLichessButton = async (): Promise<void> => {
   if (document.querySelector('.lichess4chess-review-button')) {
     return;
   }
@@ -84,6 +86,12 @@ const injectLichessButton = (): void => {
   const buttonContainer = reviewButton.parentElement;
   if (!buttonContainer) {
     return;
+  }
+
+  const settings = await getSettings();
+  if (settings.autoOpenLichess) {
+    openLichessAnalysis().catch(err => console.error('Error opening Lichess:', err));
+    return; 
   }
 
   const lichessButton = document.createElement('a');
