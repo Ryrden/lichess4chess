@@ -1,4 +1,6 @@
 import { GAME_STATE, GameState } from "./types";
+import { tryOrNull } from "../../utils/errorHandling";
+import { clickElement, delay, extractGameIdFromUrl, findTargetGame } from "../../utils/domUtils";
 
 export const isChessSite = (): boolean => {
   return window.location.hostname.includes("chess.com");
@@ -37,119 +39,103 @@ export const detectGameState = (): GameState => {
   return GAME_STATE.NO_GAME_DETECTED;
 };
 
-export const getCurrentGamePgnAPI = async (): Promise<string | null> => {
-  try {
-    const url = window.location.href;
-    const gameIdMatch = url.match(/chess\.com\/(?:game\/live|live\/game)\/(\d+)/);
-    const gameId = gameIdMatch ? gameIdMatch[1] : null;
-    
-    const usernameElements = document.querySelectorAll('[data-test-element="user-tagline-username"]');
-    
-    if (usernameElements.length < 2) {
-      return null;
-    }
-    
-    const username1 = usernameElements[0].textContent?.trim();
-    const username2 = usernameElements[1].textContent?.trim();
-    
-    if (!username1 || !username2) {
-      return null;
-    }
-    
-
-    let currentUsername = null;
-    const notificationsElement = document.querySelector('#notifications-request[username]');
-    if (notificationsElement) {
-      currentUsername = notificationsElement.getAttribute('username');
-    }
-    
-    let opponentUsername = username1;
-    if (currentUsername && username1.toLowerCase() === currentUsername.toLowerCase()) {
-      opponentUsername = username2;
-    }
-    
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = String(now.getMonth() + 1).padStart(2, '0');
-    const apiEndpoint = `https://api.chess.com/pub/player/${opponentUsername}/games/${currentYear}/${currentMonth}`;
-    const response = await fetch(apiEndpoint);
-    
-    if (!response.ok) {
-      return null;
-    }
-    
-    const data = await response.json();
-    
-    if (!data.games || data.games.length === 0) {
-      return null;
-    }
-    
-    let targetGame = null;
-    if (gameId) {
-      targetGame = data.games.find((game: any) => game.url && game.url.includes(gameId));
-    }
-    
-    if (!targetGame) {
-      targetGame = data.games[data.games.length - 1];
-    }
-    
-    if (!targetGame.pgn) {
-      return null;
-    }
-    
-    return targetGame.pgn;
-  } catch (error) {
-    return null;
+async function fetchPlayerGames(username: string): Promise<any[]> {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  
+  const apiUrl = `https://api.chess.com/pub/player/${username}/games/${year}/${month}`;
+  const response = await fetch(apiUrl);
+  
+  if (!response.ok) {
+    throw new Error(`Chess.com API request failed: ${response.status} ${response.statusText}`);
   }
+  
+  const data = await response.json();
+  
+  if (!data.games || data.games.length === 0) {
+    throw new Error(`No games found for player '${username}' in ${year}/${month}`);
+  }
+  
+  return data.games;
+}
+
+export const getCurrentGamePgnAPI = async (): Promise<string | null> => {
+  const gameId = extractGameIdFromUrl();
+  
+  const { currentUser, opponentUser } = getPlayerUsernames();
+  const games = await fetchPlayerGames(opponentUser);
+  const targetGame = findTargetGame(games, gameId);
+  
+  if (!targetGame?.pgn) {
+    throw new Error('Game found but no PGN data available');
+  }
+  
+  return targetGame.pgn;
 };
 
+
+
+function getPlayerUsernames(): { currentUser: string | null; opponentUser: string } {
+  const usernameElements = document.querySelectorAll('[data-test-element="user-tagline-username"]');
+  
+  if (usernameElements.length < 2) {
+    throw new Error("Could not find both player usernames on the page");
+  }
+  
+  const username1 = usernameElements[0].textContent?.trim();
+  const username2 = usernameElements[1].textContent?.trim();
+  
+  if (!username1 || !username2) {
+    throw new Error("Player usernames are empty or invalid");
+  }
+  
+  const currentUser = document.querySelector('#notifications-request[username]')?.getAttribute('username') || null;
+  
+  // Determine opponent (if we know current user, pick the other one)
+  const opponentUser = currentUser && username1.toLowerCase() === currentUser.toLowerCase() 
+    ? username2 
+    : username1;
+  
+  return { currentUser, opponentUser };
+}
+
+
+
+
+
 export const getCurrentGamePgnManual = async (): Promise<string | null> => { 
-  const shareButton = document.querySelector("[aria-label='Share']");
-  if (!shareButton) {
-    throw new Error("Share button not found");
-  }
-
-  (shareButton as HTMLElement).click();
-
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-  const pgnTab = document.querySelector("#tab-pgn");
-  if (!pgnTab) {
-    throw new Error("PGN tab not found");
-  }
-
-  (pgnTab as HTMLElement).click();
-
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  const pgnElement = document.querySelector(".share-menu-tab-pgn-textarea");
+  await clickElement("[aria-label='Share']", "Share button not found");
+  await delay(1500);
+  
+  await clickElement("#tab-pgn", "PGN tab not found in share modal");
+  await delay(500);
+  
+  const pgnElement = document.querySelector(".share-menu-tab-pgn-textarea") as HTMLTextAreaElement;
   if (!pgnElement) {
-    throw new Error("PGN textarea not found");
+    throw new Error("PGN textarea not found or not loaded");
   }
-
-  const pgn = (pgnElement as HTMLTextAreaElement).value;
-
+  
+  const pgn = pgnElement.value.trim();
+  if (!pgn) {
+    throw new Error("PGN content is empty");
+  }
+  
   const closeButton = document.querySelector(".cc-modal-header-close");
   if (closeButton) {
     (closeButton as HTMLElement).click();
   }
+  
   return pgn;
 };
 
-async function tryOrNull<T>(fn: () => Promise<T>): Promise<T | null> {
-  try {
-    return await fn();
-  } catch (err) {
-    console.warn(`[fallback] ${fn.name} failed:`, err);
-    return null;
-  }
-}
+
 
 export const getCurrentGamePgn = async (): Promise<string | null> => {
-  const apiResult = await tryOrNull(getCurrentGamePgnAPI);
+  const apiResult = await tryOrNull(getCurrentGamePgnAPI, 'API method');
   if (apiResult) return apiResult;
 
-  const manualResult = await tryOrNull(getCurrentGamePgnManual);
-  if (manualResult) return manualResult;
-
-  return null;
+  const manualResult = await tryOrNull(getCurrentGamePgnManual, 'Manual method');
+  return manualResult;
 };
 
