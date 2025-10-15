@@ -68,8 +68,8 @@
     "message": "",
     "description": "Lichess settings section title"
   },
-  "lichessSettingsDesc": {
-    "message": "Configure como a extensão interage com a análise do Lichess.",
+  "lichessInstantSettingsDesc": {
+    "message": "Abra automaticamente a análise do Lichess quando um jogo for concluído.",
     "description": "Description of Lichess settings"
   },
   "language_en": {

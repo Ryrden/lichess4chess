@@ -70,7 +70,7 @@
     "description": "Lichess settings section title"
   },
   "lichessInstantSettingsDesc": {
-    "message": "Abra automaticamente a análise do Lichess quando um jogo for concluído",
+    "message": "Open Lichess analysis automatically when a game is finished",
     "description": "Description of Lichess settings"
   },
   "language_en": {
