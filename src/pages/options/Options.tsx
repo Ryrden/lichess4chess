@@ -3,7 +3,10 @@ import Browser from 'webextension-polyfill';
 import LanguageSwitcher from '@src/components/LanguageSwitcher';
 import { getMessage } from '@src/utils/i18n';
 import { Settings, ThemeOption, defaultSettings, getSettings, saveSettings, resetSettings as resetAllSettings, applyTheme } from '@src/utils/settings';
-
+import GameOverImg from '../../assets/GameOverImg.png';
+import PopupImg from '../../assets/PopupImg.png';
+import './options.css';
+// ...existing code...
 export default function Options() {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
   const [isSaved, setIsSaved] = useState(false);
@@ -34,6 +37,25 @@ export default function Options() {
     return () => {
       mediaQuery.removeEventListener('change', handleThemeChange);
     };
+  }, []);
+
+  // Mount indicator for easier debugging in the options page
+  useEffect(() => {
+    console.log('Lichess4Chess Options mounted');
+  }, []);
+
+  // Auto-scroll to and briefly highlight the How To Use section to make it visible
+  useEffect(() => {
+    const el = document.getElementById('how-to-use');
+    if (el) {
+      try {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('howto-highlight');
+        setTimeout(() => el.classList.remove('howto-highlight'), 4000);
+      } catch (err) {
+        // ignore
+      }
+    }
   }, []);
   
   useEffect(() => {
@@ -88,6 +110,29 @@ export default function Options() {
       </header>
       
       <main className="bg-white rounded-lg shadow-md p-6 mb-6">
+        {/* {How to Use Guide} */}
+  <section id="how-to-use" className="mb-8 pb-6 border-b border-gray-200">
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">How To Use</h3>
+          <ol className="steps">
+            <li>Play a game on <a href="https://www.chess.com/home">Chess.com</a></li>
+            <li>When the game ends, click <strong>Go to Lichess Review</strong> in the game over dialog.</li>
+            <li>Or open the extension popup and use <strong>Open Lichess</strong> or <strong>Copy PGN</strong>.</li>
+            <li>If import fails, paste the PGN at <a href="https://lichess.org/import" target="_blank" rel="noreferrer">lichess.org/import</a>.</li>
+          </ol>
+          <div className="image1">
+            <figure className="gamoverimg">
+              <img src={GameOverImg} alt="Game over dialog showing Go to Lichess Review" className="rounded shadow-sm"></img>
+              <figcaption className="cap1">Click the Go to Lichess Review button after a finished game.</figcaption>
+            </figure>
+            <figure className="imag2">
+              <figure className="popupimg">
+                <img src={PopupImg} alt="Extension popup with Open Lichess and Copy PGN actions" className="rounded shadow-sm"></img>
+                <figcaption className="text-sm text-gray-800 mt-2">Use quick actions from the popup.</figcaption>
+              </figure>
+            </figure>
+          </div>
+        </section>
+
         {/* Language Settings */}
         <section className="mb-8 pb-6 border-b border-gray-200">
           <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("languageSettings")}</h3>
