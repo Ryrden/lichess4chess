@@ -8,6 +8,7 @@ const outDir = resolve(__dirname, "dist_chrome");
 export default mergeConfig(
   baseConfig,
   defineConfig({
+    base: './',
     plugins: [
       crx({
         manifest: {
