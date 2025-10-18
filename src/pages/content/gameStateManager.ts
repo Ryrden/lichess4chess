@@ -14,8 +14,7 @@ const applyUserOptions = async (state: GameState): Promise<void> => {
   if (state.type === GAME_STATE.GAME_FINISHED.type) {
     if (settings.autoOpenLichess) {
       openLichessAnalysis().catch(err => console.error('Error opening Lichess:', err));
-    } 
-    injectLichessButton();
+    }
   }
 };
 
@@ -23,6 +22,10 @@ const updateState = (newState: GameState): void => {
   if (newState.type !== currentState.type) {
     currentState = newState;
 
+  if (newState.type === GAME_STATE.GAME_FINISHED.type) {
+    injectLichessButton();
+  }
+  
     applyUserOptions(currentState);
 
     Browser.runtime.sendMessage({
