@@ -65,7 +65,7 @@
     "description": "Description of language settings"
   },
   "lichessSettings": {
-    "message": "",
+    "message": "Integração com Lichess",
     "description": "Lichess settings section title"
   },
   "lichessInstantSettingsDesc": {
