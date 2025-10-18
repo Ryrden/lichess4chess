@@ -91,11 +91,31 @@ export default function Options() {
         {/* Language Settings */}
         <section className="mb-8 pb-6 border-b border-gray-200">
           <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("languageSettings")}</h3>
-          <p className="text-gray-600 mb-4">{getMessage("languageSettingsDesc")}</p>
-          
+          <p className="text-gray-600 mb-4">{getMessage("languageSettingsDesc")}</p>      
           <div className="mt-4">
             <LanguageSwitcher />
           </div>
+        </section>
+
+        {/* Analysis Settings */}
+        <section className="mb-8 pb-6 border-b border-gray-200">
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("lichessSettings")}</h3>
+          <div className="flex items-center mb-4">
+            <label className="flex items-center cursor-pointer">
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  className="sr-only"
+                  checked={settings.autoOpenLichess}
+                  onChange={() => handleToggle('autoOpenLichess')}
+                />
+                <div className={`block w-14 h-8 rounded-full ${settings.autoOpenLichess ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                <div className={`absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 ease-in-out ${settings.autoOpenLichess ? 'transform translate-x-6' : ''}`}></div>
+              </div>
+              <div className="ml-3 text-gray-700 font-medium">{getMessage("autoOpenLichess")}</div>
+            </label>
+          </div>
+          <p className="text-gray-600">{getMessage("lichessInstantSettingsDesc")}</p>
         </section>
         
         {/* Appearance Settings */}
@@ -121,33 +141,6 @@ export default function Options() {
             </div>
           </div>
         </section>
-        
-        {/* Features to be added */}
-        <section className="mb-8 pb-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("featuresToBeAdded")}</h3>
-          {/* Aqui vou adicionar um texto apenas dizendo q estou trabalhando em features para tornar o uso da extensão melhor ainda, por exemplo permitir abrir o lichess automagicamente apos o final da partida ou um botao de revisao na tela ao inves de apenas an extensao. */}
-          <p className="text-gray-600">{getMessage("featuresToBeAddedDesc")}</p>
-        </section>
-
-        {/* Analysis Settings */}
-        {/* <section className="mb-8 pb-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("analysisSettings")}</h3>
-          <div className="flex items-center mb-4">
-            <label className="flex items-center cursor-pointer">
-              <div className="relative">
-                <input
-                  type="checkbox"
-                  className="sr-only"
-                  checked={settings.autoOpenLichess}
-                  onChange={() => handleToggle('autoOpenLichess')}
-                />                <div className={`block w-14 h-8 rounded-full ${settings.autoOpenLichess ? 'bg-green-500' : 'bg-gray-300'}`}></div>
-                <div className={`absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 ease-in-out ${settings.autoOpenLichess ? 'transform translate-x-6' : ''}`}></div>
-              </div>
-              <div className="ml-3 text-gray-700 font-medium">{getMessage("autoOpenLichess")}</div>
-            </label>
-          </div>
-          <p className="text-gray-600">{getMessage("autoOpenDesc")}</p>
-        </section> */}
         
         {/* About Section */}
         <section className="mb-8">

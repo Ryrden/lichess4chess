@@ -2,18 +2,28 @@ import Browser from 'webextension-polyfill';
 import { GAME_STATE, GameState } from './types';
 import { detectGameState, getCurrentGamePgn } from './gameState';
 import { getMessage } from '@src/utils/i18n';
+import { getSettings } from '@src/utils/settings';
 import axios from 'axios';
 
 let currentState: GameState = GAME_STATE.NOT_CHESS_SITE;
 let observer: MutationObserver | null = null;
 
+const applyUserOptions = async (state: GameState): Promise<void> => {
+  const settings = await getSettings();
+
+  if (state.type === GAME_STATE.GAME_FINISHED.type) {
+    if (settings.autoOpenLichess) {
+      openLichessAnalysis().catch(err => console.error('Error opening Lichess:', err));
+    }
+    injectLichessButton();
+  }
+};
+
 const updateState = (newState: GameState): void => {
   if (newState.type !== currentState.type) {
     currentState = newState;
-
-    if (newState.type === GAME_STATE.GAME_FINISHED.type) {
-      injectLichessButton();
-    }
+  
+    applyUserOptions(currentState);
 
     Browser.runtime.sendMessage({
       action: 'updateGameState',
