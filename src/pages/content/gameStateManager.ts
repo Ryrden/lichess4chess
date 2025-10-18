@@ -2,17 +2,18 @@ import Browser from 'webextension-polyfill';
 import { GAME_STATE, GameState } from './types';
 import { detectGameState, getCurrentGamePgn } from './gameState';
 import { getMessage } from '@src/utils/i18n';
+import { getSettings } from '@src/utils/settings';
 import axios from 'axios';
 
 let currentState: GameState = GAME_STATE.NOT_CHESS_SITE;
 let observer: MutationObserver | null = null;
 
-const updateState = (newState: GameState): void => {
+const updateState = async (newState: GameState): Promise<void> => {
   if (newState.type !== currentState.type) {
     currentState = newState;
 
     if (newState.type === GAME_STATE.GAME_FINISHED.type) {
-      injectLichessButton();
+      await injectLichessButton();
     }
 
     Browser.runtime.sendMessage({
@@ -22,9 +23,9 @@ const updateState = (newState: GameState): void => {
   }
 };
 
-export const checkAndUpdateState = (): GameState => {
+export const checkAndUpdateState = async (): Promise<GameState> => {
   const newState = detectGameState();
-  updateState(newState);
+  await updateState(newState);
   return currentState;
 };
 
@@ -35,8 +36,8 @@ export const initStateObserver = (): void => {
   
   checkAndUpdateState();
   
-  observer = new MutationObserver(() => {
-    checkAndUpdateState();
+  observer = new MutationObserver(async () => {
+    await checkAndUpdateState();
   });
   
   observer.observe(document.body, { 
@@ -47,8 +48,8 @@ export const initStateObserver = (): void => {
   });
 };
 
-export const getCurrentState = (): GameState => {
-  checkAndUpdateState();
+export const getCurrentState = async (): Promise<GameState> => {
+  await checkAndUpdateState();
   return { ...currentState };
 };
 
@@ -70,7 +71,13 @@ export const openLichessAnalysis = async () => {
   }
 };
 
-const injectLichessButton = (): void => {
+const injectLichessButton = async (): Promise<void> => {
+  // Check if button injection is enabled
+  const settings = await getSettings();
+  if (!settings.injectGoToLichessButton) {
+    return;
+  }
+
   if (document.querySelector('.lichess4chess-review-button')) {
     return;
   }
@@ -99,9 +106,17 @@ const injectLichessButton = (): void => {
   buttonContainer.appendChild(lichessButton);
 };
 
+const removeLichessButton = (): void => {
+  const existingButton = document.querySelector('.lichess4chess-review-button');
+  if (existingButton) {
+    existingButton.remove();
+  }
+};
+
 export const cleanup = (): void => {
   if (observer) {
     observer.disconnect();
     observer = null;
   }
+  removeLichessButton();
 };
