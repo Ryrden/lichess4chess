@@ -16,6 +16,7 @@ const defaultSettings = {
   theme: 'system',
   // notifications: true, // TODO: TDB
   autoOpenLichess: false,
+  injectGoToLichessButton: true,
 };
 
 /**
@@ -26,7 +27,8 @@ Browser.runtime.onInstalled.addListener(async () => {
     'language',
     'theme',
     // 'notifications', // TODO: TDB
-    'autoOpenLichess'
+    'autoOpenLichess',
+    'injectGoToLichessButton'
   ]);
   
   const settingsToSet: Record<string, any> = {};
@@ -49,6 +51,10 @@ Browser.runtime.onInstalled.addListener(async () => {
   
   if (result.autoOpenLichess === undefined) {
     settingsToSet.autoOpenLichess = defaultSettings.autoOpenLichess;
+  }
+  
+  if (result.injectGoToLichessButton === undefined) {
+    settingsToSet.injectGoToLichessButton = defaultSettings.injectGoToLichessButton;
   }
   
   if (Object.keys(settingsToSet).length > 0) {

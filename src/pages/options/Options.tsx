@@ -45,6 +45,7 @@ export default function Options() {
       theme: settings.theme,
       notifications: settings.notifications,
       autoOpenLichess: settings.autoOpenLichess,
+      injectGoToLichessButton: settings.injectGoToLichessButton,
     });
     
     setIsSaved(true);
@@ -130,9 +131,29 @@ export default function Options() {
         </section>
 
         {/* Analysis Settings */}
-        {/* <section className="mb-8 pb-6 border-b border-gray-200">
+        <section className="mb-8 pb-6 border-b border-gray-200">
           <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("analysisSettings")}</h3>
+          
+          {/* Button Injection Setting */}
           <div className="flex items-center mb-4">
+            <label className="flex items-center cursor-pointer">
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  className="sr-only"
+                  checked={settings.injectGoToLichessButton}
+                  onChange={() => handleToggle('injectGoToLichessButton')}
+                />
+                <div className={`block w-14 h-8 rounded-full ${settings.injectGoToLichessButton ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                <div className={`absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 ease-in-out ${settings.injectGoToLichessButton ? 'transform translate-x-6' : ''}`}></div>
+              </div>
+              <div className="ml-3 text-gray-700 font-medium">{getMessage("injectGoToLichessButton")}</div>
+            </label>
+          </div>
+          <p className="text-gray-600 mb-6">{getMessage("injectGoToLichessButtonDesc")}</p>
+          
+          {/* Auto-open setting (commented out for now) */}
+          {/* <div className="flex items-center mb-4">
             <label className="flex items-center cursor-pointer">
               <div className="relative">
                 <input
@@ -146,8 +167,8 @@ export default function Options() {
               <div className="ml-3 text-gray-700 font-medium">{getMessage("autoOpenLichess")}</div>
             </label>
           </div>
-          <p className="text-gray-600">{getMessage("autoOpenDesc")}</p>
-        </section> */}
+          <p className="text-gray-600">{getMessage("autoOpenDesc")}</p> */}
+        </section>
         
         {/* About Section */}
         <section className="mb-8">

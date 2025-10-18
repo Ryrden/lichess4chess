@@ -8,6 +8,7 @@ export interface Settings {
   theme: ThemeOption;
   notifications: boolean;
   autoOpenLichess: boolean;
+  injectGoToLichessButton: boolean;
 }
 
 export const defaultSettings: Settings = {
@@ -15,6 +16,7 @@ export const defaultSettings: Settings = {
   theme: 'system',
   notifications: true,
   autoOpenLichess: false,
+  injectGoToLichessButton: true,
 };
 
 /**
@@ -26,7 +28,8 @@ export async function getSettings(): Promise<Settings> {
   const result = await Browser.storage.local.get([
     'theme', 
     'notifications', 
-    'autoOpenLichess'
+    'autoOpenLichess',
+    'injectGoToLichessButton'
   ]);
   
   return {
@@ -34,6 +37,7 @@ export async function getSettings(): Promise<Settings> {
     theme: (result.theme as ThemeOption) || defaultSettings.theme,
     notifications: result.notifications !== undefined ? result.notifications : defaultSettings.notifications,
     autoOpenLichess: result.autoOpenLichess !== undefined ? result.autoOpenLichess : defaultSettings.autoOpenLichess,
+    injectGoToLichessButton: result.injectGoToLichessButton !== undefined ? result.injectGoToLichessButton : defaultSettings.injectGoToLichessButton,
   };
 }
 
