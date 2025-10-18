@@ -97,10 +97,9 @@ export default function Options() {
           </div>
         </section>
 
-      <main className="bg-white rounded-lg shadow-md p-6 mb-6">
         {/* Analysis Settings */}
         <section className="mb-8 pb-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("analysisSettings")}</h3>
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("lichessSettings")}</h3>
           <div className="flex items-center mb-4">
             <label className="flex items-center cursor-pointer">
               <div className="relative">
@@ -116,7 +115,7 @@ export default function Options() {
               <div className="ml-3 text-gray-700 font-medium">{getMessage("autoOpenLichess")}</div>
             </label>
           </div>
-          <p className="text-gray-600">{getMessage("autoOpenDesc")}</p>
+          <p className="text-gray-600">{getMessage("lichessInstantSettingsDesc")}</p>
         </section>
         
         {/* Appearance Settings */}
@@ -212,7 +211,6 @@ export default function Options() {
             {getMessage("settingsReset")}
           </div>
         )}
-      </main>
       </main>
 
       <footer className="mt-8 text-center text-gray-500 text-sm">
