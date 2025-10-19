@@ -190,5 +190,45 @@
   "suggestFeature": {
     "message": "Tem uma sugestão de feature? Abra uma issue no github :) ficarei feliz de implementa-la",
     "description": "Message for suggesting a feature"
+  },
+  "errorTitle": {
+    "message": "Erro do Lichess4Chess",
+    "description": "Title for error notifications"
+  },
+  "errorNetwork": {
+    "message": "Erro de rede. Por favor, verifique sua conexão com a internet.",
+    "description": "Message for network errors"
+  },
+  "errorTimeout": {
+    "message": "A solicitação expirou. Por favor, tente novamente.",
+    "description": "Message for timeout errors"
+  },
+  "errorRateLimit": {
+    "message": "Limite de taxa excedido. Por favor, aguarde um momento e tente novamente.",
+    "description": "Message for rate limit errors"
+  },
+  "errorNotFound": {
+    "message": "Partida não encontrada. A partida pode ser muito antiga ou indisponível.",
+    "description": "Message for not found errors"
+  },
+  "errorServer": {
+    "message": "Erro no servidor. Por favor, tente novamente mais tarde.",
+    "description": "Message for server errors"
+  },
+  "errorRetryHint": {
+    "message": "Você pode tentar novamente.",
+    "description": "Hint shown when an error is retryable"
+  },
+  "lichessAnalyzePageDetected": {
+    "message": "Na página de análise do Lichess",
+    "description": "Message shown when on Lichess analyze page"
+  },
+  "lichessReviewPageDetected": {
+    "message": "Na página de estudo/revisão do Lichess",
+    "description": "Message shown when on Lichess review page"
+  },
+  "exportToChessCom": {
+    "message": "Exportar para Chess.com",
+    "description": "Button text for exporting to Chess.com"
   }
 }

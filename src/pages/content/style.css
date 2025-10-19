@@ -1,5 +1,138 @@
 @import "tailwindcss";
 
-.your-class {
-    color: aliceblue;
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.lichess4chess-floating-btn {
+  @apply fixed bottom-5 right-5 bg-green-600 hover:bg-green-700 text-white border-none rounded-lg px-5 py-3 text-sm font-semibold cursor-pointer shadow-lg z-[9999] flex items-center gap-2 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl;
+}
+
+.lichess4chess-floating-btn svg {
+  @apply w-5 h-5;
+}
+
+.lichess4chess-floating-btn span {
+  @apply block;
+}
+
+@media (max-width: 768px) {
+  .lichess4chess-floating-btn {
+    @apply rounded-full p-3;
+  }
+  
+  .lichess4chess-floating-btn span {
+    @apply hidden;
+  }
+}
+
+.lichess4chess-modal {
+  @apply fixed inset-0 z-[10000];
+}
+
+.lichess4chess-modal-overlay {
+  @apply absolute inset-0 bg-black/60 backdrop-blur-sm;
+}
+
+.lichess4chess-modal-content {
+  @apply absolute bg-white rounded-xl shadow-2xl max-w-3xl w-[90%] max-h-[80vh] flex flex-col;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: modalFadeIn 0.2s forwards;
+}
+
+.lichess4chess-modal-header {
+  @apply px-6 py-5 border-b border-gray-200 flex justify-between items-center;
+}
+
+.lichess4chess-modal-header h2 {
+  @apply m-0 text-xl font-semibold text-gray-800;
+}
+
+.lichess4chess-close-btn {
+  @apply bg-transparent border-none text-4xl text-gray-600 hover:bg-gray-100 hover:text-gray-800 cursor-pointer p-0 w-8 h-8 flex items-center justify-center rounded transition-all;
+}
+
+.lichess4chess-modal-body {
+  @apply p-6 overflow-y-auto flex-1;
+}
+
+.lichess4chess-loading {
+  @apply text-center py-10 text-gray-600 text-base;
+}
+
+.lichess4chess-username-form {
+  @apply flex flex-col gap-4 max-w-md mx-auto;
+}
+
+.lichess4chess-username-form label {
+  @apply font-semibold;
+}
+
+.lichess4chess-input {
+  @apply px-4 py-3 border-2 border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-600 transition-colors w-full;
+}
+
+.lichess4chess-btn {
+  @apply px-6 py-3 bg-green-600 hover:bg-green-700 text-white border-none rounded-lg text-sm font-semibold cursor-pointer transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed;
+}
+
+.lichess4chess-error {
+  @apply p-4 bg-red-50 border border-red-200 rounded-lg text-red-600 text-center;
+}
+
+.lichess4chess-change-user {
+  @apply text-center mt-4;
+}
+
+.lichess4chess-change-user button {
+  @apply bg-transparent border-none text-green-600 cursor-pointer underline text-sm;
+}
+
+.lichess4chess-search {
+  @apply mb-4;
+}
+
+.lichess4chess-game-list {
+  @apply flex flex-col gap-2;
+}
+
+.lichess4chess-game-item {
+  @apply p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all hover:border-green-600 hover:bg-green-50 hover:translate-x-1 flex justify-between items-center;
+}
+
+.lichess4chess-game-info {
+  @apply flex-1;
+}
+
+.lichess4chess-game-players {
+  @apply font-semibold text-gray-800 mb-1;
+}
+
+.lichess4chess-game-meta {
+  @apply text-xs text-gray-600;
+}
+
+.lichess4chess-game-result {
+  @apply font-semibold text-lg text-green-600 ml-4;
+}
+
+.lichess4chess-loading-indicator {
+  @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-12 py-6 rounded-lg shadow-lg z-[10001] text-base font-semibold;
+}
+
+.lichess4chess-loading-indicator.success {
+  @apply bg-green-100 text-green-800;
+}
+
+.lichess4chess-loading-indicator.error {
+  @apply bg-red-100 text-red-800 text-sm;
 }
