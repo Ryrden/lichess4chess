@@ -116,7 +116,7 @@ export default function Options() {
       </header>
       
       <main className="bg-white rounded-lg shadow-md p-6 mb-6">
-        {/* {How to Use Guide} */}
+        {/* How to Use Guide */}
   <section id="how-to-use" className="mb-8 pb-6 border-b border-gray-200">
           <h3 className="text-lg font-semibold text-gray-700 mb-4">How To Use</h3>
           <ol className="steps">
