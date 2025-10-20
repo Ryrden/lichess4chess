@@ -168,6 +168,20 @@ export default function Options() {
             <span className="text-gray-600">{extensionVersion}</span>
           </div>
           <p className="text-gray-600">{getMessage("aboutDesc")}</p>
+          <div className='mt-4'>
+            <h4 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("thanksContributors")}</h4>
+            <a 
+              href="https://github.com/ryrden/lichess4chess/graphs/contributors" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              <img 
+                src="https://contrib.rocks/image?repo=ryrden/lichess4chess" 
+                alt="Contributors"
+                className="rounded-lg"
+              />
+            </a>
+          </div>
           <div className="mt-4">
             <a 
               href="https://chromewebstore.google.com/detail/lichess4chess/jenelhcabimbmbhoeejapoapolemplop/reviews" 
@@ -201,7 +215,8 @@ export default function Options() {
             </a>
           </div>
         </section>
-          {/* Action Buttons */}
+
+        {/* Action Buttons */}
         <div className="flex flex-wrap gap-4 mt-8">
           <button
             onClick={handleSaveSettings}
