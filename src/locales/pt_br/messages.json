@@ -64,6 +64,14 @@
     "message": "Selecione seu idioma preferido. A extensão será reiniciada para aplicar as mudanças.",
     "description": "Description of language settings"
   },
+  "lichessSettings": {
+    "message": "Integração com Lichess",
+    "description": "Lichess settings section title"
+  },
+  "lichessInstantSettingsDesc": {
+    "message": "Abrir automaticamente a análise do Lichess quando um jogo for concluído.",
+    "description": "Description of Lichess settings"
+  },
   "language_en": {
     "message": "Inglês",
     "description": "English language name"

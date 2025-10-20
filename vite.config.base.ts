@@ -24,6 +24,12 @@ export const baseManifest = {
         default_locale: "en",
       }
     : {}),
+  web_accessible_resources: [
+    {
+      resources: ["contentStyle.css", "icon-128.png", "icon-32.png", "original.png", "favicon.png", "ui.svg", "_locales/*/messages.json"],
+      matches: ["*://*.chess.com/*"]
+    }
+  ],
 } as ManifestV3Export;
 
 export const baseBuildOptions: BuildOptions = {
