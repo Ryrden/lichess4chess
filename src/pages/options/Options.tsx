@@ -97,14 +97,6 @@ export default function Options() {
             <LanguageSwitcher />
           </div>
         </section>
-
-        {/* Features to be added */}
-        <section className="mb-8 pb-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("featuresToBeAdded")}</h3>
-          {/* Aqui vou adicionar um texto apenas dizendo q estou trabalhando em features para tornar o uso da extensão melhor ainda, por exemplo permitir abrir o lichess automagicamente apos o final da partida ou um botao de revisao na tela ao inves de apenas an extensao. */}
-          <p className="text-gray-600">{getMessage("featuresToBeAddedDesc")}</p>
-        </section>
-
         {/* Analysis Settings */}
         <section className="mb-8 pb-6 border-b border-gray-200">
           <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("analysisSettings")}</h3>
@@ -127,8 +119,7 @@ export default function Options() {
           </div>
           <p className="text-gray-600 mb-6">{getMessage("injectGoToLichessButtonDesc")}</p>
           
-          {/* Auto-open setting (commented out for now) */}
-          {/* <div className="flex items-center mb-4">
+          <div className="flex items-center mb-4">
             <label className="flex items-center cursor-pointer">
               <div className="relative">
                 <input
@@ -142,7 +133,7 @@ export default function Options() {
               <div className="ml-3 text-gray-700 font-medium">{getMessage("autoOpenLichess")}</div>
             </label>
           </div>
-          <p className="text-gray-600">{getMessage("autoOpenDesc")}</p> */}
+          <p className="text-gray-600">{getMessage("autoOpenDesc")}</p>
         </section>
         
         {/* Appearance Settings */}
