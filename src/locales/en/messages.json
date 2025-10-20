@@ -124,6 +124,14 @@
     "message": "Automatically open Lichess analysis when a game is completed",
     "description": "Description for auto-open setting"
   },
+  "injectGoToLichessButton": {
+    "message": "Inject 'Go to Lichess Review' button",
+    "description": "Toggle for injecting the Lichess review button on Chess.com"
+  },
+  "injectGoToLichessButtonDesc": {
+    "message": "Add a 'Go to Lichess Review' button directly on Chess.com game pages when a game is finished",
+    "description": "Description for button injection setting"
+  },
   "aboutSection": {
     "message": "About",
     "description": "About section title"

@@ -8,22 +8,18 @@ import axios from 'axios';
 let currentState: GameState = GAME_STATE.NOT_CHESS_SITE;
 let observer: MutationObserver | null = null;
 
-const applyUserOptions = async (state: GameState): Promise<void> => {
-  const settings = await getSettings();
-
-  if (state.type === GAME_STATE.GAME_FINISHED.type) {
-    if (settings.autoOpenLichess) {
-      openLichessAnalysis().catch(err => console.error('Error opening Lichess:', err));
-    }
-    injectLichessButton();
-  }
-};
-
-const updateState = (newState: GameState): void => {
+const updateState = async (newState: GameState): Promise<void> => {
   if (newState.type !== currentState.type) {
     currentState = newState;
-  
-    applyUserOptions(currentState);
+
+    if (newState.type === GAME_STATE.GAME_FINISHED.type) {
+      // Respect user settings for auto-open and button injection
+      const settings = await getSettings();
+      if (settings.autoOpenLichess) {
+        openLichessAnalysis().catch(err => console.error('Error opening Lichess:', err));
+      }
+      await injectLichessButton();
+    }
 
     Browser.runtime.sendMessage({
       action: 'updateGameState',
@@ -32,9 +28,9 @@ const updateState = (newState: GameState): void => {
   }
 };
 
-export const checkAndUpdateState = (): GameState => {
+export const checkAndUpdateState = async (): Promise<GameState> => {
   const newState = detectGameState();
-  updateState(newState);
+  await updateState(newState);
   return currentState;
 };
 
@@ -45,8 +41,8 @@ export const initStateObserver = (): void => {
   
   checkAndUpdateState();
   
-  observer = new MutationObserver(() => {
-    checkAndUpdateState();
+  observer = new MutationObserver(async () => {
+    await checkAndUpdateState();
   });
   
   observer.observe(document.body, { 
@@ -57,8 +53,8 @@ export const initStateObserver = (): void => {
   });
 };
 
-export const getCurrentState = (): GameState => {
-  checkAndUpdateState();
+export const getCurrentState = async (): Promise<GameState> => {
+  await checkAndUpdateState();
   return { ...currentState };
 };
 
@@ -80,7 +76,13 @@ export const openLichessAnalysis = async () => {
   }
 };
 
-const injectLichessButton = (): void => {
+const injectLichessButton = async (): Promise<void> => {
+  // Check if button injection is enabled
+  const settings = await getSettings();
+  if (!settings.injectGoToLichessButton) {
+    return;
+  }
+
   if (document.querySelector('.lichess4chess-review-button')) {
     return;
   }
@@ -109,9 +111,19 @@ const injectLichessButton = (): void => {
   buttonContainer.appendChild(lichessButton);
 };
 
+const removeLichessButton = (): void => {
+  const existingButton = document.querySelector('.lichess4chess-review-button');
+  if (existingButton) {
+    existingButton.remove();
+  }
+};
+
 export const cleanup = (): void => {
   if (observer) {
     observer.disconnect();
     observer = null;
   }
+  removeLichessButton();
 };
+
+

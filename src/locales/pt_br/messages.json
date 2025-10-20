@@ -123,6 +123,14 @@
     "message": "Abrir a análise do Lichess automaticamente quando uma partida for concluída",
     "description": "Description for auto-open setting"
   },
+  "injectGoToLichessButton": {
+    "message": "Injetar botão 'Vá para a revisão do Lichess'",
+    "description": "Toggle for injecting the Lichess review button on Chess.com"
+  },
+  "injectGoToLichessButtonDesc": {
+    "message": "Adicionar um botão 'Vá para a revisão do Lichess' diretamente nas páginas de partida do Chess.com quando uma partida for concluída",
+    "description": "Description for button injection setting"
+  },
   "aboutSection": {
     "message": "Sobre",
     "description": "About section title"
