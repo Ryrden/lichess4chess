@@ -8,18 +8,24 @@ import axios from 'axios';
 let currentState: GameState = GAME_STATE.NOT_CHESS_SITE;
 let observer: MutationObserver | null = null;
 
-const updateState = async (newState: GameState): Promise<void> => {
+const applyUserOptions = async (state: GameState): Promise<void> => {
+  const settings = await getSettings();
+
+  if (state.type === GAME_STATE.GAME_FINISHED.type) {
+    if (settings.autoOpenLichess) {
+      openLichessAnalysis().catch(err => console.error('Error opening Lichess:', err));
+    }
+    // injectLichessButton internally respects the injectGoToLichessButton setting
+    injectLichessButton();
+  }
+};
+
+const updateState = (newState: GameState): void => {
   if (newState.type !== currentState.type) {
     currentState = newState;
 
-    if (newState.type === GAME_STATE.GAME_FINISHED.type) {
-      // Respect user settings for auto-open and button injection
-      const settings = await getSettings();
-      if (settings.autoOpenLichess) {
-        openLichessAnalysis().catch(err => console.error('Error opening Lichess:', err));
-      }
-      await injectLichessButton();
-    }
+    // Apply user options (auto-open and conditional button injection)
+    applyUserOptions(currentState);
 
     Browser.runtime.sendMessage({
       action: 'updateGameState',
@@ -28,9 +34,9 @@ const updateState = async (newState: GameState): Promise<void> => {
   }
 };
 
-export const checkAndUpdateState = async (): Promise<GameState> => {
+export const checkAndUpdateState = (): GameState => {
   const newState = detectGameState();
-  await updateState(newState);
+  updateState(newState);
   return currentState;
 };
 
@@ -41,8 +47,8 @@ export const initStateObserver = (): void => {
   
   checkAndUpdateState();
   
-  observer = new MutationObserver(async () => {
-    await checkAndUpdateState();
+  observer = new MutationObserver(() => {
+    checkAndUpdateState();
   });
   
   observer.observe(document.body, { 
@@ -53,8 +59,8 @@ export const initStateObserver = (): void => {
   });
 };
 
-export const getCurrentState = async (): Promise<GameState> => {
-  await checkAndUpdateState();
+export const getCurrentState = (): GameState => {
+  checkAndUpdateState();
   return { ...currentState };
 };
 
@@ -125,5 +131,3 @@ export const cleanup = (): void => {
   }
   removeLichessButton();
 };
-
-
