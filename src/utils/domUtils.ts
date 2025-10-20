@@ -1,5 +1,5 @@
 /**
- * S''fely clicks an element by selector with error handling
+ * Safely clicks an element by selector with error handling
  */
 export async function clickElement(selector: string, errorMessage: string): Promise<void> {
   const element = document.querySelector(selector);
