@@ -36,9 +36,9 @@
 
 
 .imag2 {
-  width: 22rem; /* larger but reasonable for desktop */
+  width: 22rem; 
   max-width: 100%;
-  height: auto; /* let the image determine height to preserve aspect ratio */
+  height: auto; 
 }
 .popupimg img {
   display: block;

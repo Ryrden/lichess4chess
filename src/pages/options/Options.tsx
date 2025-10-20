@@ -120,16 +120,16 @@ export default function Options() {
             <li>If import fails, paste the PGN at <a href="https://lichess.org/import" target="_blank" rel="noreferrer">lichess.org/import</a>.</li>
           </ol>
           <div className="image1">
-            <figure className="gamoverimg">
+             <figure className="imag2 popupimg">
               <img src={GameOverImg} alt="Game over dialog showing Go to Lichess Review" className="rounded shadow-sm"></img>
+              <figcaption className="text-sm text-gray-800 mt-2">Use quick actions from the popup.</figcaption>
+            </figure>
+            
+            <figure className="gamoverimg">
+              <img src={PopupImg} alt="Extension popup with Open Lichess and Copy PGN actions" className="rounded shadow-sm"></img>
               <figcaption className="cap1">Click the Go to Lichess Review button after a finished game.</figcaption>
             </figure>
-            <figure className="imag2">
-              <figure className="popupimg">
-                <img src={PopupImg} alt="Extension popup with Open Lichess and Copy PGN actions" className="rounded shadow-sm"></img>
-                <figcaption className="text-sm text-gray-800 mt-2">Use quick actions from the popup.</figcaption>
-              </figure>
-            </figure>
+
           </div>
         </section>
 
