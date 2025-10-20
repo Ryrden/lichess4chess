@@ -124,7 +124,7 @@
     "description": "Description for auto-open setting"
   },
   "injectGoToLichessButton": {
-    "message": "Injetar botão 'Vá para a revisão do Lichess'",
+    "message": "Adicionar botão 'Vá para a revisão do Lichess'",
     "description": "Toggle for injecting the Lichess review button on Chess.com"
   },
   "injectGoToLichessButtonDesc": {
