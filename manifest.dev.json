@@ -11,9 +11,14 @@
         "contentStyle.css",
         "dev-icon-128.png",
         "dev-icon-32.png",
-        "ui.svg"
+        "ui.svg",
+        "_locales/*/messages.json"
       ],
-      "matches": ["*://*.chess.com/*"]
+      "matches": ["*://*.chess.com/*", "*://*.lichess.org/*"]
     }
+  ],
+  "host_permissions": [
+    "https://api.chess.com/*",
+    "https://lichess.org/*"
   ]
 }

@@ -26,7 +26,7 @@
     "48": "icon-48.png",
     "128": "icon-128.png"
   },
-  "permissions": ["activeTab", "storage"],
+  "permissions": ["activeTab", "storage", "notifications"],
   "background": {
     "service_worker": "src/pages/background/index.ts",
     "type": "module"
@@ -40,8 +40,20 @@
   ],
   "devtools_page": "src/pages/devtools/index.html",  "web_accessible_resources": [
     {
-      "resources": ["contentStyle.css", "icon-128.png", "icon-32.png", "original.png", "favicon.png", "ui.svg"],
-      "matches": ["*://*.chess.com/*"]
+      "resources": [
+        "contentStyle.css", 
+        "icon-128.png", 
+        "icon-32.png", 
+        "original.png", 
+        "favicon.png", 
+        "ui.svg",
+        "_locales/*/messages.json"
+      ],
+      "matches": ["*://*.chess.com/*", "*://*.lichess.org/*"]
     }
+  ],
+  "host_permissions": [
+    "https://api.chess.com/*",
+    "https://lichess.org/*"
   ]
 }

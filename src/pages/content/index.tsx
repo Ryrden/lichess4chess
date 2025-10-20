@@ -1,6 +1,8 @@
 import Browser from 'webextension-polyfill';
 import { getCurrentState, initStateObserver, openLichessAnalysis } from './gameStateManager';
 import { loadLanguageMessages, getCurrentLanguage } from '@src/utils/i18n';
+import { initializeGameSelectorUI } from '@src/service/ui';
+import './style.css';
 import { getSettings } from '@src/utils/settings';
 
 const initialize = async (): Promise<void> => {
@@ -9,6 +11,7 @@ const initialize = async (): Promise<void> => {
   await loadLanguageMessages(lang);
   
   initStateObserver();
+  initializeGameSelectorUI();
   
   Browser.runtime.onMessage.addListener((message: any, sender: any) => {
     switch (message.action) {

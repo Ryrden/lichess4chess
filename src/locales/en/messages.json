@@ -175,5 +175,45 @@
   "suggestFeature": {
     "message": "Do you have a feature suggestion? Open an issue on GitHub :) I would be happy to implement it",
     "description": "Message for suggesting a feature"
+  },
+  "errorTitle": {
+    "message": "Lichess4Chess Error",
+    "description": "Title for error notifications"
+  },
+  "errorNetwork": {
+    "message": "Network error occurred. Please check your internet connection.",
+    "description": "Message for network errors"
+  },
+  "errorTimeout": {
+    "message": "Request timed out. Please try again.",
+    "description": "Message for timeout errors"
+  },
+  "errorRateLimit": {
+    "message": "Rate limit exceeded. Please wait a moment and try again.",
+    "description": "Message for rate limit errors"
+  },
+  "errorNotFound": {
+    "message": "Game not found. The game might be too old or unavailable.",
+    "description": "Message for not found errors"
+  },
+  "errorServer": {
+    "message": "Server error occurred. Please try again later.",
+    "description": "Message for server errors"
+  },
+  "errorRetryHint": {
+    "message": "You can try again.",
+    "description": "Hint shown when an error is retryable"
+  },
+  "lichessAnalyzePageDetected": {
+    "message": "On Lichess analysis page",
+    "description": "Message shown when on Lichess analyze page"
+  },
+  "lichessReviewPageDetected": {
+    "message": "On Lichess study/review page",
+    "description": "Message shown when on Lichess review page"
+  },
+  "exportToChessCom": {
+    "message": "Export to Chess.com",
+    "description": "Button text for exporting to Chess.com"
   }
 }
