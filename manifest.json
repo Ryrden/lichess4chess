@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Lichess4Chess",
   "description": "Lichess Analysis for Chess.com Games",
-  "version": "0.6.0",
+  "version": "0.7.1",
   "author": {
     "name": "ryrden",
     "email": "ryanssteles@gmail.com"
