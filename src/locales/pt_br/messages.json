@@ -238,5 +238,9 @@
   "exportToChessCom": {
     "message": "Exportar para Chess.com",
     "description": "Button text for exporting to Chess.com"
+  },
+  "thanksContributors": {
+    "message": "Obrigado a todos os colaboradores",
+    "description": "Title for contributors section"
   }
 }
