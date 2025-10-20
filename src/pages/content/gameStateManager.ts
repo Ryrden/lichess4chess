@@ -15,6 +15,7 @@ const applyUserOptions = async (state: GameState): Promise<void> => {
     if (settings.autoOpenLichess) {
       openLichessAnalysis().catch(err => console.error('Error opening Lichess:', err));
     }
+    // injectLichessButton internally respects the injectGoToLichessButton setting
     injectLichessButton();
   }
 };
@@ -22,7 +23,8 @@ const applyUserOptions = async (state: GameState): Promise<void> => {
 const updateState = (newState: GameState): void => {
   if (newState.type !== currentState.type) {
     currentState = newState;
-  
+
+    // Apply user options (auto-open and conditional button injection)
     applyUserOptions(currentState);
 
     Browser.runtime.sendMessage({
@@ -80,7 +82,13 @@ export const openLichessAnalysis = async () => {
   }
 };
 
-const injectLichessButton = (): void => {
+const injectLichessButton = async (): Promise<void> => {
+  // Check if button injection is enabled
+  const settings = await getSettings();
+  if (!settings.injectGoToLichessButton) {
+    return;
+  }
+
   if (document.querySelector('.lichess4chess-review-button')) {
     return;
   }
@@ -109,9 +117,17 @@ const injectLichessButton = (): void => {
   buttonContainer.appendChild(lichessButton);
 };
 
+const removeLichessButton = (): void => {
+  const existingButton = document.querySelector('.lichess4chess-review-button');
+  if (existingButton) {
+    existingButton.remove();
+  }
+};
+
 export const cleanup = (): void => {
   if (observer) {
     observer.disconnect();
     observer = null;
   }
+  removeLichessButton();
 };
