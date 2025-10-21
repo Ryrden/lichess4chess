@@ -52,7 +52,7 @@ export default function LanguageSwitcher({ compact = false }: LanguageSwitcherPr
   };
   
   const getFlagId = (langCode: LanguageCode) => {
-    return langCode === 'pt_BR' ? 'flag-br' : 'flag-us';
+    return langCode === 'pt_br' ? 'flag-br' : 'flag-us';
   };
   if (compact) {
     return (
@@ -62,7 +62,7 @@ export default function LanguageSwitcher({ compact = false }: LanguageSwitcherPr
           onClick={() => setIsOpen(!isOpen)}
           title={LANGUAGES[currentLanguage]}
         >          <svg className="w-6 h-6 rounded-full overflow-hidden border border-gray-200 dark:border-gray-600">
-            <use href={`/ui.svg#${getFlagId(currentLanguage)}`} />
+            <use href={`#${getFlagId(currentLanguage)}`} />
           </svg>
         </button>
           {isOpen && (
