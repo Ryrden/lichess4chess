@@ -12,6 +12,13 @@ export default function Popup() {
   const [version, setVersion] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [onAction, setOnAction] = useState(false);
+  const [theme, setTheme] = useState<string>('unknown');
+
+  const applyCurrentTheme = async () => {
+    const settings = await getSettings();
+    applyTheme(settings.theme);
+    setTheme(settings.theme);
+  };
 
   useEffect(() => {
     const getExtensionInfo = async () => {
@@ -24,11 +31,18 @@ export default function Popup() {
     };
 
     getExtensionInfo();
+    
+    applyCurrentTheme();
 
     const handleMessage = (message: any) => {
       if (message.action === "updateGameState" && message.state) {
         setGameState(message.state);
         setIsLoading(false);
+      } else if (message.action === "settingsChanged" && message.settings) {
+        if (message.settings.theme) {
+          applyTheme(message.settings.theme);
+          setTheme(message.settings.theme);
+        }
       }
     };
 
@@ -101,9 +115,22 @@ export default function Popup() {
     }
   };
   return (
-    <div className="flex flex-col bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+    <div 
+      key={theme} // Force re-render when theme changes
+      className="flex flex-col bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+      style={{
+        backgroundColor: theme === 'light' ? '#ffffff' : theme === 'dark' ? '#1f2937' : undefined,
+        color: theme === 'light' ? '#1f2937' : theme === 'dark' ? '#e5e7eb' : undefined
+      }}
+    >
       {" "}
-      <header className="p-4 border-b border-gray-200 dark:border-gray-700"><div className="flex justify-between mb-2">          <button
+      <header 
+        className="p-4 border-b border-gray-200 dark:border-gray-700"
+        style={{
+          backgroundColor: theme === 'light' ? '#ffffff' : theme === 'dark' ? '#1f2937' : undefined,
+          borderColor: theme === 'light' ? '#e5e7eb' : theme === 'dark' ? '#374151' : undefined
+        }}
+      ><div className="flex justify-between mb-2">          <button
             onClick={() => Browser.tabs.create({ url: Browser.runtime.getURL('src/pages/options/index.html') })}
             className="text-gray-500 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-500 transition-colors cursor-pointer"
             title={getMessage("optionsTitle") || "Options"}
@@ -142,7 +169,13 @@ export default function Popup() {
           </p>
         </div>
       </header>
-      <main className="flex-grow flex flex-col items-center justify-center p-6">        {isLoading ? (
+      <main 
+        className="flex-grow flex flex-col items-center justify-center p-6"
+        style={{
+          backgroundColor: theme === 'light' ? '#ffffff' : theme === 'dark' ? '#1f2937' : undefined,
+          color: theme === 'light' ? '#1f2937' : theme === 'dark' ? '#e5e7eb' : undefined
+        }}
+      >        {isLoading ? (
           <p className="mb-6 text-gray-600 dark:text-gray-400 text-center">
             {getMessage("detectingGameState")}
           </p>
@@ -163,7 +196,14 @@ export default function Popup() {
         </button>
       </main>
 
-      <footer className="p-4 border-t border-gray-200 text-center">
+      <footer 
+        className="p-4 border-t border-gray-200 dark:border-gray-700 text-center"
+        style={{
+          backgroundColor: theme === 'light' ? '#ffffff' : theme === 'dark' ? '#1f2937' : undefined,
+          borderColor: theme === 'light' ? '#e5e7eb' : theme === 'dark' ? '#374151' : undefined,
+          color: theme === 'light' ? '#1f2937' : theme === 'dark' ? '#e5e7eb' : undefined
+        }}
+      >
         <div className="flex flex-col items-center gap-2">
           <div className="flex space-x-4 items-center">            <a
               href="https://github.com/ryrden/lichess4chess"

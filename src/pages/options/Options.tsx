@@ -6,6 +6,7 @@ import { Settings, ThemeOption, defaultSettings, getSettings, saveSettings, rese
 
 export default function Options() {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
+  const [originalSettings, setOriginalSettings] = useState<Settings>(defaultSettings);
   const [isSaved, setIsSaved] = useState(false);
   const [isReset, setIsReset] = useState(false);
   const [extensionVersion, setExtensionVersion] = useState('');
@@ -14,6 +15,7 @@ export default function Options() {
     const fetchSettings = async () => {
       const currentSettings = await getSettings();
       setSettings(currentSettings);
+      setOriginalSettings(currentSettings); // Store original settings
       
       applyTheme(currentSettings.theme);
       
@@ -31,8 +33,21 @@ export default function Options() {
     };
     
     mediaQuery.addEventListener('change', handleThemeChange);
+    
+    // Warn user if they try to leave with unsaved changes
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (JSON.stringify(settings) !== JSON.stringify(originalSettings)) {
+        e.preventDefault();
+        e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+        return 'You have unsaved changes. Are you sure you want to leave?';
+      }
+    };
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    
     return () => {
       mediaQuery.removeEventListener('change', handleThemeChange);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
   
@@ -48,6 +63,9 @@ export default function Options() {
       injectGoToLichessButton: settings.injectGoToLichessButton,
     });
     
+    // Update original settings to current settings after saving
+    setOriginalSettings(settings);
+    
     setIsSaved(true);
     setTimeout(() => {
       setIsSaved(false);
@@ -57,12 +75,18 @@ export default function Options() {
   const handleResetSettings = async () => {
     const newSettings = { ...defaultSettings };
     setSettings(newSettings);
+    setOriginalSettings(newSettings);
     await resetAllSettings();
     
     setIsReset(true);
     setTimeout(() => {
       setIsReset(false);
     }, 3000);
+  };
+
+  const handleCancelChanges = () => {
+    setSettings(originalSettings);
+    applyTheme(originalSettings.theme);
   };
   
   const handleToggle = (key: keyof Settings) => {
@@ -75,7 +99,7 @@ export default function Options() {
   };
 
   return (
-    <div className="container max-w-3xl mx-auto p-6">
+    <div className="container max-w-3xl mx-auto p-6 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
       <header className="mb-8 text-center">
         <div className="flex items-center justify-center mb-4">
           <img
@@ -85,21 +109,21 @@ export default function Options() {
           />
           <h1 className="text-2xl font-bold text-green-600">Lichess4Chess</h1>
         </div>
-        <h2 className="text-xl font-semibold text-gray-700">{getMessage("optionsTitle")}</h2>
+        <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300">{getMessage("optionsTitle")}</h2>
       </header>
       
-      <main className="bg-white rounded-lg shadow-md p-6 mb-6">
+      <main className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
         {/* Language Settings */}
-        <section className="mb-8 pb-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("languageSettings")}</h3>
-          <p className="text-gray-600 mb-4">{getMessage("languageSettingsDesc")}</p>      
+        <section className="mb-8 pb-6 border-b border-gray-200 dark:border-gray-600">
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">{getMessage("languageSettings")}</h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">{getMessage("languageSettingsDesc")}</p>      
           <div className="mt-4">
             <LanguageSwitcher />
           </div>
         </section>
         {/* Analysis Settings */}
-        <section className="mb-8 pb-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("analysisSettings")}</h3>
+        <section className="mb-8 pb-6 border-b border-gray-200 dark:border-gray-600">
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">{getMessage("analysisSettings")}</h3>
           
           {/* Button Injection Setting */}
           <div className="flex items-center mb-4">
@@ -114,10 +138,10 @@ export default function Options() {
                 <div className={`block w-14 h-8 rounded-full ${settings.injectGoToLichessButton ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                 <div className={`absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 ease-in-out ${settings.injectGoToLichessButton ? 'transform translate-x-6' : ''}`}></div>
               </div>
-              <div className="ml-3 text-gray-700 font-medium">{getMessage("injectGoToLichessButton")}</div>
+              <div className="ml-3 text-gray-700 dark:text-gray-300 font-medium">{getMessage("injectGoToLichessButton")}</div>
             </label>
           </div>
-          <p className="text-gray-600 mb-6">{getMessage("injectGoToLichessButtonDesc")}</p>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">{getMessage("injectGoToLichessButtonDesc")}</p>
           
           <div className="flex items-center mb-4">
             <label className="flex items-center cursor-pointer">
@@ -130,17 +154,17 @@ export default function Options() {
                 />                <div className={`block w-14 h-8 rounded-full ${settings.autoOpenLichess ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                 <div className={`absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 ease-in-out ${settings.autoOpenLichess ? 'transform translate-x-6' : ''}`}></div>
               </div>
-              <div className="ml-3 text-gray-700 font-medium">{getMessage("autoOpenLichess")}</div>
+              <div className="ml-3 text-gray-700 dark:text-gray-300 font-medium">{getMessage("autoOpenLichess")}</div>
             </label>
           </div>
-          <p className="text-gray-600">{getMessage("autoOpenDesc")}</p>
+          <p className="text-gray-600 dark:text-gray-400">{getMessage("autoOpenDesc")}</p>
         </section>
         
         {/* Appearance Settings */}
-        <section className="mb-8 pb-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("appearanceSettings")}</h3>
+        <section className="mb-8 pb-6 border-b border-gray-200 dark:border-gray-600">
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">{getMessage("appearanceSettings")}</h3>
           <div className="mt-4">
-            <label className="block text-gray-700 mb-2">{getMessage("themeSetting")}</label>
+            <label className="block text-gray-700 dark:text-gray-300 mb-2">{getMessage("themeSetting")}</label>
             <div className="flex flex-wrap gap-4">
               {(['light', 'dark', 'system'] as ThemeOption[]).map((theme) => (
                 <div 
@@ -148,10 +172,15 @@ export default function Options() {
                   className={`
                     px-4 py-2 border rounded-md cursor-pointer
                     ${settings.theme === theme 
-                      ? 'border-green-500 bg-green-50 text-green-700' 
-                      : 'border-gray-300 hover:border-gray-400'}
+                      ? 'border-green-500 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400' 
+                      : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 text-gray-700 dark:text-gray-300'}
                   `}
-                  onClick={() => setSettings({ ...settings, theme })}
+                  onClick={() => {
+                    const newSettings = { ...settings, theme };
+                    setSettings(newSettings);
+                    // Only apply theme as preview, don't save yet
+                    applyTheme(theme);
+                  }}
                 >
                   {getMessage(`theme${theme.charAt(0).toUpperCase() + theme.slice(1)}`)}
                 </div>
@@ -162,12 +191,12 @@ export default function Options() {
         
         {/* About Section */}
         <section className="mb-8">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">{getMessage("aboutSection")}</h3>
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">{getMessage("aboutSection")}</h3>
           <div className="flex items-center">
-            <span className="text-gray-700 mr-2">{getMessage("versionInfo")}:</span>
-            <span className="text-gray-600">{extensionVersion}</span>
+            <span className="text-gray-700 dark:text-gray-300 mr-2">{getMessage("versionInfo")}:</span>
+            <span className="text-gray-600 dark:text-gray-400">{extensionVersion}</span>
           </div>
-          <p className="text-gray-600">{getMessage("aboutDesc")}</p>
+          <p className="text-gray-600 dark:text-gray-400">{getMessage("aboutDesc")}</p>
           <div className="mt-4">
             <a 
               href="https://chromewebstore.google.com/detail/lichess4chess/jenelhcabimbmbhoeejapoapolemplop/reviews" 
@@ -201,13 +230,32 @@ export default function Options() {
             </a>
           </div>
         </section>
-          {/* Action Buttons */}
+          {/* Unsaved Changes Indicator */}
+        {JSON.stringify(settings) !== JSON.stringify(originalSettings) && (
+          <div className="mt-4 p-3 bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-200 rounded border border-yellow-300 dark:border-yellow-700">
+            <div className="flex items-center">
+              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.725-1.36 3.49 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              You have unsaved changes. Click "Save Settings" to apply them or "Cancel Changes" to revert.
+            </div>
+          </div>
+        )}
+
+        {/* Action Buttons */}
         <div className="flex flex-wrap gap-4 mt-8">
           <button
             onClick={handleSaveSettings}
             className="px-6 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
           >
             {getMessage("saveSettings")}
+          </button>
+          
+          <button
+            onClick={handleCancelChanges}
+            className="px-6 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+          >
+            Cancel Changes
           </button>
           
           <button
@@ -231,7 +279,7 @@ export default function Options() {
         )}
       </main>
 
-      <footer className="mt-8 text-center text-gray-500 text-sm">
+      <footer className="mt-8 text-center text-gray-500 dark:text-gray-400 text-sm">
         <p>&copy; {new Date().getFullYear()} Lichess4Chess</p>
       </footer>
     </div>
