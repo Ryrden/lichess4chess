@@ -127,6 +127,16 @@ If you want to contribute to this project, follow the steps below:
 
 Alternatively, consult the GitHub documentation on [how to create a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
+## Contributors
+
+We are deeply grateful to all the amazing people who have supported and contributed to Lichess4Chess!
+
+<a href="https://github.com/ryrden/lichess4chess/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ryrden/lichess4chess" alt="Contributors" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
+
 ## Credits
 
 This project was built using the [vite-web-extension](https://github.com/JohnBra/vite-web-extension) template by [JohnBra](https://github.com/JohnBra).

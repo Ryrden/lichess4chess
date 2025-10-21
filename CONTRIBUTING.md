@@ -1,6 +1,18 @@
-# Contributing to Lichess4Chess
+# Contributing to Lichess4Chess 💖
 
 Thank you for your interest in contributing to Lichess4Chess! This browser extension brings Lichess analysis tools to Chess.com games, and we welcome contributions from the community.
+
+## 🌟 Contributor Recognition
+
+We deeply value and recognize all forms of contributions! Contributors are acknowledged in multiple ways:
+
+- **GitHub Contributors**: Automatically featured in the repository's contributors section
+- **README Hall of Fame**: Highlighted in our main README file
+- **Extension Recognition**: Thanked in the extension's options page
+- **Release Notes**: Significant contributions mentioned in release announcements
+- **Community Shoutouts**: Recognition in our community channels
+
+Every contribution, no matter how small, helps make Lichess4Chess better for the entire chess community! 🏆
 
 ## 📋 Table of Contents
 
