@@ -43,26 +43,6 @@ export default function Options() {
   useEffect(() => {
     console.log('Lichess4Chess Options mounted');
   }, []);
-
-  // Auto-scroll to and briefly highlight the How To Use section to make it visible
-  useEffect(() => {
-    const el = document.getElementById('how-to-use');
-    let timeoutId: number | undefined;
-    if (el) {
-      try {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        el.classList.add('howto-highlight');
-        timeoutId = window.setTimeout(() => el.classList.remove('howto-highlight'), 4000);
-      } catch (err) {
-        // ignore
-      }
-    }
-    return () => {
-      if (timeoutId !== undefined) {
-        window.clearTimeout(timeoutId);
-      }
-    };
-  }, []);
   
   useEffect(() => {
     applyTheme(settings.theme);
