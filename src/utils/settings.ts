@@ -62,7 +62,17 @@ export async function saveSettings(settings: Partial<Settings>): Promise<void> {
  * Reset settings to default values
  */
 export async function resetSettings(): Promise<void> {
-  await saveSettings(defaultSettings);
+  await Browser.storage.local.set(defaultSettings);
+  
+  // Notify all extension components about the settings change
+  try {
+    await Browser.runtime.sendMessage({
+      action: 'settingsChanged',
+      settings: defaultSettings
+    });
+  } catch (error) {
+    console.error('Error notifying about settings reset:', error);
+  }
 }
 
 /**
