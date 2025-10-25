@@ -47,14 +47,6 @@ Fixes #
 - [ ] Added translations to other language files
 - [ ] N/A - No new user-facing text added
 
-## 📦 Version Bump Details
-
-<!-- If you bumped the version, explain the reasoning -->
-**Current Version:** 
-**New Version:** 
-**Bump Type:** <!-- PATCH | MINOR | MAJOR -->
-**Reasoning:** 
-
 ## 🔒 Permissions Changes
 
 <!-- If you've added/modified permissions in manifest.json -->
