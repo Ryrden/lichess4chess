@@ -1,7 +1,7 @@
 {
   "name": "lichess4chess",
   "description": "Lichess Analysis for Chess.com Games",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "license": "MIT",
   "author": {
     "name": "ryrden",
@@ -17,7 +17,12 @@
     "build:firefox": "vite build --config vite.config.firefox.ts",
     "dev": "nodemon --config nodemon.chrome.json",
     "dev:chrome": "nodemon --config nodemon.chrome.json",
-    "dev:firefox": "nodemon --config nodemon.firefox.json"
+    "dev:firefox": "nodemon --config nodemon.firefox.json",
+    "test:e2e": "npm run build:chrome && playwright test",
+    "test:e2e:ui": "npm run build:chrome && playwright test --ui",
+    "test:e2e:debug": "npm run build:chrome && playwright test --debug",
+    "test:e2e:headed": "npm run build:chrome && playwright test --headed",
+    "test:e2e:watch": "npm run build:chrome && playwright test --headed --workers=1"
   },
   "type": "module",
   "dependencies": {
@@ -27,6 +32,7 @@
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.0.0-beta.32",
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/vite": "^4.1.5",
     "@types/chrome": "^0.0.318",
     "@types/node": "^22.15.3",

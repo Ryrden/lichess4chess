@@ -6,23 +6,18 @@ import './style.css';
 import { getSettings } from '@src/utils/settings';
 
 const initialize = async (): Promise<void> => {
-  // Initialize i18n system
-  const lang = await getCurrentLanguage();
-  await loadLanguageMessages(lang);
-  
-  initStateObserver();
-  initializeGameSelectorUI();
-  
+  // Register message listener FIRST - critical for popup communication
   Browser.runtime.onMessage.addListener((message: any, sender: any) => {
     switch (message.action) {
       case 'getGameState':
-        return getCurrentState().then(state => ({ state }));
+        const state = getCurrentState();
+        console.log('📤 Popup requested game state, responding with:', state);
+        return Promise.resolve({ state });
       
       case 'openLichessAnalysis':
         return openLichessAnalysis();
       
       case 'settingsChanged':
-        // Handle settings changes - the game state manager will check settings on next state change
         console.log('Settings changed, will apply on next state check');
         return Promise.resolve({ success: true });
       
@@ -30,6 +25,16 @@ const initialize = async (): Promise<void> => {
         return false;
     }
   });
+  
+  // Initialize state observer synchronously
+  initStateObserver();
+  
+  // Initialize i18n system (async)
+  const lang = await getCurrentLanguage();
+  await loadLanguageMessages(lang);
+  
+  // Initialize game selector UI
+  initializeGameSelectorUI();
   
   Browser.runtime.sendMessage({
     action: 'contentScriptReady'
