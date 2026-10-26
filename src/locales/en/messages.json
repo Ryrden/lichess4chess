@@ -219,5 +219,17 @@
   "thanksContributors": {
     "message": "Thanks to all contributors",
     "description": "Title for contributors section"
+  },
+  "chessRoadmapLink": {
+    "message": "Learning chess? Try Chess Roadmap, a free step-by-step study map",
+    "description": "Link to the Chess Roadmap site on the options page"
+  },
+  "chessRoadmapShort": {
+    "message": "Free chess study roadmap",
+    "description": "Short link to the Chess Roadmap site in the popup footer"
+  },
+  "chessRoadmapUrl": {
+    "message": "https://thechessroadmap.vercel.app/",
+    "description": "Chess Roadmap URL in this language (UTM parameters are added in code)"
   }
 }

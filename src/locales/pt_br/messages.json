@@ -242,5 +242,17 @@
   "thanksContributors": {
     "message": "Obrigado a todos os colaboradores",
     "description": "Title for contributors section"
+  },
+  "chessRoadmapLink": {
+    "message": "Aprendendo xadrez? Conheça o Chess Roadmap, um mapa de estudos gratuito, passo a passo",
+    "description": "Link to the Chess Roadmap site on the options page"
+  },
+  "chessRoadmapShort": {
+    "message": "Roteiro grátis de estudos de xadrez",
+    "description": "Short link to the Chess Roadmap site in the popup footer"
+  },
+  "chessRoadmapUrl": {
+    "message": "https://thechessroadmap.vercel.app/pt/",
+    "description": "Chess Roadmap URL in this language (UTM parameters are added in code)"
   }
 }
