@@ -4,6 +4,7 @@ import { GameState, GameStateType, GAME_STATE } from "../content/types";
 import { getMessage, getCurrentLanguage } from "@src/utils/i18n";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
 import { getSettings, applyTheme } from "@src/utils/settings";
+import { chessRoadmapUrl } from "@src/utils/chessRoadmap";
 
 export default function Popup() {
   const [gameState, setGameState] = useState<GameState>(
@@ -236,6 +237,14 @@ export default function Popup() {
                 <path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" />              </svg>
             </a>
           </div>
+          <a
+            href={chessRoadmapUrl("popup")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-gray-500 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-500 underline transition-colors"
+          >
+            {getMessage("chessRoadmapShort")}
+          </a>
           <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">v{version}</p>
         </div>
       </footer>
