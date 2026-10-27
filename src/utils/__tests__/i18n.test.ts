@@ -20,6 +20,7 @@ describe("resolveLanguage", () => {
     ["pt-BR", "pt_br"],
     ["pt", "pt_br"],
     ["pt-PT", "pt_br"],
+    ["pt_BR", "pt_br"],
     ["es", "es"],
     ["es-419", "es"],
     ["fr-CA", "fr"],

@@ -1,4 +1,5 @@
 import Browser from "webextension-polyfill";
+import { resolveLanguage } from "@src/utils/i18n";
 
 console.log('background script loaded');
 
@@ -34,11 +35,7 @@ Browser.runtime.onInstalled.addListener(async () => {
   const settingsToSet: Record<string, any> = {};
   
   if (!result.language) {
-    const browserLanguage = Browser.i18n.getUILanguage().split('-')[0];
-    const defaultLanguage = ['en', 'pt'].includes(browserLanguage) ? 
-      (browserLanguage === 'pt' ? 'pt_BR' : browserLanguage) : 'en';
-    
-    settingsToSet.language = defaultLanguage;
+    settingsToSet.language = resolveLanguage(Browser.i18n.getUILanguage());
   }
   
   if (result.theme === undefined) {

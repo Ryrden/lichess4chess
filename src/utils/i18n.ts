@@ -44,7 +44,8 @@ let currentLanguageCode: LanguageCode | null = null;
 export async function getCurrentLanguage(): Promise<LanguageCode> {
   try {
     const result = await Browser.storage.local.get("language") as { language?: unknown };
-    if (isLanguageCode(result.language)) return result.language;
+    // Older versions saved "pt_BR" on install; resolveLanguage maps it to "pt_br".
+    if (typeof result.language === "string" && result.language) return resolveLanguage(result.language);
     return resolveLanguage(Browser.i18n.getUILanguage());
   } catch (error) {
     console.error("Error getting language:", error);
