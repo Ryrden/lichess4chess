@@ -44,6 +44,15 @@ export async function getChessComUsername(): Promise<string | null> {
   }
 }
 
+export async function clearChessComUsername(): Promise<void> {
+  try {
+    await chrome.storage.local.remove('chesscomUsername');
+  } catch (error) {
+    console.error('Error clearing Chess.com username:', error);
+    throw error;
+  }
+}
+
 export async function saveChessComUsername(username: string): Promise<void> {
   try {
     await chrome.storage.local.set({ [STORAGE_KEY_USERNAME]: username });

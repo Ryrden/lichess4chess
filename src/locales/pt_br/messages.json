@@ -254,5 +254,41 @@
   "chessRoadmapUrl": {
     "message": "https://thechessroadmap.vercel.app/pt/",
     "description": "Chess Roadmap URL in this language (UTM parameters are added in code)"
+  },
+  "chessComUserLabel": {
+    "message": "Usuário do Chess.com:",
+    "description": "Label before the saved Chess.com username in the import modal"
+  },
+  "changeChessComUser": {
+    "message": "Trocar usuário",
+    "description": "Button to change the saved Chess.com username"
+  },
+  "cancel": {
+    "message": "Cancelar",
+    "description": "Generic cancel button"
+  },
+  "chessComAccount": {
+    "message": "Conta do Chess.com",
+    "description": "Options section title for the saved Chess.com username"
+  },
+  "chessComAccountDesc": {
+    "message": "Usuário usado pelo \"Importar partida do Chess.com\" no tabuleiro de análise do Lichess. Deixe vazio para ser perguntado de novo na próxima vez.",
+    "description": "Options section description for the saved Chess.com username"
+  },
+  "chessComUsernamePlaceholder": {
+    "message": "Usuário do Chess.com",
+    "description": "Placeholder for the Chess.com username field"
+  },
+  "showImportChessComButton": {
+    "message": "Mostrar \"Importar partida do Chess.com\" no Lichess",
+    "description": "Toggle for the import button on the Lichess analysis board"
+  },
+  "showImportChessComButtonDesc": {
+    "message": "Adiciona um botão no tabuleiro de análise do Lichess para carregar uma das suas partidas recentes do Chess.com",
+    "description": "Description of the import button toggle"
+  },
+  "clear": {
+    "message": "Limpar",
+    "description": "Button to clear a field"
   }
 }

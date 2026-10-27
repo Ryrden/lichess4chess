@@ -101,6 +101,22 @@
   @apply mb-4;
 }
 
+.lichess4chess-user-bar {
+  @apply flex items-center justify-between gap-3 mb-4 text-sm text-gray-600;
+}
+
+.lichess4chess-user-name {
+  @apply text-gray-900;
+}
+
+.lichess4chess-link-btn {
+  @apply bg-transparent border-none p-0 text-green-600 hover:text-green-700 cursor-pointer underline text-sm font-medium;
+}
+
+.lichess4chess-form-actions {
+  @apply flex items-center gap-4;
+}
+
 .lichess4chess-game-list {
   @apply flex flex-col gap-2;
 }

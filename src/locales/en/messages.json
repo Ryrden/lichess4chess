@@ -231,5 +231,41 @@
   "chessRoadmapUrl": {
     "message": "https://thechessroadmap.vercel.app/",
     "description": "Chess Roadmap URL in this language (UTM parameters are added in code)"
+  },
+  "chessComUserLabel": {
+    "message": "Chess.com user:",
+    "description": "Label before the saved Chess.com username in the import modal"
+  },
+  "changeChessComUser": {
+    "message": "Change user",
+    "description": "Button to change the saved Chess.com username"
+  },
+  "cancel": {
+    "message": "Cancel",
+    "description": "Generic cancel button"
+  },
+  "chessComAccount": {
+    "message": "Chess.com account",
+    "description": "Options section title for the saved Chess.com username"
+  },
+  "chessComAccountDesc": {
+    "message": "Username used by \"Import Chess.com Game\" on the Lichess analysis board. Leave it empty to be asked again next time.",
+    "description": "Options section description for the saved Chess.com username"
+  },
+  "chessComUsernamePlaceholder": {
+    "message": "Chess.com username",
+    "description": "Placeholder for the Chess.com username field"
+  },
+  "showImportChessComButton": {
+    "message": "Show \"Import Chess.com Game\" on Lichess",
+    "description": "Toggle for the import button on the Lichess analysis board"
+  },
+  "showImportChessComButtonDesc": {
+    "message": "Adds a button to the Lichess analysis board to load one of your recent Chess.com games",
+    "description": "Description of the import button toggle"
+  },
+  "clear": {
+    "message": "Clear",
+    "description": "Button to clear a field"
   }
 }
