@@ -1,0 +1,275 @@
+{
+  "extName": {
+    "message": "Lichess4Chess",
+    "description": "Extension name"
+  },
+  "extSubtitle": {
+    "message": "Анализируйте партии с Chess.com без хлопот",
+    "description": "Extension subtitle"
+  },
+  "extDescription": {
+    "message": "Бесплатный анализ партий Chess.com на Lichess: откройте сыгранную партию в компьютерном анализе Lichess в один клик.",
+    "description": "Extension description"
+  },
+  "detectingGameState": {
+    "message": "Определяем состояние партии...",
+    "description": "Message shown when detecting game state"
+  },
+  "notChessSite": {
+    "message": "Откройте Chess.com, чтобы анализировать свои партии",
+    "description": "Message shown when not on Chess.com"
+  },
+  "noGameDetected": {
+    "message": "Сыграйте партию до конца, чтобы её проанализировать",
+    "description": "Message shown when no chess game is detected"
+  },
+  "gameDetected": {
+    "message": "Партия окончена! Нажмите для анализа на Lichess",
+    "description": "Message shown when a chess game is detected"
+  },
+  "gameInProgress": {
+    "message": "Дождитесь окончания партии, чтобы начать анализ",
+    "description": "Message shown when a game is in progress"
+  },
+  "analyzeOnLichess": {
+    "message": "Анализировать на Lichess",
+    "description": "Button text for analyzing on Lichess"
+  },
+  "goToLichessReview": {
+    "message": "Анализ на Lichess",
+    "description": "Button text for going to Lichess review from game page"
+  },
+  "goToChesscom": {
+    "message": "Перейти на Chess.com",
+    "description": "Button text for going to Chess.com"
+  },
+  "loading": {
+    "message": "Загрузка...",
+    "description": "Loading message"
+  },
+  "version": {
+    "message": "Версия: $VERSION$",
+    "description": "Extension version",
+    "placeholders": {
+      "version": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsTitle": {
+    "message": "Настройки Lichess4Chess",
+    "description": "Title of the options page"
+  },
+  "languageSettings": {
+    "message": "Язык",
+    "description": "Language settings section title"
+  },
+  "languageSettingsDesc": {
+    "message": "Выберите язык интерфейса. Расширение перезапустится, чтобы применить изменения.",
+    "description": "Description of language settings"
+  },
+  "lichessSettings": {
+    "message": "Интеграция с Lichess",
+    "description": "Lichess settings section title"
+  },
+  "lichessInstantSettingsDesc": {
+    "message": "Автоматически открывать анализ на Lichess после окончания партии",
+    "description": "Description of Lichess settings"
+  },
+  "language_en": {
+    "message": "Английский",
+    "description": "English language name"
+  },
+  "language_pt_BR": {
+    "message": "Португальский (Бразилия)",
+    "description": "Brazilian Portuguese language name"
+  },
+  "appearanceSettings": {
+    "message": "Внешний вид",
+    "description": "Appearance settings section title"
+  },
+  "themeSetting": {
+    "message": "Тема",
+    "description": "Theme setting label"
+  },
+  "themeLight": {
+    "message": "Светлая",
+    "description": "Light theme option"
+  },
+  "themeDark": {
+    "message": "Тёмная",
+    "description": "Dark theme option"
+  },
+  "themeSystem": {
+    "message": "Как в системе",
+    "description": "System theme option"
+  },
+  "notificationSettings": {
+    "message": "Уведомления",
+    "description": "Notification settings section title"
+  },
+  "enableNotifications": {
+    "message": "Включить уведомления",
+    "description": "Toggle for enabling notifications"
+  },
+  "notificationsDesc": {
+    "message": "Получать уведомления, когда партия готова к анализу",
+    "description": "Description for notification settings"
+  },
+  "analysisSettings": {
+    "message": "Анализ",
+    "description": "Analysis settings section title"
+  },
+  "autoOpenLichess": {
+    "message": "Автоматически открывать анализ на Lichess",
+    "description": "Toggle for auto-opening Lichess analysis"
+  },
+  "autoOpenDesc": {
+    "message": "Открывать анализ на Lichess автоматически, как только партия закончится",
+    "description": "Description for auto-open setting"
+  },
+  "injectGoToLichessButton": {
+    "message": "Добавлять кнопку «Анализ на Lichess»",
+    "description": "Toggle for injecting the Lichess review button on Chess.com"
+  },
+  "injectGoToLichessButtonDesc": {
+    "message": "Добавляет кнопку «Анализ на Lichess» прямо на страницу партии Chess.com, когда партия окончена",
+    "description": "Description for button injection setting"
+  },
+  "aboutSection": {
+    "message": "О расширении",
+    "description": "About section title"
+  },
+  "versionInfo": {
+    "message": "Версия",
+    "description": "Version information label"
+  },
+  "saveSettings": {
+    "message": "Сохранить настройки",
+    "description": "Save settings button text"
+  },
+  "resetSettings": {
+    "message": "Сбросить настройки",
+    "description": "Reset settings button text"
+  },
+  "settingsSaved": {
+    "message": "Настройки успешно сохранены!",
+    "description": "Message shown when settings are saved"
+  },
+  "settingsReset": {
+    "message": "Настройки сброшены до значений по умолчанию",
+    "description": "Message shown when settings are reset"
+  },
+  "rateExtension": {
+    "message": "Нравится расширение? Оцените его в Интернет-магазине Chrome!",
+    "description": "Tooltip for the rating button"
+  },
+  "aboutDesc": {
+    "message": "Это расширение создано, чтобы помогать вам после партий на Chess.com. Оно не предлагает функций, которые могут привести к нечестной игре. У расширения открытый исходный код, и вы можете внести свой вклад на GitHub. Если у вас есть идея новой функции, создайте issue в репозитории на GitHub.",
+    "description": "Description of the about section"
+  },
+  "featuresToBeAdded": {
+    "message": "Планируемые функции",
+    "description": "Title for the features to be added section"
+  },
+  "featuresToBeAddedDesc": {
+    "message": "Я работаю над новыми функциями, чтобы сделать расширение ещё лучше, например автоматическое открытие Lichess после окончания партии или кнопка анализа прямо на экране.",
+    "description": "Description for the features to be added section"
+  },
+  "suggestFeature": {
+    "message": "Есть идея новой функции? Создайте issue на GitHub :) Я с радостью её добавлю",
+    "description": "Message for suggesting a feature"
+  },
+  "errorTitle": {
+    "message": "Ошибка Lichess4Chess",
+    "description": "Title for error notifications"
+  },
+  "errorNetwork": {
+    "message": "Ошибка сети. Проверьте подключение к интернету.",
+    "description": "Message for network errors"
+  },
+  "errorTimeout": {
+    "message": "Время ожидания запроса истекло. Попробуйте ещё раз.",
+    "description": "Message for timeout errors"
+  },
+  "errorRateLimit": {
+    "message": "Превышен лимит запросов. Подождите немного и попробуйте снова.",
+    "description": "Message for rate limit errors"
+  },
+  "errorNotFound": {
+    "message": "Партия не найдена. Возможно, она слишком старая или недоступна.",
+    "description": "Message for not found errors"
+  },
+  "errorServer": {
+    "message": "Ошибка сервера. Попробуйте позже.",
+    "description": "Message for server errors"
+  },
+  "errorRetryHint": {
+    "message": "Можно попробовать ещё раз.",
+    "description": "Hint shown when an error is retryable"
+  },
+  "lichessAnalyzePageDetected": {
+    "message": "Вы на странице анализа Lichess",
+    "description": "Message shown when on Lichess analyze page"
+  },
+  "lichessReviewPageDetected": {
+    "message": "Вы на странице студии или разбора Lichess",
+    "description": "Message shown when on Lichess review page"
+  },
+  "exportToChessCom": {
+    "message": "Экспорт в Chess.com",
+    "description": "Button text for exporting to Chess.com"
+  },
+  "thanksContributors": {
+    "message": "Спасибо всем участникам проекта",
+    "description": "Title for contributors section"
+  },
+  "chessRoadmapLink": {
+    "message": "Изучаете шахматы? Попробуйте Chess Roadmap — бесплатную пошаговую карту обучения",
+    "description": "Link to the Chess Roadmap site on the options page"
+  },
+  "chessRoadmapShort": {
+    "message": "Бесплатный план изучения шахмат",
+    "description": "Short link to the Chess Roadmap site in the popup footer"
+  },
+  "chessRoadmapUrl": {
+    "message": "https://thechessroadmap.vercel.app/ru/",
+    "description": "Chess Roadmap URL in this language (UTM parameters are added in code)"
+  },
+  "chessComUserLabel": {
+    "message": "Пользователь Chess.com:",
+    "description": "Label before the saved Chess.com username in the import modal"
+  },
+  "changeChessComUser": {
+    "message": "Сменить пользователя",
+    "description": "Button to change the saved Chess.com username"
+  },
+  "cancel": {
+    "message": "Отмена",
+    "description": "Generic cancel button"
+  },
+  "chessComAccount": {
+    "message": "Аккаунт Chess.com",
+    "description": "Options section title for the saved Chess.com username"
+  },
+  "chessComAccountDesc": {
+    "message": "Имя пользователя для кнопки «Импорт партии с Chess.com» на доске анализа Lichess. Оставьте поле пустым, чтобы в следующий раз имя запрашивалось снова.",
+    "description": "Options section description for the saved Chess.com username"
+  },
+  "chessComUsernamePlaceholder": {
+    "message": "Имя пользователя Chess.com",
+    "description": "Placeholder for the Chess.com username field"
+  },
+  "showImportChessComButton": {
+    "message": "Показывать «Импорт партии с Chess.com» на Lichess",
+    "description": "Toggle for the import button on the Lichess analysis board"
+  },
+  "showImportChessComButtonDesc": {
+    "message": "Добавляет на доску анализа Lichess кнопку, которая загружает одну из ваших недавних партий с Chess.com",
+    "description": "Description of the import button toggle"
+  },
+  "clear": {
+    "message": "Очистить",
+    "description": "Button to clear a field"
+  }
+}
