@@ -164,12 +164,15 @@ We support multiple languages through Chrome's i18n API.
    const text = getMessage('myNewString');
    ```
 
-3. **Add translations** to other locale files (`src/locales/pt_br/messages.json`, etc.)
+3. **Add translations** to every other locale file (`src/locales/pt_br/`, `es/`, `fr/`, `ru/`). `npx vitest run` fails if a language is missing a key.
 
 ### Current Supported Languages
 
 - English (`en`)
 - Portuguese Brazil (`pt_br`)
+- Spanish (`es`)
+- French (`fr`)
+- Russian (`ru`)
 
 ## 📦 Release Process
 

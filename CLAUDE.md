@@ -37,7 +37,7 @@ src/pages/options/      # settings page
 src/service/            # business logic (Chess.com + Lichess API calls, game detection)
 src/components/         # reusable React components
 src/utils/              # i18n, settings, browser storage helpers
-src/locales/            # en/ and pt_br/ message files
+src/locales/            # en/, pt_br/, es/, fr/ and ru/ message files
 ```
 
 Path aliases: `@src/*`, `@assets/*`, `@locales/*`, `@pages/*`.
@@ -55,7 +55,9 @@ Two manifests: `manifest.json` (production) and `manifest.dev.json` (dev — dif
 
 ## i18n
 
-All user-visible strings go through Chrome's native i18n API. Adding a new string requires entries in **both** `src/locales/en/` and `src/locales/pt_br/`. Missing translations will fail the PR checklist.
+All user-visible strings go through Chrome's native i18n API. Adding a new string requires an entry in **every** folder of `src/locales/` (`en`, `pt_br`, `es`, `fr`, `ru`). `src/utils/__tests__/i18n.test.ts` fails when a language is missing a key, a placeholder differs, or `extDescription` (the Chrome Web Store summary) passes 132 characters.
+
+To add a language: create `src/locales/<code>/messages.json`, add it to `LANGUAGES` and `LANGUAGE_FLAGS` in `src/utils/i18n.ts`, draw its flag in `public/ui.svg`, and fill in the store listing for that language in the Chrome Web Store dashboard.
 
 ## Commits and PRs
 
