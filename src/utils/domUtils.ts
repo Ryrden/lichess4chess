@@ -17,22 +17,30 @@ export function delay(ms: number): Promise<void> {
 }
 
 /**
- * Extracts game ID from chess.com URL
+ * Extracts the numeric game ID from a chess.com game URL. Handles the formats
+ * chess.com uses: /game/live/ID, /game/daily/ID, /game/ID, /live/game/ID,
+ * /analysis/game/live/ID and /daily/game/ID (with or without a trailing path or query).
  */
-export function extractGameIdFromUrl(): string | null {
-  const gameIdMatch = window.location.href.match(/chess\.com\/(?:game\/live|live\/game)\/(\d+)/);
-  return gameIdMatch ? gameIdMatch[1] : null;
+export function extractGameIdFromUrl(href: string = window.location.href): string | null {
+  let pathname: string;
+  try {
+    pathname = new URL(href).pathname;
+  } catch {
+    return null;
+  }
+  const match = pathname.match(/\/(?:game|live|daily)(?:\/(?:live|daily|game))?\/(\d+)(?:\/|$)/);
+  return match ? match[1] : null;
 }
 
 /**
- * Finds a target game from a list, preferring specific gameId if provided
+ * Finds the game with exactly this ID in a list of chess.com API games.
+ * Returns null when it is not there: never guess another game.
  */
-export function findTargetGame(games: any[], gameId: string | null): any {
-  if (gameId) {
-    const specificGame = games.find(game => game.url && game.url.includes(gameId));
-    if (specificGame) return specificGame;
-  }
-  
-  // Fallback to the most recent game
-  return games[games.length - 1];
+export function findTargetGame(games: any[], gameId: string): any | null {
+  return (
+    games.find((game) => {
+      const url: unknown = game?.url;
+      return typeof url === 'string' && url.replace(/\/+$/, '').split('/').pop() === gameId;
+    }) ?? null
+  );
 }

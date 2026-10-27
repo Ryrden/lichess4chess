@@ -66,6 +66,9 @@ export const getCurrentState = (): GameState => {
 
 export const openLichessAnalysis = async () => {
   const pgn = await getCurrentGamePgn();
+  if (!pgn) {
+    throw new Error("Could not get the PGN of this game, so nothing was sent to Lichess");
+  }
   const response = await axios.post("https://lichess.org/api/import", {
     pgn: pgn,
   });
