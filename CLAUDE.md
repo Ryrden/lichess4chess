@@ -72,10 +72,6 @@ PRs require:
 - i18n strings added for all supported languages
 - Demo video for any UI changes
 
-## Agents
-
-`.claude/agents/qa.md`: run the `qa` agent before tagging a release. It runs tests and builds, checks i18n, versions and permissions, and verifies the Chess.com/Lichess selectors (or writes a manual checklist when Chess.com is not reachable). It reports problems; it does not fix them.
-
 ## Publishing
 
 Chrome Web Store publishing is automated by `.github/workflows/release.yml`: bump the version in `manifest.json` and `package.json`, merge to `main`, then push a matching tag (`git tag v0.8.1 && git push origin v0.8.1`). The workflow builds, uploads and submits to the Chrome Web Store (`scripts/cws-publish.mjs`), and creates a GitHub release with the zip. See CONTRIBUTING.md for the required secrets.
