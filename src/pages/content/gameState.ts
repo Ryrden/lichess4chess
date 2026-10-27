@@ -39,44 +39,51 @@ export const detectGameState = (): GameState => {
   return GAME_STATE.NO_GAME_DETECTED;
 };
 
-async function fetchPlayerGames(username: string): Promise<any[]> {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  
-  const apiUrl = `https://api.chess.com/pub/player/${username}/games/${year}/${month}`;
+/** "YYYY/MM" for this month and the previous one (a game may have ended last month). */
+function recentArchiveMonths(now: Date = new Date()): string[] {
+  const months: string[] = [];
+  for (let offset = 0; offset < 2; offset++) {
+    const date = new Date(now.getFullYear(), now.getMonth() - offset, 1);
+    months.push(`${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}`);
+  }
+  return months;
+}
+
+async function fetchPlayerGames(username: string, yearMonth: string): Promise<any[]> {
+  const apiUrl = `https://api.chess.com/pub/player/${encodeURIComponent(username.toLowerCase())}/games/${yearMonth}`;
   const response = await fetch(apiUrl);
-  
   if (!response.ok) {
     throw new Error(`Chess.com API request failed: ${response.status} ${response.statusText}`);
   }
-  
   const data = await response.json();
-  
-  if (!data.games || data.games.length === 0) {
-    throw new Error(`No games found for player '${username}' in ${year}/${month}`);
-  }
-  
-  return data.games;
+  return Array.isArray(data.games) ? data.games : [];
 }
 
 export const getCurrentGamePgnAPI = async (): Promise<string | null> => {
   const gameId = extractGameIdFromUrl();
-  
-  const { currentUser, opponentUser } = getPlayerUsernames();
-  const games = await fetchPlayerGames(opponentUser);
-  const targetGame = findTargetGame(games, gameId);
-  
-  if (!targetGame?.pgn) {
-    throw new Error('Game found but no PGN data available');
+  if (!gameId) {
+    throw new Error(`Could not find a game ID in the URL (${window.location.pathname})`);
   }
-  
-  return targetGame.pgn;
+
+  // Look in both players' archives (the current user's games may be private
+  // to the API until the archive updates), this month first, then last month.
+  const { currentUser, opponentUser, otherUser } = getPlayerUsernames();
+  const players = [...new Set([opponentUser, otherUser, currentUser].filter((name): name is string => !!name))];
+
+  for (const yearMonth of recentArchiveMonths()) {
+    for (const player of players) {
+      const games = await tryOrNull(() => fetchPlayerGames(player, yearMonth), `archive ${player} ${yearMonth}`);
+      const targetGame = games ? findTargetGame(games, gameId) : null;
+      if (targetGame?.pgn) return targetGame.pgn;
+    }
+  }
+
+  throw new Error(`Game ${gameId} was not found in the players' recent archives`);
 };
 
 
 
-function getPlayerUsernames(): { currentUser: string | null; opponentUser: string } {
+function getPlayerUsernames(): { currentUser: string | null; opponentUser: string; otherUser: string } {
   const usernameElements = document.querySelectorAll('[data-test-element="user-tagline-username"]');
   
   if (usernameElements.length < 2) {
@@ -96,8 +103,9 @@ function getPlayerUsernames(): { currentUser: string | null; opponentUser: strin
   const opponentUser = currentUser && username1.toLowerCase() === currentUser.toLowerCase() 
     ? username2 
     : username1;
+  const otherUser = opponentUser === username1 ? username2 : username1;
   
-  return { currentUser, opponentUser };
+  return { currentUser, opponentUser, otherUser };
 }
 
 
