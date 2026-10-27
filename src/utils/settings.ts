@@ -9,6 +9,7 @@ export interface Settings {
   notifications: boolean;
   autoOpenLichess: boolean;
   injectGoToLichessButton: boolean;
+  showImportChessComButton: boolean;
 }
 
 export const defaultSettings: Settings = {
@@ -17,6 +18,7 @@ export const defaultSettings: Settings = {
   notifications: true,
   autoOpenLichess: false,
   injectGoToLichessButton: true,
+  showImportChessComButton: true,
 };
 
 /**
@@ -29,7 +31,8 @@ export async function getSettings(): Promise<Settings> {
     'theme', 
     'notifications', 
     'autoOpenLichess',
-    'injectGoToLichessButton'
+    'injectGoToLichessButton',
+    'showImportChessComButton'
   ]);
   
   return {
@@ -38,6 +41,7 @@ export async function getSettings(): Promise<Settings> {
     notifications: result.notifications !== undefined ? result.notifications : defaultSettings.notifications,
     autoOpenLichess: result.autoOpenLichess !== undefined ? result.autoOpenLichess : defaultSettings.autoOpenLichess,
     injectGoToLichessButton: result.injectGoToLichessButton !== undefined ? result.injectGoToLichessButton : defaultSettings.injectGoToLichessButton,
+    showImportChessComButton: result.showImportChessComButton !== undefined ? (result.showImportChessComButton as boolean) : defaultSettings.showImportChessComButton,
   };
 }
 

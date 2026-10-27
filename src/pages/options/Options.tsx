@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Browser from 'webextension-polyfill';
 import LanguageSwitcher from '@src/components/LanguageSwitcher';
 import { chessRoadmapUrl } from '@src/utils/chessRoadmap';
+import { getChessComUsername, saveChessComUsername, clearChessComUsername } from '@src/service/gameSelector';
 import { getMessage } from '@src/utils/i18n';
 import { Settings, ThemeOption, defaultSettings, getSettings, saveSettings, resetSettings as resetAllSettings, applyTheme } from '@src/utils/settings';
 
@@ -11,6 +12,8 @@ export default function Options() {
   const [isSaved, setIsSaved] = useState(false);
   const [isReset, setIsReset] = useState(false);
   const [extensionVersion, setExtensionVersion] = useState('');
+  const [chessComUsername, setChessComUsername] = useState('');
+  const [originalChessComUsername, setOriginalChessComUsername] = useState('');
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -19,6 +22,10 @@ export default function Options() {
       setOriginalSettings(currentSettings); // Store original settings
       
       applyTheme(currentSettings.theme);
+
+      const savedUsername = (await getChessComUsername()) ?? '';
+      setChessComUsername(savedUsername);
+      setOriginalChessComUsername(savedUsername);
       
       const manifestData = Browser.runtime.getManifest();
       setExtensionVersion(manifestData.version || '');
@@ -62,7 +69,17 @@ export default function Options() {
       notifications: settings.notifications,
       autoOpenLichess: settings.autoOpenLichess,
       injectGoToLichessButton: settings.injectGoToLichessButton,
+      showImportChessComButton: settings.showImportChessComButton,
     });
+
+    const username = chessComUsername.trim();
+    if (username) {
+      await saveChessComUsername(username);
+    } else {
+      await clearChessComUsername();
+    }
+    setChessComUsername(username);
+    setOriginalChessComUsername(username);
     
     // Update original settings to current settings after saving
     setOriginalSettings(settings);
@@ -78,6 +95,9 @@ export default function Options() {
     setSettings(newSettings);
     setOriginalSettings(newSettings);
     await resetAllSettings();
+    await clearChessComUsername();
+    setChessComUsername('');
+    setOriginalChessComUsername('');
     
     setIsReset(true);
     setTimeout(() => {
@@ -154,7 +174,49 @@ export default function Options() {
               <div className="ml-3 text-gray-700 dark:text-gray-300 font-medium">{getMessage("autoOpenLichess")}</div>
             </label>
           </div>
-          <p className="text-gray-600 dark:text-gray-400">{getMessage("autoOpenDesc")}</p>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">{getMessage("autoOpenDesc")}</p>
+
+          <div className="flex items-center mb-4">
+            <label className="flex items-center cursor-pointer">
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  className="sr-only"
+                  checked={settings.showImportChessComButton}
+                  onChange={() => handleToggle('showImportChessComButton')}
+                />
+                <div className={`block w-14 h-8 rounded-full ${settings.showImportChessComButton ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                <div className={`absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 ease-in-out ${settings.showImportChessComButton ? 'transform translate-x-6' : ''}`}></div>
+              </div>
+              <div className="ml-3 text-gray-700 dark:text-gray-300 font-medium">{getMessage("showImportChessComButton")}</div>
+            </label>
+          </div>
+          <p className="text-gray-600 dark:text-gray-400">{getMessage("showImportChessComButtonDesc")}</p>
+        </section>
+
+        {/* Chess.com account */}
+        <section className="mb-8 pb-6 border-b border-gray-200 dark:border-gray-600">
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">{getMessage("chessComAccount")}</h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">{getMessage("chessComAccountDesc")}</p>
+          <div className="flex flex-wrap items-center gap-3">
+            <input
+              type="text"
+              value={chessComUsername}
+              onChange={(e) => setChessComUsername(e.target.value)}
+              placeholder={getMessage("chessComUsernamePlaceholder")}
+              autoComplete="off"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 w-64"
+            />
+            {chessComUsername && (
+              <button
+                type="button"
+                onClick={() => setChessComUsername('')}
+                className="text-sm text-green-600 hover:text-green-700 underline"
+              >
+                {getMessage("clear")}
+              </button>
+            )}
+          </div>
         </section>
         
         {/* Appearance Settings */}
@@ -255,7 +317,7 @@ export default function Options() {
           </div>
         </section>
           {/* Unsaved Changes Indicator */}
-        {JSON.stringify(settings) !== JSON.stringify(originalSettings) && (
+        {(JSON.stringify(settings) !== JSON.stringify(originalSettings) || chessComUsername !== originalChessComUsername) && (
           <div className="mt-4 p-3 bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-200 rounded border border-yellow-300 dark:border-yellow-700">
             <div className="flex items-center">
               <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">

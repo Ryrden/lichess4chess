@@ -1,14 +1,21 @@
 import { GameInfo, getRecentGames, getChessComUsername, saveChessComUsername } from './gameSelector';
 import { loadPgnIntoLichess } from './lichessAnalysisInjector';
 import { isLichessAnalyzePage } from './pageDetection';
+import { getMessage } from '@src/utils/i18n';
+import { getSettings } from '@src/utils/settings';
 
 let modalElement: HTMLElement | null = null;
 let isModalOpen = false;
 let isLoadingGame = false; 
 
 
-export function initializeGameSelectorUI(): void {
+export async function initializeGameSelectorUI(): Promise<void> {
   if (!isLichessAnalyzePage()) {
+    return;
+  }
+
+  const settings = await getSettings();
+  if (!settings.showImportChessComButton) {
     return;
   }
   
@@ -97,11 +104,13 @@ function createModal(): HTMLElement {
 }
 
 
-function showUsernameInput(): void {
+async function showUsernameInput(): Promise<void> {
   if (!modalElement) return;
   
   const body = modalElement.querySelector('.lichess4chess-modal-body');
   if (!body) return;
+
+  const savedUsername = await getChessComUsername();
   
   body.innerHTML = `
     <div class="lichess4chess-username-form">
@@ -115,14 +124,25 @@ function showUsernameInput(): void {
         placeholder="Enter username"
         autocomplete="off"
       />
-      <button class="lichess4chess-btn" id="lichess4chess-submit-username">
-        Load Games
-      </button>
+      <div class="lichess4chess-form-actions">
+        <button class="lichess4chess-btn" id="lichess4chess-submit-username">
+          Load Games
+        </button>
+        ${savedUsername ? `<button class="lichess4chess-link-btn" id="lichess4chess-cancel-username"></button>` : ''}
+      </div>
     </div>
   `;
   
   const input = body.querySelector('#lichess4chess-username') as HTMLInputElement;
   const button = body.querySelector('#lichess4chess-submit-username') as HTMLButtonElement;
+  const cancelButton = body.querySelector('#lichess4chess-cancel-username') as HTMLButtonElement | null;
+
+  // Set via properties, not the template, so a username is never parsed as HTML.
+  input.value = savedUsername ?? '';
+  if (cancelButton && savedUsername) {
+    cancelButton.textContent = getMessage('cancel');
+    cancelButton.addEventListener('click', () => loadGamesForUser(savedUsername));
+  }
   
   const submitHandler = async () => {
     const username = input.value.trim();
@@ -143,6 +163,7 @@ function showUsernameInput(): void {
   });
   
   input.focus();
+  input.select();
 }
 
 
@@ -180,7 +201,13 @@ function displayGames(games: GameInfo[], username: string): void {
   const body = modalElement.querySelector('.lichess4chess-modal-body');
   if (!body) return;
   
+  // The username bar sits above the list so "Change user" is always visible,
+  // even with a long list of games.
   body.innerHTML = `
+    <div class="lichess4chess-user-bar">
+      <span class="lichess4chess-user-label"><span class="lichess4chess-user-prefix"></span> <strong class="lichess4chess-user-name"></strong></span>
+      <button class="lichess4chess-link-btn" id="lichess4chess-change-username"></button>
+    </div>
     <div class="lichess4chess-search">
       <input 
         type="text" 
@@ -190,10 +217,10 @@ function displayGames(games: GameInfo[], username: string): void {
       />
     </div>
     <div class="lichess4chess-game-list" id="lichess4chess-game-list"></div>
-    <div class="lichess4chess-change-user">
-      <button id="lichess4chess-change-username">Change Username (${username})</button>
-    </div>
   `;
+  (body.querySelector('.lichess4chess-user-prefix') as HTMLElement).textContent = getMessage('chessComUserLabel');
+  (body.querySelector('.lichess4chess-user-name') as HTMLElement).textContent = username;
+  (body.querySelector('#lichess4chess-change-username') as HTMLElement).textContent = getMessage('changeChessComUser');
   
   const gameList = body.querySelector('#lichess4chess-game-list');
   const searchInput = body.querySelector('#lichess4chess-search') as HTMLInputElement;
