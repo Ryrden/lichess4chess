@@ -37,6 +37,12 @@ const updateState = (newState: GameState): void => {
 export const checkAndUpdateState = (): GameState => {
   const newState = detectGameState();
   updateState(newState);
+  if (
+    currentState.type === GAME_STATE.GAME_FINISHED.type &&
+    findReviewButtons().some((button) => !button.parentElement?.querySelector('.lichess4chess-review-button'))
+  ) {
+    injectLichessButton();
+  }
   return currentState;
 };
 
@@ -85,39 +91,67 @@ export const openLichessAnalysis = async () => {
   }
 };
 
+// Chess.com's "Game Review" buttons (game-over modal and sidebar). Class names
+// on chess.com carry generated suffixes that change between releases, so match
+// on stable attributes first and keep the old class as a fallback.
+// [data-variant] keeps it to real buttons: the "2 Great / 4 Best" summary is a
+// review link too, and the label text changes with the chess.com language.
+const REVIEW_BUTTON_SELECTORS = [
+  'a[href*="tab=review"][data-variant]',
+  'a[aria-label="Game Review"][data-variant]',
+  '.game-over-review-button-game-over-review-button',
+];
+
+export const findReviewButtons = (root: ParentNode = document): HTMLElement[] => {
+  const found = new Set<HTMLElement>();
+  for (const selector of REVIEW_BUTTON_SELECTORS) {
+    root.querySelectorAll<HTMLElement>(selector).forEach((element) => {
+      if (!element.classList.contains('lichess4chess-review-button')) found.add(element);
+    });
+  }
+  return [...found];
+};
+
+const MAX_INJECT_ATTEMPTS = 20;
+let injectAttempts = 0;
+
 const injectLichessButton = async (): Promise<void> => {
-  // Check if button injection is enabled
   const settings = await getSettings();
   if (!settings.injectGoToLichessButton) {
     return;
   }
 
-  if (document.querySelector('.lichess4chess-review-button')) {
+  const reviewButtons = findReviewButtons();
+  if (reviewButtons.length === 0) {
+    // The game-over UI may still be rendering: retry a few times, then give up
+    // (the state observer calls this again when the page changes).
+    if (injectAttempts++ < MAX_INJECT_ATTEMPTS) {
+      setTimeout(injectLichessButton, 1000);
+    }
     return;
   }
+  injectAttempts = 0;
 
-  const reviewButton = document.querySelector('.game-over-review-button-game-over-review-button');
-  if (!reviewButton) {
-    setTimeout(injectLichessButton, 1000);
-    return;
+  for (const reviewButton of reviewButtons) {
+    const container = reviewButton.parentElement;
+    if (!container || container.querySelector('.lichess4chess-review-button')) {
+      continue;
+    }
+
+    const lichessButton = document.createElement('a');
+    // Reuse chess.com's own button classes so ours matches the "Game Review" look.
+    lichessButton.className = `${reviewButton.className} lichess4chess-review-button`;
+    lichessButton.textContent = getMessage('goToLichessReview');
+    lichessButton.href = '#';
+    lichessButton.setAttribute('role', 'button');
+
+    lichessButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      openLichessAnalysis().catch(err => console.error('Error opening Lichess:', err));
+    });
+
+    reviewButton.insertAdjacentElement('afterend', lichessButton);
   }
-
-  const buttonContainer = reviewButton.parentElement;
-  if (!buttonContainer) {
-    return;
-  }
-
-  const lichessButton = document.createElement('a');
-  lichessButton.className = 'cc-button-component cc-button-primary cc-button-xx-large cc-bg-primary cc-button-full game-over-review-button-game-over-review-button lichess4chess-review-button';
-  lichessButton.textContent = getMessage('goToLichessReview');
-  lichessButton.href = '#';
-
-  lichessButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    openLichessAnalysis().catch(err => console.error('Error opening Lichess:', err));
-  });
-
-  buttonContainer.appendChild(lichessButton);
 };
 
 const removeLichessButton = (): void => {

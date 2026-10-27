@@ -17,6 +17,7 @@ export const isGameInProgress = (): boolean => {
 export const isGameFinished = (): boolean => {
   return (
     !!document.querySelector(".game-over-modal-content") ||
+    !!document.querySelector(".game-over-modal-shell-container") ||
     !!document.querySelector(".game-over-modal") ||
     !!document.querySelector("[aria-label='Share']") ||
     !!document.querySelector(".game-result")
