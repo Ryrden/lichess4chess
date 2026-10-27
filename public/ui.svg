@@ -51,5 +51,24 @@
       </g>
       <path fill="#309e3a" d="m301.8 204.5 2.3-9.8 7.2 1.7-.3 1.6-5.3-1.2-.5 2.2 4.9 1.1-.4 1.7-4.9-1.2-.6 2.7 5.5 1.3-.4 1.6z"/>
     </symbol>
+    <!-- Spain flag (simplified, without the coat of arms) -->
+    <symbol id="flag-es" viewBox="0 0 640 480">
+      <path fill="#c60b1e" d="M0 0h640v480H0z"/>
+      <path fill="#ffc400" d="M0 120h640v240H0z"/>
+    </symbol>
+
+    <!-- France flag -->
+    <symbol id="flag-fr" viewBox="0 0 640 480">
+      <path fill="#fff" d="M0 0h640v480H0z"/>
+      <path fill="#000091" d="M0 0h213.3v480H0z"/>
+      <path fill="#e1000f" d="M426.7 0H640v480H426.7z"/>
+    </symbol>
+
+    <!-- Russia flag -->
+    <symbol id="flag-ru" viewBox="0 0 640 480">
+      <path fill="#fff" d="M0 0h640v160H0z"/>
+      <path fill="#0039a6" d="M0 160h640v160H0z"/>
+      <path fill="#d52b1e" d="M0 320h640v160H0z"/>
+    </symbol>
   </defs>
 </svg>

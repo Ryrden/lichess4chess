@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Browser from "webextension-polyfill";
-import { getCurrentLanguage, setLanguage, LanguageCode, LANGUAGES } from "../utils/i18n";
+import { getCurrentLanguage, setLanguage, LanguageCode, LANGUAGES, LANGUAGE_FLAGS } from "../utils/i18n";
 
 interface LanguageSwitcherProps {
   compact?: boolean;
@@ -51,9 +51,7 @@ export default function LanguageSwitcher({ compact = false }: LanguageSwitcherPr
     await setLanguage(languageCode);
   };
   
-  const getFlagId = (langCode: LanguageCode) => {
-    return langCode === 'pt_br' ? 'flag-br' : 'flag-us';
-  };
+  const getFlagId = (langCode: LanguageCode) => LANGUAGE_FLAGS[langCode] ?? LANGUAGE_FLAGS.en;
   if (compact) {
     return (
       <div className="language-switcher relative">
