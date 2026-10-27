@@ -1,0 +1,63 @@
+name: Release
+
+# Publishes to the Chrome Web Store when a version tag is pushed.
+#   git tag v0.8.0 && git push origin v0.8.0
+# The tag X.Y.Z must match "version" in manifest.json and package.json (guarded below).
+# The new version goes live only after the Chrome Web Store review.
+#
+# Secrets (Settings > Secrets and variables > Actions):
+#   CWS_SERVICE_ACCOUNT_JSON  JSON key of the service account added in the Developer Dashboard
+#   CWS_PUBLISHER_ID          Developer Dashboard > Publisher > Settings
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write # create the GitHub release with the zip
+
+jobs:
+  deploy:
+    name: Build & publish to Chrome Web Store
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Guard — tag must match manifest.json and package.json
+        run: |
+          tag=${GITHUB_REF_NAME#v}
+          manifest=$(node -p "require('./manifest.json').version")
+          package=$(node -p "require('./package.json').version")
+          echo "tag=$tag manifest=$manifest package=$package"
+          if [ "$tag" != "$manifest" ] || [ "$tag" != "$package" ]; then
+            echo "::error::Tag ($tag) must match manifest.json ($manifest) and package.json ($package). Bump both before tagging."
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build:chrome
+
+      - name: Zip
+        run: |
+          cd dist_chrome
+          zip -r "../lichess4chess-${GITHUB_REF_NAME}.zip" .
+
+      - name: Upload and submit to Chrome Web Store
+        env:
+          CWS_SERVICE_ACCOUNT_JSON: ${{ secrets.CWS_SERVICE_ACCOUNT_JSON }}
+          CWS_PUBLISHER_ID: ${{ secrets.CWS_PUBLISHER_ID }}
+        run: node scripts/cws-publish.mjs "lichess4chess-${GITHUB_REF_NAME}.zip"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" "lichess4chess-${GITHUB_REF_NAME}.zip" --generate-notes --title "$GITHUB_REF_NAME"

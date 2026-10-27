@@ -194,6 +194,24 @@ Update version in both:
 - [ ] No console errors
 - [ ] Permissions reviewed
 
+### Publishing (maintainers)
+
+Publishing to the Chrome Web Store is automated by `.github/workflows/release.yml`. After the version bump is merged into `main`, push a tag with the same version:
+
+```bash
+git tag v0.8.0
+git push origin v0.8.0
+```
+
+The workflow checks that the tag matches `manifest.json` and `package.json`, builds the Chrome version, uploads the zip to the Chrome Web Store and submits it for review, then creates a GitHub release with the zip attached. The new version goes live only after the Chrome Web Store review.
+
+It needs two repository secrets:
+
+- `CWS_SERVICE_ACCOUNT_JSON`: JSON key of a Google Cloud service account, with the Chrome Web Store API enabled in that project and the service account email added in the Developer Dashboard (Account section).
+- `CWS_PUBLISHER_ID`: from the Developer Dashboard, under Publisher > Settings.
+
+To upload without submitting for review, run `node scripts/cws-publish.mjs <zip> --upload-only` locally with the same variables.
+
 ## 🆘 Getting Help
 
 ### Communication
