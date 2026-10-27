@@ -78,6 +78,113 @@ This will start the development server with hot reloading.
 3. Click on the Lichess4Chess extension icon in your toolbar
 4. Use the popup interface to analyze the current game with Lichess
 
+## Testing
+
+The project includes end-to-end (E2E) tests using Playwright to ensure the extension works correctly in a real browser environment.
+
+### Quick Start
+
+```bash
+# 1. Configure Chess.com authentication (REQUIRED for full tests)
+#    See detailed instructions below
+
+# 2. Build and run tests
+npm run test:e2e
+
+# 3. View test results
+npx playwright show-report
+```
+
+### Setting Up Authentication
+
+**Most tests require Chess.com login** to access game pages. Follow these steps:
+
+1. **Copy the auth config template:**
+   ```bash
+   # The file e2e/auth.config.ts already exists - just edit it
+   ```
+
+2. **Get your Chess.com cookies:**
+   - Login to Chess.com in Chrome
+   - Press `F12` (open DevTools)
+   - Go to **Application** tab → **Cookies** → `https://www.chess.com`
+   - Find and copy the `cookie2` value (main auth cookie)
+   - Also copy `sessionid` or `session_id` if present
+
+3. **Edit `e2e/auth.config.ts`:**
+   ```typescript
+   export const authConfig: ChessComAuthConfig = {
+     cookies: [
+       {
+         name: 'cookie2',
+         value: 'paste_your_cookie_value_here', // Paste from DevTools
+         domain: '.chess.com',
+         path: '/',
+       },
+     ],
+     username: 'your_chess_com_username', // Your Chess.com username
+   };
+   ```
+
+4. **Run tests:**
+   ```bash
+   npm run test:e2e
+   ```
+
+📖 **Full guide:** See [e2e/AUTH_SETUP.md](e2e/AUTH_SETUP.md) for detailed instructions with screenshots.
+
+### Running E2E Tests
+
+Before running tests, make sure to build the extension:
+
+```bash
+# Build and run all E2E tests (headless)
+npm run test:e2e
+
+# Run tests with Playwright UI (interactive mode)
+npm run test:e2e:ui
+
+# Run tests with debug mode (step through tests)
+npm run test:e2e:debug
+
+# Run tests in headed mode (see the browser)
+npm run test:e2e:headed
+
+# Watch mode (see browser + slow workers, good for debugging)
+npm run test:e2e:watch
+```
+
+**💡 Tip:** When running in headed mode, you can **pin the extension** by clicking the puzzle icon 🧩 in the browser toolbar and pinning "Lichess4Chess". See [e2e/PINNING_EXTENSION.md](e2e/PINNING_EXTENSION.md) for details.
+
+### Test Coverage
+
+The E2E tests cover the following scenarios:
+
+- **Main Analysis Flow**: Detecting a finished Chess.com game and opening Lichess analysis
+- **State Detection**: Correctly identifying different page states (Chess.com game, profile, external sites)
+- **API Integration**: Validating Chess.com API calls and Lichess import
+- **PGN Extraction**: Testing both API and DOM-based PGN extraction methods
+
+### Testing Without Chess.com Account
+
+All tests use **public Chess.com games** from notable players (e.g., Magnus Carlsen, Hikaru Nakamura), so **no Chess.com account is required**. The extension uses Chess.com's public API (`api.chess.com/pub/*`) for fetching game data.
+
+### Installing Playwright Browsers
+
+If this is your first time running Playwright tests, install the required browser:
+
+```bash
+npx playwright install chromium
+```
+
+### Test Reports
+
+After running tests, you can view detailed HTML reports:
+
+```bash
+npx playwright show-report
+```
+
 ## Folder Structure
 
 The project folder structure is organized as follows:

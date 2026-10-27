@@ -391,3 +391,12 @@ $RECYCLE.BIN/
 
 #generated manifest
 public/manifest.json
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Test authentication (contains sensitive cookies)
+e2e/auth.config.ts
