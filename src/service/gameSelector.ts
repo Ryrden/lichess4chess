@@ -3,7 +3,19 @@ import { fetchPlayerGames } from './chessComService';
 import { createApiError, handleApiError } from './errorHandler';
 
 const STORAGE_KEY_USERNAME = 'chesscomUsername';
-const DRAW_RESULTS = new Set(['agreed', 'stalemate', 'repetition', 'insufficient', 'timevsinsufficient']);
+// Chess.com result codes for a draw (https://www.chess.com/news/view/published-data-api#game-results).
+export const DRAW_RESULTS = new Set(['agreed', 'stalemate', 'repetition', 'insufficient', 'timevsinsufficient', '50move']);
+
+/**
+ * "1-0", "0-1" or "½-½" from the two sides' Chess.com result codes.
+ * When neither side won, the game was a draw, even for draw codes not listed above.
+ */
+export function formatGameResult(whiteResult?: string, blackResult?: string): string {
+  if (!whiteResult || !blackResult) return 'Unknown';
+  if (whiteResult === 'win') return '1-0';
+  if (blackResult === 'win') return '0-1';
+  return '½-½';
+}
 
 export interface GameInfo {
   id: string;
@@ -102,12 +114,7 @@ function convertToGameInfo(game: ChessComGame): GameInfo | null {
   const urlParts = game.url.split('/');
   const id = urlParts[urlParts.length - 1] || 'unknown';
   
-  let result = 'Unknown';
-  if (game.white.result && game.black.result) {
-    if (game.white.result === 'win') result = '1-0';
-    else if (game.black.result === 'win') result = '0-1';
-    else if (DRAW_RESULTS.has(game.white.result)) result = '½-½';
-  }
+  const result = formatGameResult(game.white.result, game.black.result);
   
   return {
     id,
