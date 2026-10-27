@@ -43,6 +43,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Unit tests
+        run: npx vitest run
+
       - name: Build
         run: npm run build:chrome
 
