@@ -152,3 +152,8 @@
 .lichess4chess-loading-indicator.error {
   @apply bg-red-100 text-red-800 text-sm;
 }
+
+/* "Go to Lichess Review" button injected under chess.com's "Game Review" */
+.lichess4chess-review-button {
+  margin-top: 8px;
+}
