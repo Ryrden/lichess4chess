@@ -7,163 +7,119 @@ export function isOnLichessAnalysisPage(): boolean {
 
 export async function loadPgnIntoLichess(pgn: string): Promise<boolean> {
   console.log('[Lichess4Chess] Loading PGN into analysis board...');
-  
+
   try {
-    const pgnTextarea = document.querySelector('textarea.copyable[spellcheck="false"]') as HTMLTextAreaElement;
-    
-    if (pgnTextarea) {
-      if (pgnTextarea.value.trim() !== '') {
-        pgnTextarea.value = '';
-        pgnTextarea.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
-        pgnTextarea.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
-        await new Promise(resolve => setTimeout(resolve, 50));
+    let textarea = document.querySelector('textarea.copyable[spellcheck="false"]') as HTMLTextAreaElement | null;
+
+    if (!textarea) {
+      const pgnButton = findElementBySelectors(
+        ['a[href*="paste"]', '.pgn-import', '[data-icon=""]', 'a[title*="Import"]', 'a[title*="PGN"]'],
+        'pgn|import|paste'
+      );
+
+      if (!pgnButton) {
+        console.error('[Lichess4Chess] Could not find PGN textarea');
+        return false;
       }
-      
-      pgnTextarea.value = pgn;
-      
-      pgnTextarea.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
-      pgnTextarea.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
-      pgnTextarea.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: true }));
-      
-      const pasteEvent = new ClipboardEvent('paste', {
-        bubbles: true,
-        cancelable: true,
-        clipboardData: new DataTransfer()
-      });
-      pgnTextarea.dispatchEvent(pasteEvent);
-      
-      pgnTextarea.focus();
-      
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-      const importButton = document.querySelector('button.button.button-thin.bottom-action.text[data-icon=""]') as HTMLButtonElement;
-      if (importButton && importButton.textContent?.includes('Import PGN')) {
-        importButton.click();
-        console.log('[Lichess4Chess] Successfully loaded PGN via analysis board UI');
-        return true;
-      }
-      
-      const buttons = document.querySelectorAll('button');
-      for (const button of buttons) {
-        if (button.textContent?.trim() === 'Import PGN') {
-          (button as HTMLButtonElement).click();
-          console.log('[Lichess4Chess] Successfully loaded PGN via analysis board UI');
-          return true;
-        }
-      }
-      
-      const container = pgnTextarea.closest('.pgn-import, form, .import-pgn, [class*="pgn"]');
-      if (container) {
-        const submitButton = container.querySelector('button[type="submit"], button.button.submit, .button[type="submit"]') as HTMLButtonElement;
-        if (submitButton) {
-          submitButton.click();
-          console.log('[Lichess4Chess] Successfully loaded PGN via analysis board UI');
-          return true;
-        }
-      }
-      
-      console.log('[Lichess4Chess] PGN pasted, but no submit button found');
-      return true;
-    }
-    
-    const pgnButton = findPgnImportButton();
-    
-    if (pgnButton) {
+
       pgnButton.click();
-      
       await waitForElement('textarea.copyable', 2000);
-      
-      const textarea = document.querySelector('textarea.copyable[spellcheck="false"]') as HTMLTextAreaElement;
-      if (textarea) {
-        if (textarea.value.trim() !== '') {
-          textarea.value = '';
-          textarea.dispatchEvent(new Event('input', { bubbles: true }));
-          await new Promise(resolve => setTimeout(resolve, 50));
-        }
-        
-        textarea.value = pgn;
-        textarea.dispatchEvent(new Event('input', { bubbles: true }));
-        textarea.dispatchEvent(new Event('change', { bubbles: true }));
-        textarea.focus();
-        
-        await new Promise(resolve => setTimeout(resolve, 100));
-        
-        const importButton = document.querySelector('button.button.button-thin.bottom-action.text[data-icon=""]') as HTMLButtonElement;
-        if (importButton && importButton.textContent?.includes('Import PGN')) {
-          importButton.click();
-          console.log('[Lichess4Chess] Successfully loaded PGN via analysis board UI');
-          return true;
-        }
-        
-        const submitButton = findSubmitButton();
-        if (submitButton) {
-          submitButton.click();
-          console.log('[Lichess4Chess] Successfully loaded PGN via analysis board UI');
-          return true;
-        }
-        
-        console.log('[Lichess4Chess] PGN pasted, but no submit button found');
-        return true;
-      }
+      textarea = document.querySelector('textarea.copyable[spellcheck="false"]') as HTMLTextAreaElement | null;
     }
-    
-    console.error('[Lichess4Chess] Could not find PGN textarea');
-    return false;
+
+    if (!textarea) {
+      console.error('[Lichess4Chess] Could not find PGN textarea');
+      return false;
+    }
+
+    await fillAndSubmitPgn(textarea, pgn);
+    return true;
   } catch (error) {
     console.error('[Lichess4Chess] Error loading PGN:', error);
     return false;
   }
 }
 
-function findPgnImportButton(): HTMLElement | null {
-  const selectors = [
-    'a[href*="paste"]',
-    'button:contains("PGN")',
-    '.pgn-import',
-    '[data-icon=""]',
-    'a[title*="Import"]',
-    'a[title*="PGN"]'
-  ];
-  
-  for (const selector of selectors) {
-    try {
-      const element = document.querySelector(selector) as HTMLElement;
-      if (element) return element;
-    } catch (e) {
-      continue;
-    }
+async function fillAndSubmitPgn(textarea: HTMLTextAreaElement, pgn: string): Promise<void> {
+  if (textarea.value.trim() !== '') {
+    textarea.value = '';
+    textarea.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+    textarea.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+    await new Promise(resolve => setTimeout(resolve, 50));
   }
-  
-  const links = document.querySelectorAll('a, button');
-  for (const link of links) {
-    const text = link.textContent?.toLowerCase() || '';
-    if (text.includes('pgn') || text.includes('import') || text.includes('paste')) {
-      return link as HTMLElement;
-    }
+
+  textarea.value = pgn;
+  textarea.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+  textarea.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+  textarea.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: true }));
+  textarea.dispatchEvent(new ClipboardEvent('paste', {
+    bubbles: true,
+    cancelable: true,
+    clipboardData: new DataTransfer()
+  }));
+  textarea.focus();
+
+  await new Promise(resolve => setTimeout(resolve, 100));
+
+  const clicked = tryClickImportButton(textarea);
+  if (clicked) {
+    console.log('[Lichess4Chess] Successfully loaded PGN via analysis board UI');
+  } else {
+    console.log('[Lichess4Chess] PGN pasted, but no submit button found');
   }
-  
-  return null;
 }
 
-function findSubmitButton(): HTMLElement | null {
-  const selectors = [
-    'button[type="submit"]',
-    'button.submit',
-    '.button.submit',
-    'button:contains("Submit")',
-    'button:contains("Import")',
-    'button:contains("Load")'
-  ];
-  
+function tryClickImportButton(textarea: HTMLTextAreaElement): boolean {
+  const specific = document.querySelector('button.button.button-thin.bottom-action.text[data-icon=""]') as HTMLButtonElement | null;
+  if (specific?.textContent?.includes('Import PGN')) {
+    specific.click();
+    return true;
+  }
+
+  for (const button of document.querySelectorAll('button')) {
+    if (button.textContent?.trim() === 'Import PGN') {
+      (button as HTMLButtonElement).click();
+      return true;
+    }
+  }
+
+  const container = textarea.closest('.pgn-import, form, .import-pgn, [class*="pgn"]');
+  if (container) {
+    const submit = container.querySelector('button[type="submit"], button.button.submit, .button[type="submit"]') as HTMLButtonElement | null;
+    if (submit) {
+      submit.click();
+      return true;
+    }
+  }
+
+  const fallback = findElementBySelectors(
+    ['button[type="submit"]', 'button.submit', '.button.submit']
+  );
+  if (fallback) {
+    (fallback as HTMLButtonElement).click();
+    return true;
+  }
+
+  return false;
+}
+
+function findElementBySelectors(selectors: string[], textFallback?: string): HTMLElement | null {
   for (const selector of selectors) {
     try {
-      const element = document.querySelector(selector) as HTMLElement;
-      if (element) return element;
-    } catch (e) {
+      const el = document.querySelector(selector) as HTMLElement | null;
+      if (el) return el;
+    } catch {
       continue;
     }
   }
-  
+
+  if (textFallback) {
+    const pattern = new RegExp(textFallback, 'i');
+    for (const el of document.querySelectorAll('a, button')) {
+      if (pattern.test(el.textContent || '')) return el as HTMLElement;
+    }
+  }
+
   return null;
 }
 
@@ -174,20 +130,17 @@ function waitForElement(selector: string, timeout: number): Promise<Element> {
       resolve(element);
       return;
     }
-    
+
     const observer = new MutationObserver(() => {
-      const element = document.querySelector(selector);
-      if (element) {
+      const el = document.querySelector(selector);
+      if (el) {
         observer.disconnect();
-        resolve(element);
+        resolve(el);
       }
     });
-    
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
-    
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
     setTimeout(() => {
       observer.disconnect();
       reject(new Error(`Element ${selector} not found within ${timeout}ms`));

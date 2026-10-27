@@ -148,30 +148,34 @@ function showUsernameInput(): void {
 
 async function loadGamesForUser(username: string): Promise<void> {
   if (!modalElement) return;
-  
+
   const body = modalElement.querySelector('.lichess4chess-modal-body');
   if (!body) return;
-  
+
   body.innerHTML = '<div class="lichess4chess-loading">Loading games...</div>';
-  
-  const response = await getRecentGames(username, 1);
-  
-  if (!response.success || !response.data || response.data.length === 0) {
+
+  const showError = (message: string) => {
     body.innerHTML = `
-      <div class="lichess4chess-error">
-        ${response.error?.message || 'No games found'}
-      </div>
+      <div class="lichess4chess-error">${message}</div>
       <div class="lichess4chess-change-user">
         <button id="lichess4chess-change-username">Change Username</button>
       </div>
     `;
-    
-    const changeBtn = body.querySelector('#lichess4chess-change-username');
-    changeBtn?.addEventListener('click', showUsernameInput);
-    return;
+    body.querySelector('#lichess4chess-change-username')?.addEventListener('click', showUsernameInput);
+  };
+
+  try {
+    const response = await getRecentGames(username, 1);
+
+    if (!response.success || !response.data || response.data.length === 0) {
+      showError(response.error?.message || 'No games found');
+      return;
+    }
+
+    displayGames(response.data, username);
+  } catch (error) {
+    showError('Failed to load games. Check your connection and try again.');
   }
-  
-  displayGames(response.data, username);
 }
 
 function displayGames(games: GameInfo[], username: string): void {

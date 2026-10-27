@@ -2,6 +2,21 @@ import { ApiResponse, ChessComGame } from './types';
 import { fetchPlayerGames } from './chessComService';
 import { createApiError, handleApiError } from './errorHandler';
 
+const STORAGE_KEY_USERNAME = 'chesscomUsername';
+// Chess.com result codes for a draw (https://www.chess.com/news/view/published-data-api#game-results).
+export const DRAW_RESULTS = new Set(['agreed', 'stalemate', 'repetition', 'insufficient', 'timevsinsufficient', '50move']);
+
+/**
+ * "1-0", "0-1" or "½-½" from the two sides' Chess.com result codes.
+ * When neither side won, the game was a draw, even for draw codes not listed above.
+ */
+export function formatGameResult(whiteResult?: string, blackResult?: string): string {
+  if (!whiteResult || !blackResult) return 'Unknown';
+  if (whiteResult === 'win') return '1-0';
+  if (blackResult === 'win') return '0-1';
+  return '½-½';
+}
+
 export interface GameInfo {
   id: string;
   url: string;
@@ -21,8 +36,8 @@ export interface GameInfo {
 
 export async function getChessComUsername(): Promise<string | null> {
   try {
-    const result = await chrome.storage.local.get('chesscomUsername');
-    return result.chesscomUsername || null;
+    const result = await chrome.storage.local.get(STORAGE_KEY_USERNAME);
+    return result[STORAGE_KEY_USERNAME] || null;
   } catch (error) {
     console.error('Error getting Chess.com username:', error);
     return null;
@@ -31,7 +46,7 @@ export async function getChessComUsername(): Promise<string | null> {
 
 export async function saveChessComUsername(username: string): Promise<void> {
   try {
-    await chrome.storage.local.set({ chesscomUsername: username });
+    await chrome.storage.local.set({ [STORAGE_KEY_USERNAME]: username });
   } catch (error) {
     console.error('Error saving Chess.com username:', error);
     throw error;
@@ -99,14 +114,7 @@ function convertToGameInfo(game: ChessComGame): GameInfo | null {
   const urlParts = game.url.split('/');
   const id = urlParts[urlParts.length - 1] || 'unknown';
   
-  let result = 'Unknown';
-  if (game.white.result && game.black.result) {
-    if (game.white.result === 'win') result = '1-0';
-    else if (game.black.result === 'win') result = '0-1';
-    else if (game.white.result === 'agreed' || game.white.result === 'stalemate' || game.white.result === 'repetition' || game.white.result === 'insufficient') {
-      result = '½-½';
-    }
-  }
+  const result = formatGameResult(game.white.result, game.black.result);
   
   return {
     id,
