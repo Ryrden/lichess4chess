@@ -39,6 +39,24 @@ let messagesCache: Record<string, Record<string, { message: string }>> = {};
 let currentLanguageCode: LanguageCode | null = null;
 
 /**
+ * Language to save when the extension updates, or null to keep the saved one.
+ * Up to 0.8.x only English and Portuguese existed, so a browser in Spanish,
+ * French or Russian got "en" saved on install. Those users move to their
+ * browser's language once, on the update that added it.
+ */
+export function languageAfterUpdate(
+  previousVersion: string | undefined,
+  savedLanguage: unknown,
+  uiLanguage: string | undefined
+): LanguageCode | null {
+  if (!previousVersion || savedLanguage !== "en") return null;
+  const [major = 0, minor = 0] = previousVersion.split(".").map((part) => parseInt(part, 10) || 0);
+  if (major > 0 || minor >= 9) return null;
+  const browserLanguage = resolveLanguage(uiLanguage);
+  return browserLanguage === "es" || browserLanguage === "fr" || browserLanguage === "ru" ? browserLanguage : null;
+}
+
+/**
  * Get the current language from storage or default to browser UI language
  */
 export async function getCurrentLanguage(): Promise<LanguageCode> {
