@@ -129,11 +129,11 @@
     "description": "Description for auto-open setting"
   },
   "injectGoToLichessButton": {
-    "message": "Añadir el botón 'Revisar en Lichess'",
+    "message": "Añadir el botón «Revisar en Lichess»",
     "description": "Toggle for injecting the Lichess review button on Chess.com"
   },
   "injectGoToLichessButtonDesc": {
-    "message": "Añadir un botón 'Revisar en Lichess' directamente en las páginas de partidas de Chess.com cuando termine una partida",
+    "message": "Añadir un botón «Revisar en Lichess» directamente en las páginas de partidas de Chess.com cuando termine una partida",
     "description": "Description for button injection setting"
   },
   "aboutSection": {
@@ -233,7 +233,7 @@
     "description": "Short link to the Chess Roadmap site in the popup footer"
   },
   "chessRoadmapUrl": {
-    "message": "https://thechessroadmap.vercel.app/es/",
+    "message": "https://thechessroadmap.vercel.app/es",
     "description": "Chess Roadmap URL in this language (UTM parameters are added in code)"
   },
   "chessComUserLabel": {
@@ -271,5 +271,61 @@
   "clear": {
     "message": "Borrar",
     "description": "Button to clear a field"
+  },
+  "importChessComGame": {
+    "message": "Importar partida de Chess.com",
+    "description": "Button and window title on the Lichess analysis board"
+  },
+  "closeEsc": {
+    "message": "Cerrar (Esc)",
+    "description": "Tooltip of the close button of the import window"
+  },
+  "enterChessComUsername": {
+    "message": "Escribe tu nombre de usuario de Chess.com:",
+    "description": "Label of the Chess.com username field in the import window"
+  },
+  "usernamePlaceholder": {
+    "message": "Nombre de usuario",
+    "description": "Placeholder of the Chess.com username field"
+  },
+  "loadGames": {
+    "message": "Cargar partidas",
+    "description": "Button that loads the recent games of a Chess.com user"
+  },
+  "loadingGames": {
+    "message": "Cargando partidas...",
+    "description": "Shown while the recent games load"
+  },
+  "noGamesFound": {
+    "message": "No se encontraron partidas",
+    "description": "Shown when the Chess.com user has no recent games"
+  },
+  "loadGamesFailed": {
+    "message": "No se pudieron cargar las partidas. Revisa tu conexión e inténtalo de nuevo.",
+    "description": "Shown when the recent games could not be loaded"
+  },
+  "searchGames": {
+    "message": "Buscar partidas...",
+    "description": "Placeholder of the search field in the game list"
+  },
+  "loadingGameIntoAnalysis": {
+    "message": "Cargando la partida en el análisis...",
+    "description": "Shown while the chosen game is loaded into the Lichess analysis board"
+  },
+  "gameLoaded": {
+    "message": "¡Partida cargada!",
+    "description": "Shown after the game is loaded into the analysis board"
+  },
+  "gameLoadError": {
+    "message": "Error al cargar la partida. Revisa la consola para ver los detalles.",
+    "description": "Shown when the game could not be loaded into the analysis board"
+  },
+  "unsavedChangesLeave": {
+    "message": "Tienes cambios sin guardar. ¿Seguro que quieres salir?",
+    "description": "Browser prompt when leaving the options page with unsaved changes"
+  },
+  "unsavedChangesNotice": {
+    "message": "Tienes cambios sin guardar. Solo se aplicarán cuando hagas clic en «Guardar configuración».",
+    "description": "Banner on the options page when there are unsaved changes"
   }
 }

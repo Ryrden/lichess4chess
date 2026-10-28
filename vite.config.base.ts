@@ -27,7 +27,9 @@ export const baseManifest = {
   web_accessible_resources: [
     {
       resources: ["contentStyle.css", "icon-128.png", "icon-32.png", "original.png", "favicon.png", "ui.svg", "_locales/*/messages.json"],
-      matches: ["*://*.chess.com/*"]
+      // lichess.org too: the import window on the Lichess analysis board reads the
+      // chosen language's messages.json from there (same list as manifest.json).
+      matches: ["*://*.chess.com/*", "*://*.lichess.org/*"]
     }
   ],
 } as ManifestV3Export;

@@ -36,9 +36,10 @@ function injectFloatingButton(): void {
       <polyline points="7 10 12 15 17 10"></polyline>
       <line x1="12" y1="15" x2="12" y2="3"></line>
     </svg>
-    <span>Import Chess.com Game</span>
+    <span class="lichess4chess-floating-btn-label"></span>
   `;
-  button.title = 'Import Chess.com Game';
+  (button.querySelector('.lichess4chess-floating-btn-label') as HTMLElement).textContent = getMessage('importChessComGame');
+  button.title = getMessage('importChessComGame');
   
   button.addEventListener('click', (e) => {
     e.preventDefault();
@@ -75,14 +76,17 @@ function createModal(): HTMLElement {
     <div class="lichess4chess-modal-overlay"></div>
     <div class="lichess4chess-modal-content">
       <div class="lichess4chess-modal-header">
-        <h2>Import Chess.com Game</h2>
-        <button class="lichess4chess-close-btn" title="Close (Esc)">×</button>
+        <h2></h2>
+        <button class="lichess4chess-close-btn">×</button>
       </div>
       <div class="lichess4chess-modal-body">
-        <div class="lichess4chess-loading">Loading...</div>
+        <div class="lichess4chess-loading"></div>
       </div>
     </div>
   `;
+  (modal.querySelector('.lichess4chess-modal-header h2') as HTMLElement).textContent = getMessage('importChessComGame');
+  (modal.querySelector('.lichess4chess-close-btn') as HTMLElement).title = getMessage('closeEsc');
+  (modal.querySelector('.lichess4chess-loading') as HTMLElement).textContent = getMessage('loading');
 
   const closeBtn = modal.querySelector('.lichess4chess-close-btn');
   closeBtn?.addEventListener('click', closeModal);
@@ -114,20 +118,15 @@ async function showUsernameInput(): Promise<void> {
   
   body.innerHTML = `
     <div class="lichess4chess-username-form">
-      <label for="lichess4chess-username">
-        Enter your Chess.com username:
-      </label>
+      <label for="lichess4chess-username"></label>
       <input 
         type="text" 
         id="lichess4chess-username" 
         class="lichess4chess-input"
-        placeholder="Enter username"
         autocomplete="off"
       />
       <div class="lichess4chess-form-actions">
-        <button class="lichess4chess-btn" id="lichess4chess-submit-username">
-          Load Games
-        </button>
+        <button class="lichess4chess-btn" id="lichess4chess-submit-username"></button>
         ${savedUsername ? `<button class="lichess4chess-link-btn" id="lichess4chess-cancel-username"></button>` : ''}
       </div>
     </div>
@@ -137,7 +136,10 @@ async function showUsernameInput(): Promise<void> {
   const button = body.querySelector('#lichess4chess-submit-username') as HTMLButtonElement;
   const cancelButton = body.querySelector('#lichess4chess-cancel-username') as HTMLButtonElement | null;
 
-  // Set via properties, not the template, so a username is never parsed as HTML.
+  // Set via properties, not the template, so a username or a translation is never parsed as HTML.
+  (body.querySelector('label[for="lichess4chess-username"]') as HTMLElement).textContent = getMessage('enterChessComUsername');
+  input.placeholder = getMessage('usernamePlaceholder');
+  button.textContent = getMessage('loadGames');
   input.value = savedUsername ?? '';
   if (cancelButton && savedUsername) {
     cancelButton.textContent = getMessage('cancel');
@@ -149,7 +151,7 @@ async function showUsernameInput(): Promise<void> {
     if (!username) return;
     
     button.disabled = true;
-    button.textContent = 'Loading...';
+    button.textContent = getMessage('loading');
     
     await saveChessComUsername(username);
     await loadGamesForUser(username);
@@ -173,29 +175,33 @@ async function loadGamesForUser(username: string): Promise<void> {
   const body = modalElement.querySelector('.lichess4chess-modal-body');
   if (!body) return;
 
-  body.innerHTML = '<div class="lichess4chess-loading">Loading games...</div>';
+  body.innerHTML = '<div class="lichess4chess-loading"></div>';
+  (body.querySelector('.lichess4chess-loading') as HTMLElement).textContent = getMessage('loadingGames');
 
   const showError = (message: string) => {
     body.innerHTML = `
-      <div class="lichess4chess-error">${message}</div>
+      <div class="lichess4chess-error"></div>
       <div class="lichess4chess-change-user">
-        <button id="lichess4chess-change-username">Change Username</button>
+        <button id="lichess4chess-change-username"></button>
       </div>
     `;
-    body.querySelector('#lichess4chess-change-username')?.addEventListener('click', showUsernameInput);
+    (body.querySelector('.lichess4chess-error') as HTMLElement).textContent = message;
+    const changeButton = body.querySelector('#lichess4chess-change-username') as HTMLElement;
+    changeButton.textContent = getMessage('changeChessComUser');
+    changeButton.addEventListener('click', showUsernameInput);
   };
 
   try {
     const response = await getRecentGames(username, 1);
 
     if (!response.success || !response.data || response.data.length === 0) {
-      showError(response.error?.message || 'No games found');
+      showError(response.error?.message || getMessage('noGamesFound'));
       return;
     }
 
     displayGames(response.data, username);
   } catch (error) {
-    showError('Failed to load games. Check your connection and try again.');
+    showError(getMessage('loadGamesFailed'));
   }
 }
 
@@ -217,7 +223,6 @@ function displayGames(games: GameInfo[], username: string): void {
         type="text" 
         id="lichess4chess-search" 
         class="lichess4chess-input"
-        placeholder="Search games..."
       />
     </div>
     <div class="lichess4chess-game-list" id="lichess4chess-game-list"></div>
@@ -225,6 +230,7 @@ function displayGames(games: GameInfo[], username: string): void {
   (body.querySelector('.lichess4chess-user-prefix') as HTMLElement).textContent = getMessage('chessComUserLabel');
   (body.querySelector('.lichess4chess-user-name') as HTMLElement).textContent = username;
   (body.querySelector('#lichess4chess-change-username') as HTMLElement).textContent = getMessage('changeChessComUser');
+  (body.querySelector('#lichess4chess-search') as HTMLInputElement).placeholder = getMessage('searchGames');
   
   const gameList = body.querySelector('#lichess4chess-game-list');
   const searchInput = body.querySelector('#lichess4chess-search') as HTMLInputElement;
@@ -285,7 +291,7 @@ async function selectGame(game: GameInfo): Promise<void> {
   
   const loadingDiv = document.createElement('div');
   loadingDiv.className = 'lichess4chess-loading-indicator';
-  loadingDiv.textContent = 'Loading game into analysis...';
+  loadingDiv.textContent = getMessage('loadingGameIntoAnalysis');
   document.body.appendChild(loadingDiv);
   
   try {
@@ -303,7 +309,7 @@ async function selectGame(game: GameInfo): Promise<void> {
     
     await new Promise(resolve => setTimeout(resolve, 500));
     
-    loadingDiv.textContent = '✓ Game loaded successfully!';
+    loadingDiv.textContent = `✓ ${getMessage('gameLoaded')}`;
     loadingDiv.className = 'lichess4chess-loading-indicator success';
     
     setTimeout(() => {
@@ -312,7 +318,7 @@ async function selectGame(game: GameInfo): Promise<void> {
     }, 1500);
   } catch (error) {
     console.error('[Lichess4Chess] Error loading game:', error);
-    loadingDiv.textContent = '✗ Error loading game. Check console for details.';
+    loadingDiv.textContent = `✗ ${getMessage('gameLoadError')}`;
     loadingDiv.className = 'lichess4chess-loading-indicator error';
     
     setTimeout(() => {
