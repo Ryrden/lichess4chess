@@ -42,7 +42,7 @@ How to check them:
 - With the button disabled in Options, it does not appear. With "Auto-open Lichess analysis" on, Lichess opens once per game, not on every page change.
 - The popup shows the right state on: a non-Chess.com site, the Chess.com home page, a game in progress, a finished game.
 - On `lichess.org/analysis`, "Import Chess.com Game" lists the saved user's recent games and loads the chosen one.
-- Popup and Options work in English and Portuguese, light and dark theme, with no untranslated keys showing.
+- Popup, Options and the Lichess import window work in all five languages (English, Portuguese, Spanish, French, Russian), light and dark theme, with no untranslated keys showing and no button text wrapping in the 300px popup.
 
 ## Report
 
