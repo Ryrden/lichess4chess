@@ -1,5 +1,6 @@
 import { ApiResponse, ChessComGame } from './types';
 import { createApiError, handleApiError } from './errorHandler';
+import { getMessage } from '@src/utils/i18n';
 
 const BASE_URL = 'https://api.chess.com/pub';
 const REQUEST_TIMEOUT = 10000;
@@ -37,8 +38,9 @@ export async function fetchPlayerGames(
         success: false,
         error: {
           code: 'NOT_FOUND' as any,
-          message: `No games found for player '${username}' in ${targetYear}/${monthStr}`,
-          details: 'The player may not have played any games this month',
+          message: getMessage('noGamesFound'),
+          // English detail for logs; the message above is shown to the user.
+          details: `No games found for player '${username}' in ${targetYear}/${monthStr}`,
           retryable: false
         }
       };

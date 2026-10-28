@@ -253,7 +253,7 @@
     "description": "Options section title for the saved Chess.com username"
   },
   "chessComAccountDesc": {
-    "message": "Nombre de usuario que usa \"Importar partida de Chess.com\" en el tablero de análisis de Lichess. Déjalo vacío y se te pedirá de nuevo la próxima vez.",
+    "message": "Nombre de usuario que usa «Importar partida de Chess.com» en el tablero de análisis de Lichess. Déjalo vacío y se te pedirá de nuevo la próxima vez.",
     "description": "Options section description for the saved Chess.com username"
   },
   "chessComUsernamePlaceholder": {
@@ -261,7 +261,7 @@
     "description": "Placeholder for the Chess.com username field"
   },
   "showImportChessComButton": {
-    "message": "Mostrar \"Importar partida de Chess.com\" en Lichess",
+    "message": "Mostrar «Importar partida de Chess.com» en Lichess",
     "description": "Toggle for the import button on the Lichess analysis board"
   },
   "showImportChessComButtonDesc": {

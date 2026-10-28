@@ -1,6 +1,7 @@
 import { ApiResponse, ChessComGame } from './types';
 import { fetchPlayerGames } from './chessComService';
 import { createApiError, handleApiError } from './errorHandler';
+import { getMessage } from '@src/utils/i18n';
 
 const STORAGE_KEY_USERNAME = 'chesscomUsername';
 // Chess.com result codes for a draw (https://www.chess.com/news/view/published-data-api#game-results).
@@ -87,7 +88,7 @@ export async function getRecentGames(
         success: false,
         error: {
           code: 'NOT_FOUND' as any,
-          message: 'No games found for this user',
+          message: getMessage('noGamesFound'),
           details: `No games found for ${username} in the last ${monthsBack} month(s)`,
           retryable: false
         }
