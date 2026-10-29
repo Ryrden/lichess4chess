@@ -1,0 +1,331 @@
+{
+  "extName": {
+    "message": "Lichess4Chess",
+    "description": "Extension name"
+  },
+  "extSubtitle": {
+    "message": "Analiza tus partidas de Chess.com fácilmente",
+    "description": "Extension subtitle"
+  },
+  "extDescription": {
+    "message": "Análisis de partidas de Chess.com gratis en Lichess: abre tu partida terminada en el tablero de análisis con un clic.",
+    "description": "Extension description"
+  },
+  "detectingGameState": {
+    "message": "Detectando la partida...",
+    "description": "Message shown when detecting game state"
+  },
+  "notChessSite": {
+    "message": "Visita Chess.com para analizar tus partidas",
+    "description": "Message shown when not on Chess.com"
+  },
+  "noGameDetected": {
+    "message": "Empieza y termina una partida para analizarla",
+    "description": "Message shown when no chess game is detected"
+  },
+  "gameDetected": {
+    "message": "¡Partida terminada! Analízala en Lichess",
+    "description": "Message shown when a chess game is detected"
+  },
+  "gameInProgress": {
+    "message": "Espera a que termine la partida para analizarla",
+    "description": "Message shown when a game is in progress"
+  },
+  "analyzeOnLichess": {
+    "message": "Analizar en Lichess",
+    "description": "Button text for analyzing on Lichess"
+  },
+  "goToLichessReview": {
+    "message": "Revisar en Lichess",
+    "description": "Button text for going to Lichess review from game page"
+  },
+  "goToChesscom": {
+    "message": "Ir a Chess.com",
+    "description": "Button text for going to Chess.com"
+  },
+  "loading": {
+    "message": "Cargando...",
+    "description": "Loading message"
+  },
+  "version": {
+    "message": "Versión: $VERSION$",
+    "description": "Extension version",
+    "placeholders": {
+      "version": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsTitle": {
+    "message": "Opciones de Lichess4Chess",
+    "description": "Title of the options page"
+  },
+  "languageSettings": {
+    "message": "Idioma",
+    "description": "Language settings section title"
+  },
+  "languageSettingsDesc": {
+    "message": "Elige tu idioma preferido. La extensión se reiniciará para aplicar los cambios.",
+    "description": "Description of language settings"
+  },
+  "lichessSettings": {
+    "message": "Integración con Lichess",
+    "description": "Lichess settings section title"
+  },
+  "lichessInstantSettingsDesc": {
+    "message": "Abrir automáticamente el análisis de Lichess al terminar una partida",
+    "description": "Description of Lichess settings"
+  },
+  "language_en": {
+    "message": "Inglés",
+    "description": "English language name"
+  },
+  "language_pt_BR": {
+    "message": "Portugués (Brasil)",
+    "description": "Brazilian Portuguese language name"
+  },
+  "appearanceSettings": {
+    "message": "Apariencia",
+    "description": "Appearance settings section title"
+  },
+  "themeSetting": {
+    "message": "Tema",
+    "description": "Theme setting label"
+  },
+  "themeLight": {
+    "message": "Claro",
+    "description": "Light theme option"
+  },
+  "themeDark": {
+    "message": "Oscuro",
+    "description": "Dark theme option"
+  },
+  "themeSystem": {
+    "message": "Predeterminado del sistema",
+    "description": "System theme option"
+  },
+  "notificationSettings": {
+    "message": "Notificaciones",
+    "description": "Notification settings section title"
+  },
+  "enableNotifications": {
+    "message": "Activar notificaciones",
+    "description": "Toggle for enabling notifications"
+  },
+  "notificationsDesc": {
+    "message": "Recibir notificaciones cuando tu partida esté lista para analizar",
+    "description": "Description for notification settings"
+  },
+  "analysisSettings": {
+    "message": "Análisis",
+    "description": "Analysis settings section title"
+  },
+  "autoOpenLichess": {
+    "message": "Abrir automáticamente el análisis de Lichess",
+    "description": "Toggle for auto-opening Lichess analysis"
+  },
+  "autoOpenDesc": {
+    "message": "Abrir automáticamente el análisis de Lichess cuando termine una partida",
+    "description": "Description for auto-open setting"
+  },
+  "injectGoToLichessButton": {
+    "message": "Añadir el botón «Revisar en Lichess»",
+    "description": "Toggle for injecting the Lichess review button on Chess.com"
+  },
+  "injectGoToLichessButtonDesc": {
+    "message": "Añadir un botón «Revisar en Lichess» directamente en las páginas de partidas de Chess.com cuando termine una partida",
+    "description": "Description for button injection setting"
+  },
+  "aboutSection": {
+    "message": "Acerca de",
+    "description": "About section title"
+  },
+  "versionInfo": {
+    "message": "Versión",
+    "description": "Version information label"
+  },
+  "saveSettings": {
+    "message": "Guardar configuración",
+    "description": "Save settings button text"
+  },
+  "resetSettings": {
+    "message": "Restablecer valores predeterminados",
+    "description": "Reset settings button text"
+  },
+  "settingsSaved": {
+    "message": "¡Configuración guardada correctamente!",
+    "description": "Message shown when settings are saved"
+  },
+  "settingsReset": {
+    "message": "Configuración restablecida a los valores predeterminados",
+    "description": "Message shown when settings are reset"
+  },
+  "rateExtension": {
+    "message": "¿Te gusta la extensión? ¡Valórala en la Chrome Web Store!",
+    "description": "Tooltip for the rating button"
+  },
+  "aboutDesc": {
+    "message": "Esta extensión se creó para ayudarte después de tus partidas de ajedrez en Chess.com. No pretende ofrecer funciones que puedan facilitar las trampas, y es de código abierto, así que puedes contribuir en GitHub. Si tienes alguna sugerencia de función, no dudes en abrir un issue en el repositorio de GitHub.",
+    "description": "Description of the about section"
+  },
+  "featuresToBeAdded": {
+    "message": "Próximas funciones",
+    "description": "Title for the features to be added section"
+  },
+  "featuresToBeAddedDesc": {
+    "message": "Estoy trabajando en nuevas funciones para mejorar aún más la extensión, como abrir Lichess automáticamente al terminar la partida o añadir un botón de revisión en la pantalla.",
+    "description": "Description for the features to be added section"
+  },
+  "suggestFeature": {
+    "message": "¿Tienes una sugerencia de función? Abre un issue en GitHub :) Me encantará implementarla",
+    "description": "Message for suggesting a feature"
+  },
+  "errorTitle": {
+    "message": "Error de Lichess4Chess",
+    "description": "Title for error notifications"
+  },
+  "errorNetwork": {
+    "message": "Se produjo un error de red. Revisa tu conexión a internet.",
+    "description": "Message for network errors"
+  },
+  "errorTimeout": {
+    "message": "Se agotó el tiempo de espera de la solicitud. Inténtalo de nuevo.",
+    "description": "Message for timeout errors"
+  },
+  "errorRateLimit": {
+    "message": "Se superó el límite de solicitudes. Espera un momento e inténtalo de nuevo.",
+    "description": "Message for rate limit errors"
+  },
+  "errorNotFound": {
+    "message": "No se encontró la partida. Puede que sea demasiado antigua o que no esté disponible.",
+    "description": "Message for not found errors"
+  },
+  "errorServer": {
+    "message": "Error del servidor. Inténtalo de nuevo más tarde.",
+    "description": "Message for server errors"
+  },
+  "errorRetryHint": {
+    "message": "Puedes intentarlo de nuevo.",
+    "description": "Hint shown when an error is retryable"
+  },
+  "lichessAnalyzePageDetected": {
+    "message": "En la página de análisis de Lichess",
+    "description": "Message shown when on Lichess analyze page"
+  },
+  "lichessReviewPageDetected": {
+    "message": "En la página de estudio/revisión de Lichess",
+    "description": "Message shown when on Lichess review page"
+  },
+  "exportToChessCom": {
+    "message": "Exportar a Chess.com",
+    "description": "Button text for exporting to Chess.com"
+  },
+  "thanksContributors": {
+    "message": "Gracias a todos los colaboradores",
+    "description": "Title for contributors section"
+  },
+  "chessRoadmapLink": {
+    "message": "¿Estás aprendiendo ajedrez? Prueba Chess Roadmap, un mapa de estudio gratuito paso a paso",
+    "description": "Link to the Chess Roadmap site on the options page"
+  },
+  "chessRoadmapShort": {
+    "message": "Mapa gratis para estudiar ajedrez",
+    "description": "Short link to the Chess Roadmap site in the popup footer"
+  },
+  "chessRoadmapUrl": {
+    "message": "https://thechessroadmap.vercel.app/es",
+    "description": "Chess Roadmap URL in this language (UTM parameters are added in code)"
+  },
+  "chessComUserLabel": {
+    "message": "Usuario de Chess.com:",
+    "description": "Label before the saved Chess.com username in the import modal"
+  },
+  "changeChessComUser": {
+    "message": "Cambiar usuario",
+    "description": "Button to change the saved Chess.com username"
+  },
+  "cancel": {
+    "message": "Cancelar",
+    "description": "Generic cancel button"
+  },
+  "chessComAccount": {
+    "message": "Cuenta de Chess.com",
+    "description": "Options section title for the saved Chess.com username"
+  },
+  "chessComAccountDesc": {
+    "message": "Nombre de usuario que usa «Importar partida de Chess.com» en el tablero de análisis de Lichess. Déjalo vacío y se te pedirá de nuevo la próxima vez.",
+    "description": "Options section description for the saved Chess.com username"
+  },
+  "chessComUsernamePlaceholder": {
+    "message": "Usuario de Chess.com",
+    "description": "Placeholder for the Chess.com username field"
+  },
+  "showImportChessComButton": {
+    "message": "Mostrar «Importar partida de Chess.com» en Lichess",
+    "description": "Toggle for the import button on the Lichess analysis board"
+  },
+  "showImportChessComButtonDesc": {
+    "message": "Añade un botón al tablero de análisis de Lichess para cargar una de tus partidas recientes de Chess.com",
+    "description": "Description of the import button toggle"
+  },
+  "clear": {
+    "message": "Borrar",
+    "description": "Button to clear a field"
+  },
+  "importChessComGame": {
+    "message": "Importar partida de Chess.com",
+    "description": "Button and window title on the Lichess analysis board"
+  },
+  "closeEsc": {
+    "message": "Cerrar (Esc)",
+    "description": "Tooltip of the close button of the import window"
+  },
+  "enterChessComUsername": {
+    "message": "Escribe tu nombre de usuario de Chess.com:",
+    "description": "Label of the Chess.com username field in the import window"
+  },
+  "usernamePlaceholder": {
+    "message": "Nombre de usuario",
+    "description": "Placeholder of the Chess.com username field"
+  },
+  "loadGames": {
+    "message": "Cargar partidas",
+    "description": "Button that loads the recent games of a Chess.com user"
+  },
+  "loadingGames": {
+    "message": "Cargando partidas...",
+    "description": "Shown while the recent games load"
+  },
+  "noGamesFound": {
+    "message": "No se encontraron partidas",
+    "description": "Shown when the Chess.com user has no recent games"
+  },
+  "loadGamesFailed": {
+    "message": "No se pudieron cargar las partidas. Revisa tu conexión e inténtalo de nuevo.",
+    "description": "Shown when the recent games could not be loaded"
+  },
+  "searchGames": {
+    "message": "Buscar partidas...",
+    "description": "Placeholder of the search field in the game list"
+  },
+  "loadingGameIntoAnalysis": {
+    "message": "Cargando la partida en el análisis...",
+    "description": "Shown while the chosen game is loaded into the Lichess analysis board"
+  },
+  "gameLoaded": {
+    "message": "¡Partida cargada!",
+    "description": "Shown after the game is loaded into the analysis board"
+  },
+  "gameLoadError": {
+    "message": "Error al cargar la partida. Revisa la consola para ver los detalles.",
+    "description": "Shown when the game could not be loaded into the analysis board"
+  },
+  "unsavedChangesLeave": {
+    "message": "Tienes cambios sin guardar. ¿Seguro que quieres salir?",
+    "description": "Browser prompt when leaving the options page with unsaved changes"
+  },
+  "unsavedChangesNotice": {
+    "message": "Tienes cambios sin guardar. Solo se aplicarán cuando hagas clic en «Guardar configuración».",
+    "description": "Banner on the options page when there are unsaved changes"
+  }
+}

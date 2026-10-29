@@ -15,7 +15,7 @@ You do not fix code. You report problems with steps to reproduce, so whoever wro
 1. `npm ci`, then `npx vitest run` if Vitest is set up: all tests pass.
 2. `npm run build:chrome` and `npm run build:firefox` pass.
 3. Versions: `manifest.json` and `package.json` have the same `version`, and it is higher than the latest `v*` tag (`git tag --sort=-v:refname | head -1`).
-4. i18n: `src/locales/en/messages.json` and `src/locales/pt_br/messages.json` have exactly the same keys, and no message is empty. Compare them with a short `node -e` script and list missing keys per language.
+4. i18n: every `src/locales/<code>/messages.json` (`en`, `pt_br`, `es`, `fr`, `ru`) has exactly the same keys as `en`, and no message is empty. `src/utils/__tests__/i18n.test.ts` checks this; if it fails, list the missing keys per language.
 5. Permissions: compare `permissions`, `host_permissions` and `content_scripts.matches` in `manifest.json` with the latest tag (`git diff <tag> -- manifest.json`). Any new permission must be called out, because the Chrome Web Store review and users see it.
 
 ## Chess.com and Lichess selectors
@@ -42,7 +42,7 @@ How to check them:
 - With the button disabled in Options, it does not appear. With "Auto-open Lichess analysis" on, Lichess opens once per game, not on every page change.
 - The popup shows the right state on: a non-Chess.com site, the Chess.com home page, a game in progress, a finished game.
 - On `lichess.org/analysis`, "Import Chess.com Game" lists the saved user's recent games and loads the chosen one.
-- Popup and Options work in English and Portuguese, light and dark theme, with no untranslated keys showing.
+- Popup, Options and the Lichess import window work in all five languages (English, Portuguese, Spanish, French, Russian), light and dark theme, with no untranslated keys showing and no button text wrapping in the 300px popup.
 
 ## Report
 
