@@ -1,3 +1,4 @@
+import Browser from "webextension-polyfill";
 import { getMessage } from "@src/utils/i18n";
 import { markReviewed, takePendingReviewPrompt } from "@src/utils/reviewPrompt";
 import { getSettings } from "@src/utils/settings";
@@ -36,13 +37,23 @@ export async function showReviewPromptCard(): Promise<HTMLElement | null> {
 
   const header = document.createElement("div");
   header.className = `${CARD_CLASS}__header`;
+  const brand = document.createElement("div");
+  brand.className = `${CARD_CLASS}__brand`;
+  const logo = document.createElement("img");
+  logo.className = `${CARD_CLASS}__logo`;
+  // icon-128 drawn at 24px stays sharp on high-density screens.
+  logo.src = Browser.runtime.getURL("icon-128.png");
+  logo.alt = "";
+  logo.width = 24;
+  logo.height = 24;
   const title = document.createElement("p");
   title.id = TITLE_ID;
   title.className = `${CARD_CLASS}__title`;
   title.textContent = getMessage("reviewPromptTitle");
+  brand.append(logo, title);
   const close = createButton(`${CARD_CLASS}__close`, "later", "×");
   close.setAttribute("aria-label", getMessage("reviewPromptLater"));
-  header.append(title, close);
+  header.append(brand, close);
 
   const body = document.createElement("p");
   body.className = `${CARD_CLASS}__body`;

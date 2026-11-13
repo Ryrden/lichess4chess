@@ -221,6 +221,26 @@
   gap: 8px;
 }
 
+.lichess4chess-review-card__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lichess4chess-review-card__logo {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+}
+
+/* The logo's dark ring and knight vanish on the dark card: give it a light disc. */
+.lichess4chess-review-card--dark .lichess4chess-review-card__logo {
+  padding: 2px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
 .lichess4chess-review-card__title {
   font-size: 14px;
   font-weight: 600;

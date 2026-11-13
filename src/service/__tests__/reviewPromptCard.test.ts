@@ -29,6 +29,13 @@ describe("showReviewPromptCard", () => {
     expect(card.getAttribute("aria-labelledby")).toBe(card.querySelector("p")?.id);
   });
 
+  it("shows the extension logo next to the title", async () => {
+    const card = (await showReviewPromptCard())!;
+    const logo = card.querySelector<HTMLImageElement>(".lichess4chess-review-card__logo")!;
+    expect(logo.src).toBe("chrome-extension://test/icon-128.png");
+    expect(logo.alt).toBe("");
+  });
+
   it("opens the store reviews page and remembers the review", async () => {
     const card = (await showReviewPromptCard())!;
     click(card, '[data-action="rate"]');
