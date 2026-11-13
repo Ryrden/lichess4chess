@@ -323,5 +323,21 @@
   "unsavedChangesNotice": {
     "message": "You have unsaved changes. Changes will not be implemented unless \"Save Settings\" is clicked.",
     "description": "Banner on the options page when there are unsaved changes"
+  },
+  "reviewPromptTitle": {
+    "message": "Enjoying Lichess4Chess?",
+    "description": "Title of the card that asks for a Chrome Web Store review"
+  },
+  "reviewPromptBody": {
+    "message": "I'm Ryan and I build it on my own. A quick review helps other players find it.",
+    "description": "Body of the card that asks for a Chrome Web Store review"
+  },
+  "reviewPromptRate": {
+    "message": "Leave a review",
+    "description": "Button on the review card that opens the Chrome Web Store reviews page"
+  },
+  "reviewPromptLater": {
+    "message": "Not now",
+    "description": "Button on the review card that closes it"
   }
 }

@@ -3,6 +3,7 @@ import { GAME_STATE, GameState } from './types';
 import { detectGameState, getCurrentGamePgn } from './gameState';
 import { getMessage } from '@src/utils/i18n';
 import { getSettings } from '@src/utils/settings';
+import { recordSuccessfulUse } from '@src/utils/reviewPrompt';
 import axios from 'axios';
 
 let currentState: GameState = GAME_STATE.NOT_CHESS_SITE;
@@ -83,6 +84,10 @@ export const openLichessAnalysis = async () => {
     if (!url) {
       throw new Error("No analysis URL returned from Lichess");
     }
+
+    // Count the use before opening the tab, so the new Lichess tab finds the
+    // review card pending when it loads. Never let this block the analysis.
+    await recordSuccessfulUse().catch(err => console.error('Error recording use:', err));
 
     window.open(url, "_blank");
   } else{

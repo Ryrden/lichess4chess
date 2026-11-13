@@ -157,3 +157,123 @@
 .lichess4chess-review-button {
   margin-top: 8px;
 }
+
+/* Store review card (src/service/reviewPromptCard.ts) */
+@keyframes lichess4chessReviewCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lichess4chess-review-card {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 9999;
+  box-sizing: border-box;
+  width: 300px;
+  max-width: calc(100vw - 40px);
+  padding: 14px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #1f2937;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  animation: lichess4chessReviewCardIn 0.2s ease-out;
+}
+
+.lichess4chess-review-card--raised {
+  bottom: 84px;
+}
+
+.lichess4chess-review-card--dark {
+  border-color: #374151;
+  background: #1f2937;
+  color: #e5e7eb;
+}
+
+.lichess4chess-review-card p {
+  margin: 0;
+}
+
+.lichess4chess-review-card button {
+  margin: 0;
+  height: auto;
+  box-shadow: none;
+  font-family: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.lichess4chess-review-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.lichess4chess-review-card__title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.lichess4chess-review-card__close {
+  padding: 0 2px;
+  border: none;
+  background: none;
+  color: inherit;
+  font-size: 18px;
+  line-height: 1;
+  opacity: 0.6;
+}
+
+.lichess4chess-review-card__close:hover {
+  opacity: 1;
+}
+
+.lichess4chess-review-card .lichess4chess-review-card__body {
+  margin: 6px 0 12px;
+}
+
+.lichess4chess-review-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lichess4chess-review-card__button {
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.lichess4chess-review-card__button--primary {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.lichess4chess-review-card__button--primary:hover {
+  background: #15803d;
+}
+
+.lichess4chess-review-card__button--secondary {
+  border-color: #d1d5db;
+  background: transparent;
+  color: inherit;
+}
+
+.lichess4chess-review-card--dark .lichess4chess-review-card__button--secondary {
+  border-color: #4b5563;
+}

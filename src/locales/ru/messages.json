@@ -327,5 +327,21 @@
   "unsavedChangesNotice": {
     "message": "У вас есть несохранённые изменения. Они вступят в силу только после нажатия «Сохранить настройки».",
     "description": "Banner on the options page when there are unsaved changes"
+  },
+  "reviewPromptTitle": {
+    "message": "Нравится Lichess4Chess?",
+    "description": "Title of the card that asks for a Chrome Web Store review"
+  },
+  "reviewPromptBody": {
+    "message": "Меня зовут Райан, и я делаю это расширение один. Короткий отзыв поможет другим игрокам его найти.",
+    "description": "Body of the card that asks for a Chrome Web Store review"
+  },
+  "reviewPromptRate": {
+    "message": "Оставить отзыв",
+    "description": "Button on the review card that opens the Chrome Web Store reviews page"
+  },
+  "reviewPromptLater": {
+    "message": "Не сейчас",
+    "description": "Button on the review card that closes it"
   }
 }
