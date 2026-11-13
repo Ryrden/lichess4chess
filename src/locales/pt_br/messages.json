@@ -326,5 +326,21 @@
   "unsavedChangesNotice": {
     "message": "Você tem alterações não salvas. Elas só serão aplicadas quando você clicar em \"Salvar Configurações\".",
     "description": "Banner on the options page when there are unsaved changes"
+  },
+  "reviewPromptTitle": {
+    "message": "Curtindo o Lichess4Chess?",
+    "description": "Title of the card that asks for a Chrome Web Store review"
+  },
+  "reviewPromptBody": {
+    "message": "Sou o Ryan e desenvolvo a extensão sozinho. Uma avaliação rápida ajuda outros jogadores a encontrá-la.",
+    "description": "Body of the card that asks for a Chrome Web Store review"
+  },
+  "reviewPromptRate": {
+    "message": "Avaliar",
+    "description": "Button on the review card that opens the Chrome Web Store reviews page"
+  },
+  "reviewPromptLater": {
+    "message": "Agora não",
+    "description": "Button on the review card that closes it"
   }
 }

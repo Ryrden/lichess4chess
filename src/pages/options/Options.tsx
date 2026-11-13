@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Browser from 'webextension-polyfill';
 import LanguageSwitcher from '@src/components/LanguageSwitcher';
 import { chessRoadmapUrl } from '@src/utils/chessRoadmap';
+import { CHROME_WEB_STORE_REVIEWS_URL } from '@src/utils/storeLinks';
 import { getChessComUsername, saveChessComUsername, clearChessComUsername } from '@src/service/gameSelector';
 import { getMessage } from '@src/utils/i18n';
 import { Settings, ThemeOption, defaultSettings, getSettings, saveSettings, resetSettings as resetAllSettings, applyTheme } from '@src/utils/settings';
@@ -272,7 +273,7 @@ export default function Options() {
           </div>
           <div className="mt-4">
             <a 
-              href="https://chromewebstore.google.com/detail/lichess4chess/jenelhcabimbmbhoeejapoapolemplop/reviews" 
+              href={CHROME_WEB_STORE_REVIEWS_URL} 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-green-600 hover:text-green-700 flex items-center"

@@ -3,6 +3,8 @@ import { loadPgnIntoLichess } from './lichessAnalysisInjector';
 import { isLichessAnalyzePage } from './pageDetection';
 import { getMessage } from '@src/utils/i18n';
 import { getSettings } from '@src/utils/settings';
+import { recordSuccessfulUse } from '@src/utils/reviewPrompt';
+import { showReviewPromptIfDue } from './reviewPromptCard';
 
 let modalElement: HTMLElement | null = null;
 let isModalOpen = false;
@@ -311,10 +313,16 @@ async function selectGame(game: GameInfo): Promise<void> {
     
     loadingDiv.textContent = `✓ ${getMessage('gameLoaded')}`;
     loadingDiv.className = 'lichess4chess-loading-indicator success';
-    
+
+    const reviewPromptDue = await recordSuccessfulUse().catch((err) => {
+      console.error('[Lichess4Chess] Error recording use:', err);
+      return false;
+    });
+
     setTimeout(() => {
       loadingDiv.remove();
       isLoadingGame = false;
+      if (reviewPromptDue) showReviewPromptIfDue();
     }, 1500);
   } catch (error) {
     console.error('[Lichess4Chess] Error loading game:', error);

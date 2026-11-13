@@ -327,5 +327,21 @@
   "unsavedChangesNotice": {
     "message": "Tienes cambios sin guardar. Solo se aplicarán cuando hagas clic en «Guardar configuración».",
     "description": "Banner on the options page when there are unsaved changes"
+  },
+  "reviewPromptTitle": {
+    "message": "¿Te gusta Lichess4Chess?",
+    "description": "Title of the card that asks for a Chrome Web Store review"
+  },
+  "reviewPromptBody": {
+    "message": "Soy Ryan y desarrollo la extensión por mi cuenta. Una reseña rápida ayuda a otros jugadores a encontrarla.",
+    "description": "Body of the card that asks for a Chrome Web Store review"
+  },
+  "reviewPromptRate": {
+    "message": "Dejar una reseña",
+    "description": "Button on the review card that opens the Chrome Web Store reviews page"
+  },
+  "reviewPromptLater": {
+    "message": "Ahora no",
+    "description": "Button on the review card that closes it"
   }
 }
